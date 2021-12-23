@@ -1,0 +1,77 @@
+.imagesize{
+    max-width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    // height: auto ;
+}
+.cardalign{
+    // max-width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    // height: auto ;
+}
+.buttonalign{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5em;
+    // border: 3px solid green; 
+  }
+  .right{
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    height: 3em;
+
+  }
+.radioalign{
+    position: absolute;
+    margin-top: 5%;
+}
+.card_padding{
+    padding-bottom: 0px !important;
+}
+//password validation
+/* The message box is shown when the user clicks on the password field */
+#message {
+    // display:none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+  }
+  #message p {
+    padding: 10px 35px;
+    font-size: 18px;
+  }
+  
+  /* Add a green text color and a checkmark when the requirements are right */
+  .valid {
+    color: green;
+  }
+  
+  .valid:before {
+    position: relative;
+    left: -35px;
+    content: "✔";
+  }
+  
+  /* Add a red text color and an "x" when the requirements are wrong */
+  .invalid {
+    color: red;
+  }
+  
+  .invalid:before {
+    position: relative;
+    left: -35px;
+    content: "✖";
+  }
+  
