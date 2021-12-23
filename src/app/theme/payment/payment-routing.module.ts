@@ -5,6 +5,7 @@ import { AnybodypaymentComponent } from './anybodypayment/anybodypayment.compone
 import { StudentpaymentComponent } from './studentpayment/studentpayment.component';
 import{StudentdraftComponent} from './studentdraft/studentdraft.component'
 import{CollegedraftComponent} from './collegedraft/collegedraft.component'
+import{AnybodydraftComponent} from './anybodydraft/anybodydraft.component'
 const routes: Routes = [
   
   {
@@ -98,12 +99,12 @@ const routes: Routes = [
                component: AnybodypaymentComponent
              },
              {
-              path: 'collegedraft',
+              path: 'anybodydraft',
               data: {
-                title: 'Collegedraft',
+                title: 'Anybody Draft ',
  
              },
-              component:CollegedraftComponent
+              component:AnybodydraftComponent
             },
 
         ]
