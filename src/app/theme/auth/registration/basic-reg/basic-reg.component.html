@@ -1,0 +1,211 @@
+<section class="login-block">
+  <!-- Container-fluid starts -->
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <form action="javascript:" [formGroup]="angForm">
+          <div class="row mt-3">
+            <div class="col-sm-5">
+              <div class="card">
+                <div class="card-body ">
+                  <img src="assets/images/SUK-Name.gif" class="imagesize">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="card">
+                <div class="card-body card_padding">
+
+                  <div class="row m-b-6">
+                    <div class="col-md-12">
+                      <h4 class="text-center">Registration Form</h4>
+                    </div>
+                  </div>
+                  <div class="card-block ">
+                    <div class="row">
+                      <div class="col-sm ">
+                        <div class="form-radio">
+                          <h6>Select Your Registration Type</h6>
+                          <div class="radio radio-inline">
+                            <label>
+                              <input type="radio" value="Student" name="Type" formControlName="Type" [checked]="true"
+                                (click)="selectstudent()">
+                              <i class="helper"></i>Student<span class="required"> </span>
+                            </label>
+                          </div>
+                          <div class="radio radio-inline">
+                            <label>
+                              <input type="radio" value="College" formControlName="Type" name="Type" (click)="select()">
+                              <i class="helper"></i>College<span class="required"> </span>
+                            </label>
+                          </div>
+                          <div class="radio radio-inline">
+                            <label>
+                              <input type="radio" value="Anybody" name="Type" formControlName="Type"
+                                (click)="selectanybody()">
+                              <i class="helper"></i>Anybody<span class="required"> </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="FullName" class="form-control" placeholder=" " id="Full_Name"
+                              pattern="^[A-Za-z\s]+$" formControlName="Full_Name" required>
+                            <label for="Full_Name">Full Name<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['Full_Name'].invalid && (angForm.controls['Full_Name'].dirty || angForm.controls['Full_Name'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['Full_Name'].errors?.pattern || angForm.controls['Full_Name'].errors?.required">
+                            This field is required and Input allowed only A-Z
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
+                              pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No" required>
+                            <label for="Mobile_No">Mobile No.<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['Mobile_No'].invalid && (angForm.controls['Mobile_No'].dirty || angForm.controls['Mobile_No'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['Mobile_No'].errors?.pattern || angForm.controls['Mobile_No'].errors?.maxlength || angForm.controls['Mobile_No'].errors?.minlength || angForm.controls['Mobile_No'].errors?.required">
+                            Input allowed only 0-9 and It starts by either for 7 or 8 or 9,
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="Email_Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.com$"
+                              class="form-control" placeholder=" " minlength="11" id="Email_Address" formControlName="Email_Address" required>
+                            <label for="Email_Address">Email<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['Email_Address'].invalid && (angForm.controls['Email_Address'].dirty || angForm.controls['Email_Address'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['Email_Address'].errors?.pattern || angForm.controls['Email_Address'].errors?.maxlength || angForm.controls['Email_Address'].errors?.minlength || angForm.controls['Email_Address'].errors?.required">
+                            Please Enter Valid Email Address
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row " *ngIf="select_toggle">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="College_Code" class="form-control" placeholder=" "
+                              id="College_Code" required formControlName="College_Code" required>
+                            <label for="College_Code">Select College Code</label>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="User_Name" pattern="^[A-Za-z\s .]+$" class="form-control"
+                              placeholder=" "maxlength="10" minlength="3" id="User_Name" formControlName="User_Name" required>
+                            <label for="User_Name">User Name<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['User_Name'].invalid && (angForm.controls['User_Name'].dirty || angForm.controls['User_Name'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['User_Name'].errors?.pattern || angForm.controls['User_Name'].errors?.maxlength || angForm.controls['User_Name'].errors?.minlength || angForm.controls['User_Name'].errors?.required">
+                            Please Enter Valid User Name
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="password" name="Create_Password"
+                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                              minlength="4" 
+                              class="form-control"  [NgPasswordValidator]="options" (valid)="isValid($event)" (keyup)="onInput($event)" placeholder=" " id="Create_Password"
+                              formControlName="Create_Password" required >
+                            <label for="Create_Password"> Create Password<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                      
+                        <!-- <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['Create_Password'].invalid && (angForm.controls['Create_Password'].dirty || angForm.controls['Create_Password'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['Create_Password'].errors?.pattern || angForm.controls['Create_Password'].errors?.maxlength || angForm.controls['Create_Password'].errors?.minlength || angForm.controls['Create_Password'].errors?.required">
+                            Please Enter Valid Password
+                          </div>
+                        </div> -->
+                      </div>
+                    </div>
+
+
+                    <div class="row">
+
+
+                      <div class="col-sm-12 ">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="password" name="Confirm_Password"
+                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
+                              class="form-control" placeholder=" " id="Confirm_Password" (focusout)="checkPassword() "
+                              formControlName="Confirm_Password" required>
+                            <label for="Confirm_Password">Confirm Password<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['Confirm_Password'].invalid && (angForm.controls['Confirm_Password'].dirty || angForm.controls['Confirm_Password'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['Confirm_Password'].errors?.pattern || angForm.controls['Confirm_Password'].errors?.maxlength || angForm.controls['Confirm_Password'].errors?.minlength || angForm.controls['Confirm_Password'].errors?.required">
+                            Please Enter Valid Password
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div>
+                      <div class="row mt-3">
+                        <div class="col-sm-12 right">
+                          <button class="btn btn-primary  ripple light " style="margin-right:5px">Submit</button>
+                          <button class="btn btn-dark ripple light" [routerLink]="['/auth/login/simple']">Back</button>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+     

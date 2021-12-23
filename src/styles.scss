@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@ng-select/ng-select/themes/default.theme.css";
+input[type="text"]:focus {
+    border: 2px solid rgb(26, 160, 194);
+    outline: none;
+   }
+   .ng-select.ng-select-single .ng-select-container {
+    height: 40px;
+}
+  
+
+  input[type="date"]:focus {
+      border: 2px solid rgb(26, 160, 194);
+      outline: none;
+  }
+
+  input[type="checkbox"]:focus {
+      border: 2px solid rgb(26, 160, 194);
+      outline: none;
+  }
+
+  .below:focus{
+      border: 2px solid rgb(26, 160, 194);
+      outline: none;
+  }
+
+  .border-checkbox-label:focus{
+      border: 2px solid rgb(26, 160, 194);
+      outline: none;
+  }
+  .material-icons {
+    display: inline-flex;
+    vertical-align: middle;
+ }
+ @media (max-device-width: 360px) {
+	#Amount{
+        width: 50% !important;
+    }
+
+   }

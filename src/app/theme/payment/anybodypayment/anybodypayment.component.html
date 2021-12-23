@@ -1,0 +1,271 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Anybody Payment Form</h5>
+                <h6 style="float: right;"><sub class="required">* </sub>: Required Fields</h6>
+            </div>
+            <div class="card-block">
+                <form action="javascript:" [formGroup]="angForm" novalidate>
+                    <div class="row">
+
+                        <div class="col-sm-2">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Application_Date" class="form-control" placeholder=" "  max="{{datemax | date:'yyyy-MM-dd'}}"
+                                    (focusout)="disabledate(date.value)"  
+                                        id="Application_Date" onfocus="(this.type='date')" #date
+                                        formControlName="Application_Date">
+                                    <label for="Application_Date">Application Date</label>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Application_Date'].invalid && (angForm.controls['Application_Date'].dirty || angForm.controls['Application_Date'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="angForm.controls['Application_Date'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Received_From" class="form-control"
+                                        placeholder="Enter Received From " id="Received_From" pattern="^[A-Za-z0-9\./ -]+$"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From">
+                                    <label for="Received_From">Received From<sub class="required">* </sub></label>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Received_From'].invalid && (angForm.controls['Received_From'].dirty || angForm.controls['Received_From'].touched)"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="angForm.controls['Received_From'].errors?.required || angForm.controls['Received_From'].errors?.pattern">
+                                    This is required field
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Examination" class="form-control"
+                                        placeholder="Examination " id="Examination" pattern="^[A-Za-z0-9\./ -]+$"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Exam">
+                                    <label for="Examination">Examination<sub class="required">* </sub></label>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Exam'].invalid && (angForm.controls['Exam'].dirty || angForm.controls['Exam'].touched)"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="angForm.controls['Exam'].errors?.pattern || angForm.controls['Exam'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Examination'].invalid && (angForm.controls['Examination'].dirty || angForm.controls['Examination'].touched)"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="angForm.controls['Examination'].errors?.required || angForm.controls['Examination'].errors?.pattern">
+                                    This is required field
+                                </div> 
+                            </div> -->
+
+                        <div class="col-sm" style="margin-bottom: 5px;">
+                            <ng-select [items]="cars1" bindLabel="name" placeholder="Select Department" bindValue="id"
+                                [(ngModel)]="selectedCar1" formControlName="Select_Department">
+                            </ng-select>
+                            <!-- <select name="Select_Department" id="Select_Department" formControlName="Select_Department"
+                                required>
+                                <option selected>Select Department</option>
+                                <option value="saab">Department 1</option>
+                                <option value="opel">Department 2</option>
+                                <option value="audi">Department 3</option>
+                            </select> -->
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Select_Department'].invalid && (angForm.controls['Select_Department'].dirty || angForm.controls['Select_Department'].touched)"
+                                class="alert alert-danger mt-2">
+                                <div *ngIf="angForm.controls['Select_Department'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+
+                            <!-- <div class="dropdown">
+                            <button class="dropbtn">Select Department</button>
+                            <div class="dropdown-content">
+                            <a href="">Department 1</a>
+                            <a href="">Department 2</a>
+                            <a href="">Department 3</a>
+                            </div>
+                        </div> -->
+                            <!-- <div class="form-group input-group">
+                            
+                            <ngx-select-dropdown tabindex="0" formControlName="selectData" [multiple]="true" [config]="config" [(ngModel)]="stringArray" [options]="options"> -->
+
+                            <!-- </ngx-select-dropdown> -->
+                            <!-- <ngx-select-dropdown (searchChange)="searchChange($event)" tabindex="0" [multiple]="false"
+                            [(ngModel)]="singleSelect" [config]="config" [options]="options"></ngx-select-dropdown> -->
+                            <!-- <ngx-select-dropdown formControlName="selectData" [multiple]="true" [options]="stringOptions"></ngx-select-dropdown> -->
+
+                            <!-- <span class="border-lable-flt">
+                                <input type="text" name="Select_Department" class="form-control" placeholder=" " id="Select_Department"
+                                    pattern="^[A-Za-z\./ -]+$" title="Input allowed only  A-Z a-z (Space)"
+                                    formControlName="Select_Department">
+                                <label for="Select_Department">Select Department<sub class="required">* </sub></label>
+                            </span> 
+                        </div> -->
+                        </div>
+                        <div class="col-sm">
+                            <ng-select [items]="cars" bindLabel="name" placeholder="Select Challan Structure"
+                                bindValue="id" [(ngModel)]="selectedCar" 
+                                formControlName="Challan_Structure">
+                            </ng-select>
+                            <!-- <select name="challan" id="challan" formControlName="Challan_Structure" required>
+                                <option selected>Select Challan Structure</option>
+                                <option value="saab">challan 1</option>
+                                <option value="opel">challan 2</option>
+                                <option value="audi">challan 3</option>
+                            </select> -->
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Challan_Structure'].invalid && (angForm.controls['Challan_Structure'].dirty || angForm.controls['Challan_Structure'].touched)"
+                                class="alert alert-danger mt-2">
+                                <div *ngIf="angForm.controls['Challan_Structure'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+                            <!-- <div class="dropdown">
+                            <button class="dropbtn">Select Challan Structure</button>
+                            <div class="dropdown-content">
+                            <a href="">Department 1</a>
+                            <a href="">Department 2</a>
+                            <a href="">Department 3</a>
+                            </div>
+                        </div> -->
+                            <!-- <div class="form-group input-group">
+                            <span class="border-lable-flt">
+                                <input type="text" name="Challan_Structure" class="form-control" placeholder=" " id="Challan_Structure"
+                                    pattern="^[A-Za-z\./ -]+$" title="Input allowed only  A-Z a-z (Space)"
+                                    formControlName="Challan_Structure">
+                                <label for="Challan_Structure">Select Challan Structure<sub class="required">* </sub></label>
+                            </span>
+                        </div> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <div style="overflow-x: auto;">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 20%;">BUDGET CODE</th>
+                                            <th scope="col" style="width: 20%;">BUDGET HEAD</th>
+                                            <th scope="col" style="width: 15%;">AMOUNT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Mark</td>
+                                            <td> <input type="text" name="Examination" class="form-control"
+                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
+                                                    title="Input allowed only  A-Z a-z (Space)"
+                                                   >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Jacob</td>
+                                            <td> <input type="text" name="Examination" class="form-control"
+                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
+                                                    title="Input allowed only  A-Z a-z (Space)"
+                                                   >
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Larry</td>
+                                            <td> <input type="text" name="Examination" class="form-control"
+                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
+                                                    title="Input allowed only  A-Z a-z (Space)"
+                                                   >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+
+                        </div>
+
+                        <div class="col-sm-2 " style="float: right;">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Total_Amount" class="form-control " placeholder=" "
+                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount">
+                                    <label for="Total_Amount">Total Amount<sub class="required">* </sub></label>
+                                </span>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+
+                        </div>
+                        <div class="col">
+
+                        </div>
+
+
+                        <div class="col-sm-4 ">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <textarea type="text" name="Enter_Particular" class="form-control" placeholder=" "
+                                        pattern="^[A-Za-z\./ -]+$" title="Input allowed only  A-Z a-z  - / . (Space)"
+                                        id="Enter_Particular" maxlength="4000" formControlName="Enter_Particular"
+                                        required></textarea>
+                                    <label for="Enter_Particular">Enter Particular<sub class="required">* </sub></label>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Enter_Particular'].invalid && (angForm.controls['Enter_Particular'].dirty || angForm.controls['Enter_Particular'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="angForm.controls['Enter_Particular'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+
+                        <div class="col-sm-12">
+                            <div style="float: right;">
+                                <button class="btn btn-primary  ripple light " style="margin-right:3px" >Save As
+                                    Draft</button>
+                                <button class="btn btn-primary ripple light" style="margin:3px" (click)="submit()">Save & Proceed To
+                                    Pay</button>
+                                <button class="btn btn-dark ripple light" [routerLink]="">Back</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
