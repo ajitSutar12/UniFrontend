@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import Swal from 'sweetalert2';
+import {AuthService} from '../../../../auth.service';
 
 @Component({
   selector: 'app-basic-login',
@@ -14,18 +15,26 @@ export class BasicLoginComponent implements OnInit {
   mobileno: string;
   password: string;
  passType: string = 'password';
-  constructor(private router: Router) { }
+  constructor(private router: Router,private _authService : AuthService) { }
 
   ngOnInit() {
     document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
   }
+
   login(){
-    if(this.mobileno === "9090909090" && this.password === "Admin@21"){
-      console.log("ok");
-      this.router.navigate(['/dashboard']);
+
+    let obj = {
+      "username" : this.mobileno,
+      "password" : this.password
     }
-    else{
-      console.log("not ok");
+
+    this._authService.login(obj).subscribe(data=>{
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', data.user);
+      if(data.user){
+        this.router.navigate(['/dashboard']);
+      }
+    },err=>{
       Swal.fire({
         title: '',
         text: "Please Check Your Mobile Number And Password",
@@ -33,28 +42,8 @@ export class BasicLoginComponent implements OnInit {
         confirmButtonColor: '#229954',
         confirmButtonText: 'OK'
       })
-    }
+    })
   }
-  // login(){
-  //   let dataObject = {
-  //     "username" : this.mobileno,
-  //     "password" : this.password
-  //   }
-  //   this._authService.login(dataObject).subscribe(data=>{
-  //     console.log(data);
-  //     localStorage.setItem('token', data.access_token);
-  //     localStorage.setItem('user',JSON.stringify(data.user));
-  //     this.router.navigate(['/dashboard']);
-  //   },err=>{
-  //     Swal.fire({
-  //         title: '',
-  //         text: "Please Check Your Mobile Number And Password",
-  //         icon: 'error',
-  //         confirmButtonColor: '#229954',
-  //         confirmButtonText: 'OK'
-  //       })
-  //   })
-  // }
   
   showHidePassword(){
     if(this.passType == 'password'){

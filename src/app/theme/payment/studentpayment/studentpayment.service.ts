@@ -36,6 +36,13 @@ export class StudentpaymentService {
     deleteData(id: any): Observable<any> {
         return this.http.delete(this.url + '/customer-id/delete/' + id).pipe(catchError(this.handleError));
     }  
+
+    //Call to payment method
+    pay():Observable<any>{
+        let data = this.http.get('http://localhost:4000/getpath').pipe(catchError(this.handleError));
+        console.log(data)
+        return data;
+    }
 }
 
 

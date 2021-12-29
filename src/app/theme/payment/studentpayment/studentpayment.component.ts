@@ -115,4 +115,12 @@ export class StudentpaymentComponent implements OnInit {
     this.createForm();
   }
 
+  pay(){
+    this._student.pay().subscribe(data=>{
+      console.log(data);
+      window.open(data.msg)
+    },err=>{
+      console.log(err);
+    })
+  }
 }

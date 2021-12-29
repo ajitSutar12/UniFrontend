@@ -16,25 +16,44 @@
                                     <h3 class="text-left">Recover your password</h3>
                                 </div>
                             </div>
-
-                            <div class="form-group form-primary">
-                                <input type="text" name="email-address" class="form-control" required="">
-                                <span class="form-bar"></span>
-                                <label class="float-label">Your Email Address</label>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Reset Password</button>
+                            <div *ngIf="forgetAnswer">
+                                <div class="form-group form-primary">
+                                    <input type="text" name="email-address" [(ngModel)]="forgotAnswer" class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Your Answer</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" (click)="SubmitAnswer()" class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Submit Answer</button>
+                                    </div>
+                                </div>
+                                <!-- <p class="f-w-600 text-right">Back to <a [routerLink]="['/auth/login/simple']">Login.</a></p> -->
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <!-- <p class="text-inverse text-left m-b-0">Thank you.</p> -->
+                                        <!-- <p class="text-inverse text-left"><a [routerLink]="['/dashboard/default']"><b>Back to website</b></a></p> -->
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img src="assets/images/comp.png" alt="small-logo.png">
+                                    </div>
                                 </div>
                             </div>
-                            <!-- <p class="f-w-600 text-right">Back to <a [routerLink]="['/auth/login/simple']">Login.</a></p> -->
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <!-- <p class="text-inverse text-left m-b-0">Thank you.</p> -->
-                                    <!-- <p class="text-inverse text-left"><a [routerLink]="['/dashboard/default']"><b>Back to website</b></a></p> -->
+                            <div *ngIf="forgetPassword">
+                                <div class="form-group form-primary">
+                                    <input type="password" name="password" [(ngModel)]="password" class="form-control">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Password</label>
                                 </div>
-                                <div class="col-md-4">
-                                    <img src="assets/images/comp.png" alt="small-logo.png">
+                                <div class="form-group form-primary">
+                                    <input type="password" name="confrm_password" [(ngModel)]="confirmpassword" class="form-control">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Confirm Password</label>
+                                </div>
+                                <div class="row">
+                                    <!-- <button class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Reset Password</button> -->
+                                    <div class="col-md-12">
+                                        <button type="button" (click)="resetPassword()" class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Reset Password</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

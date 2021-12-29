@@ -34,7 +34,7 @@
                                         <label class="float-label">Password</label>
                                     </div> -->
                                     <div class="form-group form-primary form-static-label">
-                                        <input type="text" name="mobileno" [(ngModel)]="mobileno" class="form-control" minlength="10" maxlength="10" pattern="^[0-9]+$" title="Please Enter Mobile Number">
+                                        <input type="text" (keypress)="($event.charCode >= 48 && $event.charCode < 58)"  name="mobileno" [(ngModel)]="mobileno" class="form-control" minlength="10" maxlength="10" pattern="^[0-9]+$" title="Please Enter Mobile Number">
                                         <span class="form-bar"></span>
                                         <label class="float-label">Your Mobile Number</label>
                                         <label class="invalid" *ngIf="isInvalidNumber">Invalid Number</label>
@@ -65,7 +65,7 @@
                                     <div class="row m-t-30">
                                         <div class="col-md-12">
                                             <!-- <a [routerLink]="['/dashboard/default']"><button type="button" class="btn btn-primary btn-md btn-block waves-light text-center m-b-20" mdbRippleRadius><b>Sign in</b></button></a> -->
-                                            <button class="btn btn-primary btn-md btn-block waves-light text-center m-b-20" (click)="login()" mdbRippleRadius [routerLink]="['/dashboard']">
+                                            <button class="btn btn-primary btn-md btn-block waves-light text-center m-b-20" (click)="login()" mdbRippleRadius>
                                                 <b style="color: white;">Sign in</b>
                                             </button>
                                             <div class="text-center">New Registration?<a [routerLink]="['/auth/registration/simple']"> <b> Click here to register</b></a></div>
