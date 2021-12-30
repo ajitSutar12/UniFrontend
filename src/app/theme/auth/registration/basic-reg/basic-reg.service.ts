@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import {environment}  from '../../../../../environments/environment'
+import { environment } from '../../../../../environments/environment'
 @Injectable()
 export class BasicRegService {
     // Variable for handleError
@@ -17,7 +17,7 @@ export class BasicRegService {
 
     //Insertion Operation
     postData(data: any): Observable<any> {
-        return this.http.post(this.url + '/customer-id/insert', data).pipe(map((res) => res),
+        return this.http.post(this.url + '/registration/insert', data).pipe(map((res) => res),
             catchError((error) => {
                 Swal.fire('Please Input Proper Data!');
                 return throwError(error);
@@ -35,6 +35,6 @@ export class BasicRegService {
     //Deletion Operation
     deleteData(id: any): Observable<any> {
         return this.http.delete(this.url + '/customer-id/delete/' + id).pipe(catchError(this.handleError));
-    }  
+    }
 }
 

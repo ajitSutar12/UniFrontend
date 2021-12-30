@@ -5,6 +5,11 @@ import Swal from 'sweetalert2';
 import { CollegepaymentService } from './collegepayment.service'
 
 
+import { concat, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment'
+
 interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
@@ -24,8 +29,11 @@ export class CollegepaymentComponent implements OnInit {
 
 
   Department = []
+  purpose = []
   selectDepartment
+  selectPurpose
 
+  url = environment.base_url;
 
 
   selectedCar: number;
@@ -47,18 +55,14 @@ export class CollegepaymentComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _college: CollegepaymentService) {
+  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _college: CollegepaymentService, private http: HttpClient) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
-
-    // this.config.notFoundText = 'Custom not found';
-    // this.config.appendTo = 'body';
-    // this.config.bindValue = 'value';
   }
 
   ngOnInit(): void {
     this.createForm();
-    this._college.getDepartmentData().subscribe(data => {
-      this.Department = data
+    this._college.getPurposeData().subscribe(data => {
+      this.purpose = data
     })
   }
   //disabledate on keyup
@@ -82,9 +86,20 @@ export class CollegepaymentComponent implements OnInit {
       Challan_Structure: ['', [Validators.required]],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
-
+      purpose: ['', [Validators.required]]
     });
   }
+
+
+  collegeDescriptionDetails: any;
+  getCollegeTableDetails(event) {
+    debugger
+    this._college.collegeTableListViaDept(event).subscribe(data => {
+      this.collegeDescriptionDetails = data;
+    })
+  }
+
+
 
 
   submit() {

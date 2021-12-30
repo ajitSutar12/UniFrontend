@@ -8,13 +8,11 @@
             <div class="card-block">
                 <form action="javascript:" [formGroup]="angForm" novalidate>
                     <div class="row">
-
                         <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <input type="text" name="Application_Date" class="form-control" placeholder=" "  max="{{datemax | date:'yyyy-MM-dd'}}"
-                                    (focusout)="disabledate(date.value)"  
-
+                                    <input type="text" name="Application_Date" class="form-control" placeholder=" "
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
                                         id="Application_Date" onfocus="(this.type='date')" #date
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
@@ -27,21 +25,22 @@
                                     This is required field
                                 </div>
                             </div>
-
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="text" name="Received_From" class="form-control"
-                                        placeholder="Enter Received From " id="Received_From" pattern="^[A-Za-z0-9\./ -]+$"
-                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From">
+                                        placeholder="Enter Received From " id="Received_From"
+                                        pattern="^[A-Za-z0-9\./ -]+$" title="Input allowed only  A-Z a-z (Space)"
+                                        formControlName="Received_From">
                                     <label for="Received_From">Received From<sub class="required">* </sub></label>
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
                                 *ngIf="angForm.controls['Received_From'].invalid && (angForm.controls['Received_From'].dirty || angForm.controls['Received_From'].touched)"
                                 class="alert alert-danger">
-                                <div *ngIf="angForm.controls['Received_From'].errors?.required  || angForm.controls['Received_From'].errors?.pattern">
+                                <div
+                                    *ngIf="angForm.controls['Received_From'].errors?.required  || angForm.controls['Received_From'].errors?.pattern">
                                     This is required field
                                 </div>
                             </div>
@@ -58,23 +57,53 @@
                             <div class="form-group form-primary form-static-label"
                                 *ngIf="angForm.controls['Examination'].invalid && (angForm.controls['Examination'].dirty || angForm.controls['Examination'].touched)"
                                 class="alert alert-danger">
-                                <div *ngIf="angForm.controls['Examination'].errors?.required || angForm.controls['Examination'].errors?.pattern  ">
+                                <div
+                                    *ngIf="angForm.controls['Examination'].errors?.required || angForm.controls['Examination'].errors?.pattern  ">
                                     This is required field
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <!-- <ng-select [items]="Purpose | async" bindLabel="NAME" bindValue="NAME"
+                                        [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
+                                        [loading]="PurposeLoading"
+                                        typeToSearchText="Please enter {{minLengthTerm}} or more characters"
+                                        formControlName="purpose" [typeahead]="PurposeInput" [(ngModel)]="selectPurpose"
+                                        placeholder="Select Purpose" (ngModelChange)="getChallanDropdown($event)">
+                                    </ng-select> -->
+                                    <ng-select [items]="Purpose" bindValue="ID" bindLabel="NAME"
+                                        formControlName="purpose" [(ngModel)]="selectPurpose"
+                                        placeholder="Select Purpose" (ngModelChange)="getChallanDropdown($event)">
+                                    </ng-select>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['purpose'].invalid && (angForm.controls['purpose'].dirty || angForm.controls['purpose'].touched)"
+                                class="alert alert-danger mt-2">
+                                <div *ngIf="angForm.controls['purpose'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
                         </div>
                         <div class="col-sm" style="margin-bottom: 5px;">
-                            <ng-select   [items]="cars1" bindLabel="name" placeholder="Select Department" bindValue="id" [(ngModel)]="selectedCar1"
-                                formControlName="Select_Department">
-                            </ng-select>
-                            <!-- <select name="Select_Department" id="Select_Department" formControlName="Select_Department"
-                                required>
-                                <option selected>Select Department</option>
-                                <option value="saab">Department 1</option>
-                                <option value="opel">Department 2</option>
-                                <option value="audi">Department 3</option>
-                            </select> -->
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <!-- <ng-select [items]="Department | async" bindLabel="NAME" bindValue="ID"
+                                        [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
+                                        [loading]="DepartmentLoading"
+                                        typeToSearchText="Please enter {{minLengthTerm}} or more characters"
+                                        formControlName="Select_Department" [typeahead]="DepartmentInput"
+                                        [(ngModel)]="selectDepartment" placeholder="Select Department"
+                                        (ngModelChange)="getDepartmentCode($event)">
+                                    </ng-select> -->
+                                    <ng-select [items]="Department" bindValue="ID" bindLabel="NAME"
+                                        formControlName="Select_Department" [(ngModel)]="selectDepartment"
+                                        placeholder="Select Department" (ngModelChange)="getDepartmentCode($event)">
+                                    </ng-select>
+                                </span>
+                            </div>
                             <div class="form-group form-primary form-static-label "
                                 *ngIf="angForm.controls['Select_Department'].invalid && (angForm.controls['Select_Department'].dirty || angForm.controls['Select_Department'].touched)"
                                 class="alert alert-danger mt-2">
@@ -82,19 +111,25 @@
                                     This is required field
                                 </div>
                             </div>
-
-                           
                         </div>
-                        <div class="col-sm">
-                            <ng-select [items]="cars" bindLabel="name" placeholder="Select Challan Structure" bindValue="id" [(ngModel)]="selectedCar"
-                            formControlName="Select_Department"  formControlName="Challan_Structure">
-                        </ng-select>
-                            <!-- <select name="challan" id="challan" formControlName="Challan_Structure" required>
-                                <option selected>Select Challan Structure</option>
-                                <option value="saab">challan 1</option>
-                                <option value="opel">challan 2</option>
-                                <option value="audi">challan 3</option>
-                            </select> -->
+                    </div>
+                    <div class="row" *ngIf="isTutionFee">
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <!-- <ng-select [items]="Challan | async" bindLabel="NAME" bindValue="ID"
+                                        [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
+                                        [loading]="ChallanLoading"
+                                        typeToSearchText="Please enter {{minLengthTerm}} or more characters"
+                                        formControlName="Challan_Structure" [typeahead]="ChallanInput"
+                                        [(ngModel)]="selectChallan" placeholder="Select Challan Structure">
+                                    </ng-select> -->
+                                    <ng-select [items]="challanlist" bindValue="ID" bindLabel="NAME"
+                                        formControlName="Challan_Structure" [(ngModel)]="selectChallan"
+                                        placeholder="Select Challan Structure"
+                                        (ngModelChange)="getStudentTableDetails($event)"></ng-select>
+                                </span>
+                            </div>
                             <div class="form-group form-primary form-static-label"
                                 *ngIf="angForm.controls['Challan_Structure'].invalid && (angForm.controls['Challan_Structure'].dirty || angForm.controls['Challan_Structure'].touched)"
                                 class="alert alert-danger mt-2">
@@ -102,25 +137,8 @@
                                     This is required field
                                 </div>
                             </div>
-                            <!-- <div class="dropdown">
-                            <button class="dropbtn">Select Challan Structure</button>
-                            <div class="dropdown-content">
-                            <a href="">Department 1</a>
-                            <a href="">Department 2</a>
-                            <a href="">Department 3</a>
-                            </div>
-                        </div> -->
-                            <!-- <div class="form-group input-group">
-                            <span class="border-lable-flt">
-                                <input type="text" name="Challan_Structure" class="form-control" placeholder=" " id="Challan_Structure"
-                                    pattern="^[A-Za-z\./ -]+$" title="Input allowed only  A-Z a-z (Space)"
-                                    formControlName="Challan_Structure">
-                                <label for="Challan_Structure">Select Challan Structure<sub class="required">* </sub></label>
-                            </span>
-                        </div> -->
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
@@ -129,38 +147,21 @@
                                         <tr>
                                             <th scope="col" style="width: 15%;">BUDGET CODE</th>
                                             <th scope="col" style="width: 20%;">BUDGET HEAD</th>
-                                            <th scope="col" style="width: 40%;">PARTICULAR</th>
+                                            <th scope="col" style="width: 40%;" *ngIf="hideColumn">PARTICULAR</th>
                                             <th scope="col" style="width: 20;">AMOUNT</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
+                                        <tr *ngFor="let data of studentDescriptionDetails">
+                                            <th scope="row">{{data.BUDGET_CODE}}</th>
+                                            <td>{{data.GL_NAME}}</td>
+                                            <td *ngIf="hideColumn">{{data.NAME}}</td>
                                             <td> <input type="text" name="Examination" class="form-control"
                                                     placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"
-                                                  ></td>
+                                                    title="Input allowed only  A-Z a-z (Space)" value="{{data.AMOUNT}}">
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"
-                                                  ></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"
-                                                   ></td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -223,9 +224,11 @@
 
                         <div class="col-sm-12">
                             <div style="float: right;">
-                                <button class="btn btn-primary  ripple light " style="margin-right:3px">Save As
+                                <button class="btn btn-primary  ripple light " style="margin-right:3px"
+                                    (click)="saveAsDraft()">Save As
                                     Draft</button>
-                                <button class="btn btn-primary ripple light" (click)="pay()" style="margin:3px">Save & Proceed To
+                                <button class="btn btn-primary ripple light" (click)="pay()" style="margin:3px">Save &
+                                    Proceed To
                                     Pay</button>
                                 <button class="btn btn-dark ripple light" [routerLink]="">Back</button>
                             </div>

@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import {environment}  from '../../../../environments/environment'
+import { environment } from '../../../../environments/environment'
 @Injectable()
 export class StudentpaymentService {
     // Variable for handleError
@@ -17,7 +17,7 @@ export class StudentpaymentService {
 
     //Insertion Operation
     postData(data: any): Observable<any> {
-        return this.http.post(this.url + '/customer-id/insert', data).pipe(map((res) => res),
+        return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
             catchError((error) => {
                 Swal.fire('Please Input Proper Data!');
                 return throwError(error);
@@ -35,14 +35,39 @@ export class StudentpaymentService {
     //Deletion Operation
     deleteData(id: any): Observable<any> {
         return this.http.delete(this.url + '/customer-id/delete/' + id).pipe(catchError(this.handleError));
-    }  
+    }
 
     //Call to payment method
-    pay():Observable<any>{
+    pay(): Observable<any> {
         let data = this.http.get('http://localhost:4000/getpath').pipe(catchError(this.handleError));
         console.log(data)
         return data;
     }
+
+
+
+    getChallandata(id: any): Observable<any> {
+        return this.http.get(this.url + '/payment/challan' + id).pipe(catchError(this.handleError));
+    }
+
+    getPurposeData(): Observable<any> {
+        return this.http.get(this.url + '/payment/studpurpose').pipe(catchError(this.handleError));
+    }
+
+    getDepartmentData(): Observable<any> {
+        return this.http.get(this.url + '/payment/department').pipe(catchError(this.handleError));
+    }
+
+    StudentTableList(id): Observable<any> {
+        return this.http.get(this.url + '/payment/StudentTableList' + id).pipe(catchError(this.handleError));
+    }
+
+
+    StudentTableListViaDept(id: any): Observable<any> {
+        console.log('stud service', id)
+        return this.http.get(this.url + '/payment/getPurposeForStud' + id).pipe(catchError(this.handleError));
+    }
+
 }
 
 

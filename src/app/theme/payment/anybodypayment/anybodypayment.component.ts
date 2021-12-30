@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators,FormsModule } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators, FormsModule } from "@angular/forms";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
-import{AnybodyService} from './anybodypayment.service'
+import { AnybodyService } from './anybodypayment.service'
+import { concat, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment'
 
-interface AnybodyInterface{
+interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
   Exam: String,
@@ -20,63 +24,67 @@ interface AnybodyInterface{
 })
 
 export class AnybodypaymentComponent implements OnInit {
+
+  url = environment.base_url;
+  purpose = []
+  selectPurpose
   selectedCar: number;
-  selectedCar1:number;
+  selectedCar1: number;
   cars1 = [
     { id: 1, name: 'Department 1' },
     { id: 2, name: 'Department 2' },
     { id: 3, name: 'Department 3' },
     { id: 4, name: 'Department 4' },
-];
-  cars = [
-      { id: 1, name: 'Department 1' },
-      { id: 2, name: 'Department 2' },
-      { id: 3, name: 'Department 3' },
-      { id: 4, name: 'Department 4' },
   ];
- // Created Form Group
- angForm: FormGroup;
+  cars = [
+    { id: 1, name: 'Department 1' },
+    { id: 2, name: 'Department 2' },
+    { id: 3, name: 'Department 3' },
+    { id: 4, name: 'Department 4' },
+  ];
+  // Created Form Group
+  angForm: FormGroup;
   datemax: string;
- constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody : AnybodyService) { 
-  this.datemax = new Date().getFullYear()+'-'+("0"+(new Date().getMonth()+1)).slice(-2)+'-'+("0"+new Date().getDate()).slice(-2);
+  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private http: HttpClient) {
+    this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
+  }
 
-  this.config.notFoundText = 'Custom not found';
-  this.config.appendTo = 'body';
-  // set the bindValue to global config when you use the same 
-  // bindValue in most of the place. 
-  // You can also override bindValue for the specified template 
-  // by defining `bindValue` as property
-  // Eg : <ng-select bindValue="some-new-value"></ng-select>
-  this.config.bindValue = 'value';
-}
   ngOnInit(): void {
     this.createForm();
-
+    this._anybody.getPurposeData().subscribe(data => {
+      this.purpose = data
+    })
   }
-   //disabledate on keyup
-   disabledate(data:any){
-    
+  //disabledate on keyup
+  disabledate(data: any) {
     console.log(data);
-    if(data != ""){
-      if(data > this.datemax){
+    if (data != "") {
+      if (data > this.datemax) {
         Swal.fire("Invalid Input", "Please insert valid date ", "warning");
-        (document.getElementById("Application_Date")as HTMLInputElement).value = ""
-            
+        (document.getElementById("Application_Date") as HTMLInputElement).value = ""
       }
-    } 
+    }
   }
   createForm() {
     this.angForm = this.fb.group({
-      Application_Date:['',[Validators.required]],
-      Received_From:['',[Validators.required]],
-      Exam:['',[Validators.required, Validators.pattern]],
-      Select_Department:['',[Validators.required]],
-      Challan_Structure:['',[Validators.required]],
-      Total_Amount:[''],
-      Enter_Particular:['',[Validators.required]],
-     
+      Application_Date: ['', [Validators.required]],
+      Received_From: ['', [Validators.required]],
+      Exam: ['', [Validators.required, Validators.pattern]],
+      Select_Department: ['', [Validators.required]],
+      Challan_Structure: ['', [Validators.required]],
+      Total_Amount: [''],
+      Enter_Particular: ['', [Validators.required]],
+      purpose: ['', [Validators.required]]
     });
   }
+
+  anyoneDescriptionDetails: any
+  getAnyoneTableDetails(event) {
+    this._anybody.anyoneTableListViaDept(event).subscribe(data => {
+      this.anyoneDescriptionDetails = data;
+    })
+  }
+
 
   submit() {
     const formVal = this.angForm.value;
@@ -88,7 +96,7 @@ export class AnybodypaymentComponent implements OnInit {
       'Challan_Structure': formVal.Challan_Structure,
       'Total_Amount': formVal.Total_Amount,
       'Enter_Particular': formVal.Enter_Particular,
-     
+
     }
 
 
@@ -109,8 +117,8 @@ export class AnybodypaymentComponent implements OnInit {
     //To clear form
     this.resetForm();
   }
-   // Reset Function
-   resetForm() {
+  // Reset Function
+  resetForm() {
     this.createForm();
   }
 

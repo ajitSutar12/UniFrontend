@@ -13,12 +13,10 @@
               </div>
             </div>
           </div>
-
           <div class="row">
             <div class="col-sm-5">
               <div class="card">
                 <div class="card-body card_padding">
-
                   <div class="row m-b-6">
                     <div class="col-md-12">
                       <h4 class="text-center">Registration Form</h4>
@@ -77,7 +75,8 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
-                              pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No" required>
+                              pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No"
+                              required>
                             <label for="Mobile_No">Mobile No.<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -96,7 +95,8 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="text" name="Email_Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.com$"
-                              class="form-control" placeholder=" " minlength="11" id="Email_Address" formControlName="Email_Address" required>
+                              class="form-control" placeholder=" " minlength="11" id="Email_Address"
+                              formControlName="Email_Address" required>
                             <label for="Email_Address">Email<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -114,9 +114,12 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="College_Code" class="form-control" placeholder=" "
-                              id="College_Code" required formControlName="College_Code" required>
-                            <label for="College_Code">Select College Code</label>
+                            <ng-select [items]="collgeCode | async" bindLabel="NAME" bindValue="ID"
+                              [trackByFn]="trackByFn" [minTermLength]="minLengthTerm" [loading]="collegeCodeLoading"
+                              typeToSearchText="Please enter {{minLengthTerm}} or more characters"
+                              formControlName="College_Code" [typeahead]="collegeCodeInput" [(ngModel)]="selectedCode"
+                              placeholder="Select College Code" [required]="clgCode">
+                            </ng-select>
                           </span>
                         </div>
                       </div>
@@ -126,7 +129,8 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="text" name="User_Name" pattern="^[A-Za-z\s .]+$" class="form-control"
-                              placeholder=" "maxlength="10" minlength="3" id="User_Name" formControlName="User_Name" required>
+                              placeholder=" " maxlength="10" minlength="3" id="User_Name" formControlName="User_Name"
+                              required>
                             <label for="User_Name">User Name<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -145,14 +149,13 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="password" name="Create_Password"
-                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
-                              minlength="4" 
-                              class="form-control"  [NgPasswordValidator]="options" (valid)="isValid($event)" (keyup)="onInput($event)" placeholder=" " id="Create_Password"
-                              formControlName="Create_Password" required >
+                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" minlength="4"
+                              class="form-control" [NgPasswordValidator]="options" (keyup)="onInput($event)"
+                              placeholder=" " id="Create_Password" formControlName="Create_Password" required>
                             <label for="Create_Password"> Create Password<sub class="required">* </sub></label>
                           </span>
                         </div>
-                      
+
                         <!-- <div class="form-group form-primary form-static-label"
                           *ngIf="angForm.controls['Create_Password'].invalid && (angForm.controls['Create_Password'].dirty || angForm.controls['Create_Password'].touched)"
                           class="alert alert-danger">
@@ -163,11 +166,7 @@
                         </div> -->
                       </div>
                     </div>
-
-
                     <div class="row">
-
-
                       <div class="col-sm-12 ">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
@@ -187,12 +186,51 @@
                           </div>
                         </div>
                       </div>
-
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="PASSREQQUE" class="form-control" placeholder=" " id="PASSREQQUE"
+                              pattern="^[A-Za-z\s]+$" formControlName="PASSREQQUE" value="What is Your Pet Name"
+                              required>
+                            <label for="PASSREQQUE">Pass recovery Que<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['PASSREQQUE'].invalid && (angForm.controls['PASSREQQUE'].dirty || angForm.controls['PASSREQQUE'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['PASSREQQUE'].errors?.pattern || angForm.controls['PASSREQQUE'].errors?.required">
+                            This field is required and Input allowed only A-Z
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group input-group">
+                          <span class="border-lable-flt">
+                            <input type="text" name="PASSREQANS" class="form-control" placeholder=" " id="PASSREQANS"
+                              pattern="^[A-Za-z\s]+$" formControlName="PASSREQANS" required>
+                            <label for="PASSREQANS">Pass recovery Que Anwser<sub class="required">* </sub></label>
+                          </span>
+                        </div>
+                        <div class="form-group form-primary form-static-label"
+                          *ngIf="angForm.controls['PASSREQANS'].invalid && (angForm.controls['PASSREQANS'].dirty || angForm.controls['PASSREQANS'].touched)"
+                          class="alert alert-danger">
+                          <div
+                            *ngIf="angForm.controls['PASSREQANS'].errors?.pattern || angForm.controls['PASSREQANS'].errors?.required">
+                            This field is required and Input allowed only A-Z
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div>
                       <div class="row mt-3">
                         <div class="col-sm-12 right">
-                          <button class="btn btn-primary  ripple light " style="margin-right:5px">Submit</button>
+                          <button class="btn btn-primary  ripple light " style="margin-right:5px"
+                            (click)="submit()">Submit</button>
                           <button class="btn btn-dark ripple light" [routerLink]="['/auth/login/simple']">Back</button>
                         </div>
                       </div>
@@ -206,6 +244,3 @@
               </div>
             </div>
           </div>
-
-
-     

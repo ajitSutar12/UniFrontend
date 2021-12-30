@@ -36,13 +36,13 @@ export class CollegepaymentService {
     deleteData(id: any): Observable<any> {
         return this.http.delete(this.url + '/customer-id/delete/' + id).pipe(catchError(this.handleError));
     }
-
-
-    getDepartmentData(): Observable<any> {
-        return this.http.get(this.url + '/payment/department').pipe(catchError(this.handleError));
-    }
     getPurposeData(): Observable<any> {
-        return this.http.get(this.url + '/payment/purpose').pipe(catchError(this.handleError));
+        return this.http.get(this.url + '/payment/collegepurpose').pipe(catchError(this.handleError));
+    }
+
+    collegeTableListViaDept(id: any): Observable<any> {
+        console.log('college service', id)
+        return this.http.get(this.url + '/payment/ListCollegePurpose' + id).pipe(catchError(this.handleError));
     }
 }
 

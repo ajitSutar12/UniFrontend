@@ -5,16 +5,18 @@ import { StudentpaymentRoutingModule } from './studentpayment-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { StudentpaymentComponent } from './studentpayment.component';
 import { StudentpaymentService } from './studentpayment.service';
+import { SaveProceedModule } from './save-proceed/save-proceed.module'
+import { SaveProceedComponent } from './save-proceed/save-proceed.component'
 @NgModule({
-  declarations: [StudentpaymentComponent],
+  declarations: [StudentpaymentComponent, SaveProceedComponent],
   imports: [
     CommonModule,
     StudentpaymentRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgSelectModule
-    
-
-  ],providers:[StudentpaymentService]
+    NgSelectModule,
+    SaveProceedModule
+  ],
+  providers: [StudentpaymentService]
 })
 export class StudentpaymentModule { }

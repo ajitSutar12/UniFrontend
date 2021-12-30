@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Bank Payment Form</h5>
+                <h6 style="float: right;"><sub class="required">* </sub>: Required Fields</h6>
+            </div>
+            <div class="card-block">
+                <form action="javascript:" [formGroup]="angForm" novalidate>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <ng-select [items]="banks" bindValue="ID" bindLabel="NAME" formControlName="BANK"
+                                        [(ngModel)]="selectBank" placeholder="Select BANK NAME">
+                                    </ng-select>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['BANK'].invalid && (angForm.controls['BANK'].dirty || angForm.controls['BANK'].touched)"
+                                class="alert alert-danger mt-2">
+                                <div *ngIf="angForm.controls['BANK'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
