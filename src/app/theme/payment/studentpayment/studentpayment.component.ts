@@ -238,6 +238,7 @@ export class StudentpaymentComponent implements OnInit {
 
   submit() {
     const formVal = this.angForm.value;
+
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
@@ -246,10 +247,7 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_Structure': formVal.Challan_Structure,
       'Total_Amount': formVal.Total_Amount,
       'Enter_Particular': formVal.Enter_Particular,
-
     }
-
-
     this._student.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
@@ -284,16 +282,20 @@ export class StudentpaymentComponent implements OnInit {
 
   saveAsDraft() {
     const formVal = this.angForm.value;
+    console.log('dept name', this.selectDepartment.NAME)
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
       'Exam': formVal.Exam,
       'purpose': formVal.purpose,
-      'Select_Department': formVal.Select_Department,
-      'Challan_Structure': formVal.Challan_Structure,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal.Challan_Structure.ID,
       'Total_Amount': formVal.Total_Amount,
       'Enter_Particular': formVal.Enter_Particular,
-      'studentDescriptionDetails': this.studentDescriptionDetails
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': this.selectDepartment.NAME,
+      'Challan_NAME': this.selectChallan.NAME,
+      'Particular': formVal.Enter_Particular
     }
     this._student.postData(dataToSend).subscribe(
       (data) => {

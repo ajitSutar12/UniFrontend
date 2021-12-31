@@ -36,5 +36,9 @@ export class BasicRegService {
     deleteData(id: any): Observable<any> {
         return this.http.delete(this.url + '/customer-id/delete/' + id).pipe(catchError(this.handleError));
     }
+
+    getQuestionData(): Observable<any> {
+        return this.http.get(this.url + '/registration/QUESTIONS').pipe(catchError(this.handleError));
+    }
 }
 

@@ -191,10 +191,13 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="PASSREQQUE" class="form-control" placeholder=" " id="PASSREQQUE"
+                            <!-- <input type="text" name="PASSREQQUE" class="form-control" placeholder=" " id="PASSREQQUE"
                               pattern="^[A-Za-z\s]+$" formControlName="PASSREQQUE" value="What is Your Pet Name"
                               required>
-                            <label for="PASSREQQUE">Pass recovery Que<sub class="required">* </sub></label>
+                            <label for="PASSREQQUE">Pass recovery Que<sub class="required">* </sub></label> -->
+                            <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME"  [(ngModel)]="selectQue"
+                              formControlName="PASSREQQUE" placeholder="Select Password Recovery Question">
+                            </ng-select>
                           </span>
                         </div>
                         <div class="form-group form-primary form-static-label"

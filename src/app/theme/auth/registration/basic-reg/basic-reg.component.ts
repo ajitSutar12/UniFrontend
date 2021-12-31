@@ -9,6 +9,7 @@ import { concat, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment'
+import { Router } from '@angular/router';
 interface Basicreginterface {
   Type: boolean
   Full_Name: string,
@@ -45,26 +46,25 @@ export class BasicRegComponent implements OnInit {
   collegeCodeList = []
   selectedCar1: number;
 
-  ngSelList
-  counter: number
-
-
+  questions = []
+  selectQue
   collgeCode: Observable<any>;
   collegeCodeLoading = false;
   collegeCodeInput = new Subject<string>();
   selectedCode: any;
   minLengthTerm = 2;
 
-  constructor(private fb: FormBuilder, private _basicreg: BasicRegService, private config: NgSelectConfig, private http: HttpClient) {
-    // this.config.notFoundText = 'Custom not found';
-    // this.config.appendTo = 'body';
-    // this.config.bindValue = 'value';
+  constructor(private fb: FormBuilder, private _basicreg: BasicRegService, private config: NgSelectConfig,
+    private http: HttpClient, private router: Router) {
   }
 
   ngOnInit() {
     this.formInIt();
     this.createForm();
     this.loadCollegeCode();
+    this._basicreg.getQuestionData().subscribe(data => {
+      this.questions = data
+    })
     document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
   }
 
@@ -78,7 +78,7 @@ export class BasicRegComponent implements OnInit {
       User_Name: ["", [Validators.required]],
       Create_Password: ["", [Validators.required]],
       Confirm_Password: ["", [Validators.required]],
-      PASSREQQUE: ["", [Validators.pattern, Validators.required]],
+      PASSREQQUE: [" ", [Validators.required]],
       PASSREQANS: ["", [Validators.pattern, Validators.required]],
     });
   }
@@ -130,7 +130,6 @@ export class BasicRegComponent implements OnInit {
 
 
   submit() {
-    debugger
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       if (formVal.Type == 'Student') {
@@ -158,6 +157,7 @@ export class BasicRegComponent implements OnInit {
       this._basicreg.postData(dataToSend).subscribe(
         (data) => {
           Swal.fire("Success!", "Data Added Successfully !", "success");
+          this.router.navigate(['/auth/login/simple']);
         },
         (error) => {
           console.log(error);

@@ -98,10 +98,20 @@
                                         [(ngModel)]="selectDepartment" placeholder="Select Department"
                                         (ngModelChange)="getDepartmentCode($event)">
                                     </ng-select> -->
-                                    <ng-select [items]="Department" bindValue="ID" bindLabel="NAME"
+
+
+                                    <!-- <ng-select [items]="Department" bindValue="ID" bindLabel="NAME"
                                         formControlName="Select_Department" [(ngModel)]="selectDepartment"
-                                        placeholder="Select Department" (ngModelChange)="getDepartmentCode($event)">
+                                        placeholder="Select Department"
+                                        (ngModelChange)="getDepartmentCode($event)">
+                                    </ng-select> -->
+
+                                    <ng-select [(ngModel)]="selectDepartment" formControlName="Select_Department"
+                                        placeholder="Select Department" (ngModelChange)="getDepartmentCode($event.ID)">
+                                        <ng-option *ngFor="let dept of Department" [value]="dept">
+                                            {{dept.NAME}}</ng-option>
                                     </ng-select>
+
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label "
@@ -124,10 +134,18 @@
                                         formControlName="Challan_Structure" [typeahead]="ChallanInput"
                                         [(ngModel)]="selectChallan" placeholder="Select Challan Structure">
                                     </ng-select> -->
-                                    <ng-select [items]="challanlist" bindValue="ID" bindLabel="NAME"
+                                    <!-- <ng-select [items]="challanlist" bindValue="ID" bindLabel="NAME"
                                         formControlName="Challan_Structure" [(ngModel)]="selectChallan"
                                         placeholder="Select Challan Structure"
-                                        (ngModelChange)="getStudentTableDetails($event)"></ng-select>
+                                        (ngModelChange)="getStudentTableDetails($event)"></ng-select> -->
+
+                                    <ng-select [(ngModel)]="selectChallan" formControlName="Challan_Structure"
+                                        placeholder="Select Challan Structure"
+                                        (ngModelChange)="getStudentTableDetails($event.ID)">
+                                        <ng-option *ngFor="let challan of challanlist" [value]="challan">
+                                            {{challan.NAME}}</ng-option>
+                                    </ng-select>
+
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
