@@ -32,6 +32,7 @@ export class CollegepaymentComponent implements OnInit {
   purpose = []
   selectDepartment
   selectPurpose
+  selectChallan
 
   url = environment.base_url;
 
@@ -83,7 +84,7 @@ export class CollegepaymentComponent implements OnInit {
       Received_From: ['', [Validators.required]],
       Examination: ['', [Validators.required, Validators.pattern]],
       Select_Department: ['', [Validators.required]],
-      Challan_Structure: ['', [Validators.required]],
+      Challan_Structure: ['',],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
       purpose: ['', [Validators.required]]
@@ -91,11 +92,11 @@ export class CollegepaymentComponent implements OnInit {
   }
 
 
-  collegeDescriptionDetails: any;
+  studentDescriptionDetails: any;
   getCollegeTableDetails(event) {
     debugger
     this._college.collegeTableListViaDept(event).subscribe(data => {
-      this.collegeDescriptionDetails = data;
+      this.studentDescriptionDetails = data;
     })
   }
 
@@ -136,6 +137,33 @@ export class CollegepaymentComponent implements OnInit {
   // Reset Function
   resetForm() {
     this.createForm();
+  }
+
+  saveAsDraft() {
+    debugger
+    const formVal = this.angForm.value;
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal.Challan_Structure.ID,
+      'Total_Amount': formVal.Total_Amount,
+      'Enter_Particular': formVal.Enter_Particular,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': this.selectDepartment.NAME,
+      'Challan_NAME': this.selectChallan.NAME,
+      'Particular': formVal.Enter_Particular
+    }
+    this._college.postData(dataToSend).subscribe(
+      (data) => {
+        Swal.fire("Success!", "Data Added Successfully !", "success");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
 }

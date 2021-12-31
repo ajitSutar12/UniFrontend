@@ -25,46 +25,19 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>13/12/2020</td>
-                                <td>12/12/2020</td>
-                                <td>University</td>
+                              <tr *ngFor="let data of draftlist; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.TRAN_DATE}}</td>
+                                <td>{{data.TRAN_DATE}}</td>
+                                <td>{{data.PAID_BY}}</td>
 
-                                <td>November 2021</td>
-                                <td>CSE</td>
+                                <td>{{data.EXAM_NAME}}</td>
+                                <td>{{data.DEPT_NAME}}</td>
 
                                 <td><a class="btn btn-primary btn-sm"   [routerLink]="['/Payment/student/studentpayment']">
                                     Show Draft
                                   </a></td>
                               </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>13/12/2020</td>
-                                <td>12/12/2020</td>
-                                <td>University</td>
-
-                                <td>November 2021</td>
-                                <td>MECHANICAL</td>
-
-                                <td><a class="btn btn-primary btn-sm" [routerLink]="['/Payment/student/studentpayment']">
-                                    Show Draft
-                                  </a></td>
-                              </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>13/12/2020</td>
-                                <td>12/12/2020</td>
-                                <td>University</td>
-
-                                <td>November 2021</td>
-                                <td>CIVIL</td>
-                                <td><a  class="btn btn-primary btn-sm " [routerLink]="['/Payment/student/studentpayment']">
-                                    Show Draft
-                                  </a></td>
-                              </tr>
-                             
-                              
                               
                             </tbody>
                           </table>

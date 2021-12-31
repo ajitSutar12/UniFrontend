@@ -68,6 +68,14 @@ export class StudentpaymentService {
         return this.http.get(this.url + '/payment/getPurposeForStud' + id).pipe(catchError(this.handleError));
     }
 
+    getBankCodeDetails():Observable<any>{
+        return this.http.get(this.url+'/payment/bankList').pipe(catchError(this.handleError));
+    }
+
+    getStudentDraftCode():Observable<any>{
+        return this.http.get(this.url+'/payment/draftList').pipe(catchError(this.handleError));
+    }
+
 }
 
 

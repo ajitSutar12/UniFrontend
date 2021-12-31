@@ -29,7 +29,7 @@ export class BasicLoginComponent implements OnInit {
     }
 
     this._authService.login(obj).subscribe(data=>{
-      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('token', data.token);
       localStorage.setItem('user', data.user);
       if(data.user){
         this.router.navigate(['/dashboard']);

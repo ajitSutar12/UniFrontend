@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -7,18 +6,13 @@ import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
-  application_id
 
-  constructor(private router: Router,) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers'
     };
-  }
-
-  gotoPrint(value) {
-    this.router.navigateByUrl('/Payment/Receipt', { state: value });
   }
 
 }

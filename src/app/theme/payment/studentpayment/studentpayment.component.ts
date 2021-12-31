@@ -6,7 +6,9 @@ import { StudentpaymentService } from './studentpayment.service'
 import { concat, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment'
+import { environment } from '../../../../environments/environment';
+import * as moment from 'moment';
+
 
 @Component({
   selector: 'app-studentpayment',
@@ -35,6 +37,7 @@ export class StudentpaymentComponent implements OnInit {
 
   selectedCar: number;
   selectedCar1: number;
+  selectedBank: any;
   cars1 = [
     { id: 1, name: 'Department 1' },
     { id: 2, name: 'Department 2' },
@@ -52,7 +55,8 @@ export class StudentpaymentComponent implements OnInit {
   stringArray: any = [];
 
   singleSelect: any = [];
-
+  applicationDate: any;
+  bankDetails: any;
 
   // Created Form Group
   angForm: FormGroup;
@@ -198,12 +202,29 @@ export class StudentpaymentComponent implements OnInit {
     })
   }
 
+  ngAfterViewInit(): void {
+    this._student.getDepartmentData().subscribe(data => {
+      this.Department = data
+    })
+
+    this._student.getPurposeData().subscribe(data => {
+      this.Purpose = data
+    })
+  }
+
 
 
   ngOnInit(): void {
+    debugger
     this.createForm();
+    this.applicationDate = moment().format('YYYY-MM-DD');
     this._student.getDepartmentData().subscribe(data => {
       this.Department = data
+    })
+
+    //Bank details master
+    this._student.getBankCodeDetails().subscribe(data => {
+      this.bankDetails = data;
     })
 
     this._student.getPurposeData().subscribe(data => {
@@ -232,7 +253,8 @@ export class StudentpaymentComponent implements OnInit {
       Challan_Structure: ['', [Validators.required]],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
-      purpose: ['', [Validators.required]]
+      purpose: ['', [Validators.required]],
+      bank_code: ['']
     });
   }
 
@@ -247,6 +269,7 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_Structure': formVal.Challan_Structure,
       'Total_Amount': formVal.Total_Amount,
       'Enter_Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code
     }
     this._student.postData(dataToSend).subscribe(
       (data) => {
@@ -274,15 +297,27 @@ export class StudentpaymentComponent implements OnInit {
     })
   }
   studentDescriptionDetails: any;
+  TotalAmt: any = 0;
   getStudentTableDetails(ele) {
     this._student.StudentTableList(ele).subscribe(data => {
       this.studentDescriptionDetails = data;
+      this.studentDescriptionDetails.forEach(element => {
+        this.TotalAmt = this.TotalAmt + Number(element.AMOUNT)
+      });
     })
+  }
+
+  ///when change amount this time call below function
+  changeAmt(ele, index) {
+    let amount = ele.target.value;
+    this.studentDescriptionDetails[index].AMOUNT = amount;
+    this.studentDescriptionDetails.forEach(element => {
+      this.TotalAmt = this.TotalAmt + Number(element.AMOUNT)
+    });
   }
 
   saveAsDraft() {
     const formVal = this.angForm.value;
-    console.log('dept name', this.selectDepartment.NAME)
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,

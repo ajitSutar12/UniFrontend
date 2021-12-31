@@ -19,9 +19,6 @@ import{PaymentModule} from './theme/payment/payment.module';
 import{DataTablesModule} from 'angular-datatables';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { UserAuthInterceptor } from './user-auth.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
 
 
 @NgModule({
@@ -53,12 +50,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
    
     
   ],
-  providers: [MenuItems,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UserAuthInterceptor,
-      multi: true
-    }],
+  providers: [MenuItems],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

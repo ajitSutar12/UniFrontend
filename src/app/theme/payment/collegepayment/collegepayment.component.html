@@ -12,9 +12,13 @@
                         <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <input type="text" name="Application_Date" class="form-control" placeholder=" "
+                                    <!-- <input type="text" name="Application_Date" class="form-control" placeholder=" "
                                         max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
                                         id="Application_Date" onfocus="(this.type='date')" #date
+                                        formControlName="Application_Date"> -->
+                                    <input type="date" name="Application_Date" class="form-control" placeholder=" "
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
+                                        id="Application_Date" [(ngModel)]="applicationDate"
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
                                 </span>
@@ -149,44 +153,6 @@
                             </div>
                         </div> -->
                     </div>
-                    <!-- <div class="row">
-                        <div class="col-sm">
-                            <div style="overflow-x: auto;">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" style="width: 20%;">BUDGET CODE</th>
-                                            <th scope="col" style="width: 20%;">BUDGET HEAD</th>
-                                            <th scope="col" style="width: 15%;">AMOUNT</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div> -->
                     <div class="row">
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
@@ -200,7 +166,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let data of collegeDescriptionDetails">
+                                        <tr *ngFor="let data of studentDescriptionDetails">
                                             <th scope="row">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
                                             <!-- <td *ngIf="hideColumn">{{data.NAME}}</td> -->
@@ -272,7 +238,8 @@
 
                         <div class="col-sm-12">
                             <div style="float: right;">
-                                <button class="btn btn-primary  ripple light " style="margin-right:3px">Save As
+                                <button class="btn btn-primary  ripple light " style="margin-right:3px"
+                                    (click)="saveAsDraft()">Save As
                                     Draft</button>
                                 <button class="btn btn-primary ripple light" style="margin:3px" (click)="submit()">Save
                                     & Proceed To

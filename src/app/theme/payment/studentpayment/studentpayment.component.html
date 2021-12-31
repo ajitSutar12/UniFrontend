@@ -11,9 +11,9 @@
                         <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <input type="text" name="Application_Date" class="form-control" placeholder=" "
+                                    <input type="date" name="Application_Date" class="form-control" placeholder=" "
                                         max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
-                                        id="Application_Date" onfocus="(this.type='date')" #date
+                                        id="Application_Date" [(ngModel)]="applicationDate"
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
                                 </span>
@@ -170,13 +170,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let data of studentDescriptionDetails">
+                                        <tr *ngFor="let data of studentDescriptionDetails;let i = index">
                                             <th scope="row">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
                                             <td *ngIf="hideColumn">{{data.NAME}}</td>
-                                            <td> <input type="text" name="Examination" class="form-control"
+                                            <td> <input type="text" name="Examination" class="form-control" style="text-align: right;"
                                                     placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)" value="{{data.AMOUNT}}">
+                                                    title="Input allowed only  A-Z a-z (Space)" (keyup)="changeAmt($event,i)" value="{{data.AMOUNT}}">
                                             </td>
                                         </tr>
 
@@ -200,7 +200,7 @@
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="text" name="Total_Amount" class="form-control " placeholder=" "
-                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$"
+                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$" [value]="TotalAmt"
                                         title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount">
                                     <label for="Total_Amount">Total Amount<sub class="required">* </sub></label>
                                 </span>
@@ -236,6 +236,27 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:1%">
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group input-group">
+                                <!-- <select class="form-control" formControlName="bank_code">
+                                    <option *ngFor="let bank of bankDetails" value="{{bank.CODE}}">{{bank.NAME}}</option>
+                                </select> -->
+                                <ng-select [(ngModel)]="selectedBank" formControlName="bank_code"
+                                        placeholder="Select Bank Name"
+                                        >
+                                        <ng-option *ngFor="let bank of bankDetails" [value]="bank.CODE">
+                                            {{bank.NAME}}</ng-option>
+                                    </ng-select>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-3">
