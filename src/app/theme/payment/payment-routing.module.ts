@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { CollegepaymentComponent } from './collegepayment/collegepayment.component';
 import { AnybodypaymentComponent } from './anybodypayment/anybodypayment.component'
 import { StudentpaymentComponent } from './studentpayment/studentpayment.component';
-import{StudentdraftComponent} from './studentdraft/studentdraft.component'
-import{CollegedraftComponent} from './collegedraft/collegedraft.component'
+import { StudentdraftComponent } from './studentdraft/studentdraft.component'
+import { CollegedraftComponent } from './collegedraft/collegedraft.component'
 import { AnybodydraftComponent } from './anybodydraft/anybodydraft.component';
+import { ReceiptComponent } from './receipt/receipt.component'
 const routes: Routes = [
-  
+
   {
     path: '',
     data: {
@@ -33,8 +34,8 @@ const routes: Routes = [
             data: {
               title: 'Studentdraft',
 
-           },
-            component:StudentdraftComponent
+            },
+            component: StudentdraftComponent
           },
           // {
           //   path: 'collegepayment',
@@ -53,7 +54,7 @@ const routes: Routes = [
           //   component: AnybodypaymentComponent
           // },
         ]
-        
+
       },
       {
         path: 'college',
@@ -61,23 +62,23 @@ const routes: Routes = [
           title: 'College',
           status: false
         },
-        children:[
+        children: [
           {
-               path: 'collegepayment',
-               data: {
-                 title: 'College',
-  
-              },
-               component: CollegepaymentComponent
+            path: 'collegepayment',
+            data: {
+              title: 'College',
+
             },
-            {
-              path: 'collegedraft',
-              data: {
-                title: 'Collegedraft',
- 
-             },
-              component:CollegedraftComponent
+            component: CollegepaymentComponent
+          },
+          {
+            path: 'collegedraft',
+            data: {
+              title: 'Collegedraft',
+
             },
+            component: CollegedraftComponent
+          },
 
 
         ]
@@ -89,34 +90,38 @@ const routes: Routes = [
           title: 'Anybody',
           status: false
         },
-        children:[
+        children: [
           {
-               path: 'anybodypayment',
-               data: {
-                 title: 'Anybody Payment',
+            path: 'anybodypayment',
+            data: {
+              title: 'Anybody Payment',
 
-               },
-               component: AnybodypaymentComponent
-             },
-             {
-              path: 'anybodydraft',
-              data: {
-                title: 'Anybody Draft',
- 
-             },
-              component:AnybodydraftComponent
             },
+            component: AnybodypaymentComponent
+          },
+          {
+            path: 'anybodydraft',
+            data: {
+              title: 'Anybody Draft',
+
+            },
+            component: AnybodydraftComponent
+          },
 
         ]
-        
+
+      },
+      {
+        path: 'Receipt',
+        data: {
+          title: 'receipt',
+          status: false
+        },
+        component: ReceiptComponent
       }
-      
 
-      
-
-      
     ],
-    
+
 
   }
 
