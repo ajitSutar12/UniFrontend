@@ -1,0 +1,148 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-block">
+                    <div id="printableArea" #printableArea>
+                        <div class="row">
+                            <div class="col-6">
+                                <table border="0">
+                                    <tr>
+                                        <td style="width: 30%;"><img src="../../../../assets//images//Unilogo.png"></td>
+                                        <td class="head"><b>SHIVAJI UNIVERSITY, KOLHAPUR</b><br><b>BANK RECEIPT (By
+                                                Cash)</b>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table border="0" style="table-layout: fixed;">
+                                    <tr>
+                                        <td style="width: 25.5%;"><b>Receipt No.</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 22.5%;">{{receiptTable.recieptNo}}</td>
+                                        <td style="width: 15%;"><b>Department</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 34%; word-wrap: break-word; max-width: 1px;" rowspan="2">
+                                            {{receiptTable.deptName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Receipt Date</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.receiptDate}}</td>
+                                    </tr>
+                                </table>
+
+                                <table>
+                                    <tr>
+                                        <td style="width: 25%;"><b>Received From</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.receivedFrom}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Deposit In A/c</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.depositInAC}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Mode of Inst.</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.modeOfInstall}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Deposit Rec.No.</b></td>
+                                        <td>:</td>
+                                        <td> {{receiptTable.depositRecNo}} <table style="width: 50%;float: right;">
+                                                <tr>
+                                                    <td style="padding: 0;"><b>Deposit Date</b> : </td>
+                                                    <td>{{receiptTable.depositDate}}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Drawee Bank:</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.bankname}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Manual Rec.No</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.manualRecNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Examination</b></td>
+                                        <td>:</td>
+                                        <td>{{receiptTable.examination}} <table style="width: 50%;float: right;">
+                                                <tr>
+                                                    <td style="padding: 0;"><b>Month & Year</b>
+                                                        :{{receiptTable.monthYear}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table>
+                                    <tr style="border-top: 3px solid; border-bottom: 3px solid;">
+                                        <td style="width: 10%;text-align:right;"><b>Sr.No.</b></td>
+                                        <td style="width: 40%;"><b>Particular</b></td>
+                                        <td style="width: 25%;text-align:right;"><b>Budget</b></td>
+                                        <td style="width: 25%;text-align:right;"><b>Amount</b></td>
+                                    </tr>
+                                    <tr *ngFor="let data of receiptTable.datatable">
+                                        <td style="width: 10%;text-align:right;">{{data.SrNo}}</td>
+                                        <td style="width: 40%;">{{data.Particular}}</td>
+                                        <td style="width: 25%;text-align:right;">{{data.Budget}}</td>
+                                        <td style="width: 25%;text-align:right;">{{data.Amount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 10%;text-align:right;"></td>
+                                        <td style="width: 40%;"></td>
+                                        <td style="width: 25%;text-align:right;">Total (Rs.)</td>
+                                        <td
+                                            style="width: 25%;text-align:right;border-top: 3px solid; border-bottom: 3px solid;">
+                                            {{receiptTable.totalAmount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">{{receiptTable.LetterAmount}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align:right;">KRMADALE</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:left;"><b>Office Copy</b></td>
+                                        <td colspan="2" style="text-align:right;"><b>Authorised Signatory</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">CONTACT NO - {{receiptTable.contactNo}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"><i><b>Note : The Receipt is subject to the realisation of
+                                                    Cheque</b></i>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+
+                            </div>
+                        </div>
+                        <!-- <div id="pdfTable"> -->
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn btn-primary" (click)="printDiv('printableArea')">PRINT</button> &nbsp;
+                            <button class="btn btn-primary" (click)="downloadAsPDF('printableArea')">Export To
+                                PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
