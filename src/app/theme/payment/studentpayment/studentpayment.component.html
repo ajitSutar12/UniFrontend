@@ -11,9 +11,9 @@
                         <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <input type="date" name="Application_Date" class="form-control" placeholder=" "
-                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
-                                        id="Application_Date" [(ngModel)]="applicationDate"
+                                    <input type="text" name="Application_Date" class="form-control" placeholder=" " autofocus
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)" [(ngModel)]="applicationDate"
+                                        id="Application_Date" onfocus="(this.type='date')" #date
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
                                 </span>
@@ -160,7 +160,7 @@
                     <div class="row">
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered compact">
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 15%;">BUDGET CODE</th>
@@ -221,7 +221,7 @@
                         <div class="col-sm-4 ">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <textarea type="text" name="Enter_Particular" class="form-control" placeholder=" "
+                                    <textarea type="text" name="Enter_Particular" class="form-control" placeholder=" " style="height: 60px;"
                                         pattern="^[A-Za-z\./ -]+$" title="Input allowed only  A-Z a-z  - / . (Space)"
                                         id="Enter_Particular" maxlength="4000" formControlName="Enter_Particular"
                                         required></textarea>

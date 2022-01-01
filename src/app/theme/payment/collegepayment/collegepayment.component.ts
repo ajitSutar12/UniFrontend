@@ -9,7 +9,7 @@ import { concat, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
-
+import * as moment from 'moment';
 interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
@@ -56,11 +56,13 @@ export class CollegepaymentComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
+  applicationDate: string;
   constructor(private fb: FormBuilder, private config: NgSelectConfig, private _college: CollegepaymentService, private http: HttpClient) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
   ngOnInit(): void {
+    this.applicationDate = moment().format('YYYY-MM-DD')
     this.createForm();
     this._college.getPurposeData().subscribe(data => {
       this.purpose = data

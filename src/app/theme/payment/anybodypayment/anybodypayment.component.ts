@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormsModule } from "@angular/forms";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import { concat, Observable, of, Subject, throwError } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
+import * as moment from 'moment';
 
 interface AnybodyInterface {
   Application_Date: Date;
@@ -23,7 +24,7 @@ interface AnybodyInterface {
   styleUrls: ['./anybodypayment.component.scss']
 })
 
-export class AnybodypaymentComponent implements OnInit {
+export class AnybodypaymentComponent implements OnInit, AfterViewInit {
 
   url = environment.base_url;
   purpose = []
@@ -45,11 +46,13 @@ export class AnybodypaymentComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private http: HttpClient) {
+  applicationDate: string;
+  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private http: HttpClient, private elementRef: ElementRef) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
   ngOnInit(): void {
+    this.applicationDate = moment().format('YYYY-MM-DD')
     this.createForm();
     this._anybody.getPurposeData().subscribe(data => {
       this.purpose = data
@@ -121,5 +124,9 @@ export class AnybodypaymentComponent implements OnInit {
   resetForm() {
     this.createForm();
   }
+
+  ngAfterViewInit(){
+    this.elementRef.nativeElement.focus();
+}
 
 }

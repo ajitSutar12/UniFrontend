@@ -26,7 +26,7 @@
                     <div class="row">
                       <div class="col-sm ">
                         <div class="form-radio">
-                          <h6>Select Your Registration Type</h6>
+                          <h5 style="font-size: 14px;">Select Your Registration Type</h5>
                           <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="Student" name="Type" formControlName="Type" [checked]="true"
@@ -77,7 +77,7 @@
                             <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
                               pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No"
                               required>
-                            <label for="Mobile_No">Mobile No.<sub class="required">* </sub></label>
+                            <label for="Mobile_No">Mobile Number<sub class="required">* </sub></label>
                           </span>
                         </div>
                         <div class="form-group form-primary form-static-label"
@@ -195,7 +195,7 @@
                               pattern="^[A-Za-z\s]+$" formControlName="PASSREQQUE" value="What is Your Pet Name"
                               required>
                             <label for="PASSREQQUE">Pass recovery Que<sub class="required">* </sub></label> -->
-                            <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME"  [(ngModel)]="selectQue"
+                            <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME" [(ngModel)]="selectQue"
                               formControlName="PASSREQQUE" placeholder="Select Password Recovery Question">
                             </ng-select>
                           </span>
@@ -205,7 +205,7 @@
                           class="alert alert-danger">
                           <div
                             *ngIf="angForm.controls['PASSREQQUE'].errors?.pattern || angForm.controls['PASSREQQUE'].errors?.required">
-                            This field is required and Input allowed only A-Z
+                            This field is required
                           </div>
                         </div>
                       </div>
@@ -216,7 +216,7 @@
                           <span class="border-lable-flt">
                             <input type="text" name="PASSREQANS" class="form-control" placeholder=" " id="PASSREQANS"
                               pattern="^[A-Za-z\s]+$" formControlName="PASSREQANS" required>
-                            <label for="PASSREQANS">Pass recovery Que Anwser<sub class="required">* </sub></label>
+                            <label for="PASSREQANS">Password recovery Anwser<sub class="required">* </sub></label>
                           </span>
                         </div>
                         <div class="form-group form-primary form-static-label"

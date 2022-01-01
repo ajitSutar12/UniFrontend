@@ -9,6 +9,7 @@
     left: 0;
     top: 0;
     cursor: text;
+    background: white;
     // font-size: 75%;
     font-size: 95%;
     opacity: 1;
@@ -44,21 +45,34 @@
     opacity: 0;
 }
 
-.border-lable-flt .form-control:placeholder-shown:not(:focus)+* {
+// .border-lable-flt .form-control:placeholder-shown:not(:focus)+* {
+//     font-size: 110%;
+//     opacity: .5;
+//     top: .3em;
+// }
+.border-lable-flt .form-control:placeholder-shown:not(:focus) + * {
     font-size: 110%;
     opacity: .5;
-    top: .3em;
+    top: 2px;
 }
 
 .input-group .border-lable-flt {
     display: table-cell;
     width: 100%;
 }
+.border-lable-flt .ng-select{
+    height: 50%;
+}
 
+// .input-group .border-lable-flt .form-control {
+//     border-radius: 0.25rem;
+//     height: 3em;
+// }
 .input-group .border-lable-flt .form-control {
     border-radius: 0.25rem;
-    height: 135% ;
+    height: 37px;
 }
+
 
 .input-group .border-lable-flt:not(:last-child),
 .input-group .border-lable-flt:not(:last-child) .form-control {
@@ -86,7 +100,9 @@
     font-size: 20px;
     color: red;
 }
-
+.requiredlable{
+    font-size: 13px;
+}
 #pointer {
     cursor: pointer;
 }
