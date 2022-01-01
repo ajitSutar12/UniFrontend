@@ -25,7 +25,7 @@
                                         <td style="width: 22.5%;">{{receiptTable.recieptNo}}</td>
                                         <td style="width: 15%;"><b>Department</b></td>
                                         <td style="width: 1%;">:</td>
-                                        <td style="width: 34%; word-wrap: break-word; max-width: 1px;" rowspan="2">
+                                        <td style="width: 34%; white-space: normal;" rowspan="2">
                                             {{receiptTable.deptName}}</td>
                                     </tr>
                                     <tr>
@@ -128,19 +128,20 @@
                                 </table>
                             </div>
                             <div class="col-6">
-
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <button class="btn btn-primary"
+                                            (click)="printDiv('printableArea')">PRINT</button> &nbsp;
+                                        <!-- <button class="btn btn-primary" (click)="downloadAsPDF('printableArea')">Export To
+                                            PDF</button> -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- <div id="pdfTable"> -->
 
                     </div>
-                    <div class="row">
-                        <div class="col-sm">
-                            <button class="btn btn-primary" (click)="printDiv('printableArea')">PRINT</button> &nbsp;
-                            <button class="btn btn-primary" (click)="downloadAsPDF('printableArea')">Export To
-                                PDF</button>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

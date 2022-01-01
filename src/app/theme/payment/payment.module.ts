@@ -17,6 +17,7 @@ import { CollegedraftComponent } from './collegedraft/collegedraft.component';
 import { AnybodydraftComponent } from './anybodydraft/anybodydraft.component';
 import { ProceedToPayComponent } from './proceed-to-pay/proceed-to-pay.component'
 import { ProceedToPayModule } from './proceed-to-pay/proceed-to-pay.module'
+import { ReceiptModule } from './receipt/receipt.module'
 @NgModule({
   declarations: [StudentComponent, CollegeComponent, AnybodyComponent, StudentdraftComponent, CollegedraftComponent, AnybodydraftComponent, ProceedToPayComponent],
   imports: [
@@ -28,7 +29,8 @@ import { ProceedToPayModule } from './proceed-to-pay/proceed-to-pay.module'
     ReactiveFormsModule,
     CollegepaymentModule,
     AnybodypaymentModule,
-    ProceedToPayModule
+    ProceedToPayModule,
+    ReceiptModule
   ]
 })
 export class PaymentModule { }

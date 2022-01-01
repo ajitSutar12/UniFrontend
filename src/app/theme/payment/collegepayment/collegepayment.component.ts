@@ -33,7 +33,7 @@ export class CollegepaymentComponent implements OnInit {
   selectDepartment
   selectPurpose
   selectChallan
-
+  applicationDate: any;
   url = environment.base_url;
 
 
@@ -64,6 +64,7 @@ export class CollegepaymentComponent implements OnInit {
   ngOnInit(): void {
     this.applicationDate = moment().format('YYYY-MM-DD')
     this.createForm();
+    this.applicationDate = moment().format('YYYY-MM-DD');
     this._college.getPurposeData().subscribe(data => {
       this.purpose = data
     })
@@ -85,7 +86,7 @@ export class CollegepaymentComponent implements OnInit {
       Application_Date: ['', [Validators.required]],
       Received_From: ['', [Validators.required]],
       Examination: ['', [Validators.required, Validators.pattern]],
-      Select_Department: ['', [Validators.required]],
+      Select_Department: ['',],
       Challan_Structure: ['',],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
@@ -105,40 +106,67 @@ export class CollegepaymentComponent implements OnInit {
 
 
 
+  // submit() {
+  //   const formVal = this.angForm.value;
+  //   const dataToSend = {
+  //     'Application_Date': formVal.Application_Date,
+  //     'Received_From': formVal.Received_From,
+  //     'Exam': formVal.Exam,
+  //     'Select_Department': formVal.Select_Department,
+  //     'Challan_Structure': formVal.Challan_Structure,
+  //     'Total_Amount': formVal.Total_Amount,
+  //     'Enter_Particular': formVal.Enter_Particular,
+
+  //   }
+  //   this._college.postData(dataToSend).subscribe(
+  //     (data) => {
+  //       Swal.fire("Success!", "Data Added Successfully !", "success");
+  //       console.log("submit", data);
+  //       // this.custData = data1.id;
+  //       // this.addNewCustomer(data.id);
+  //       // to reload after insertion of data
+  //       // this.rerender();
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+
+  //   //To clear form
+  //   this.resetForm();
+  // }
+  // Reset Function
+  resetForm() {
+    this.createForm();
+  }
+
   submit() {
+    debugger
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
-      'Exam': formVal.Exam,
-      'Select_Department': formVal.Select_Department,
-      'Challan_Structure': formVal.Challan_Structure,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      // 'Select_Department': '',
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal.Challan_Structure.ID,
+      // 'Challan_Structure': '',
       'Total_Amount': formVal.Total_Amount,
-      'Enter_Particular': formVal.Enter_Particular,
-
+      // 'Enter_Particular': formVal.Enter_Particular,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': '',
+      'Challan_NAME': '',
+      'Particular': formVal.Enter_Particular
     }
-
-
     this._college.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        console.log("submit", data);
-        // this.custData = data1.id;
-        // this.addNewCustomer(data.id);
-        // to reload after insertion of data
-        // this.rerender();
       },
       (error) => {
         console.log(error);
       }
     );
-
-    //To clear form
-    this.resetForm();
-  }
-  // Reset Function
-  resetForm() {
-    this.createForm();
   }
 
   saveAsDraft() {
@@ -149,13 +177,15 @@ export class CollegepaymentComponent implements OnInit {
       'Received_From': formVal.Received_From,
       'Exam': formVal.Examination,
       'purpose': formVal.purpose,
-      'Select_Department': formVal.Select_Department.ID,
-      'Challan_Structure': formVal.Challan_Structure.ID,
+      'Select_Department': '',
+      // 'Select_Department': formVal.Select_Department.ID,
+      // 'Challan_Structure': formVal.Challan_Structure.ID,
+      'Challan_Structure': '',
       'Total_Amount': formVal.Total_Amount,
-      'Enter_Particular': formVal.Enter_Particular,
+      // 'Enter_Particular': formVal.Enter_Particular,
       'studentDescriptionDetails': this.studentDescriptionDetails,
-      'Dept_NAME': this.selectDepartment.NAME,
-      'Challan_NAME': this.selectChallan.NAME,
+      'Dept_NAME': '',
+      'Challan_NAME': '',
       'Particular': formVal.Enter_Particular
     }
     this._college.postData(dataToSend).subscribe(

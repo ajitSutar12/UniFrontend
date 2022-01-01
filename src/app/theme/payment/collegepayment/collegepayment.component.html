@@ -19,7 +19,7 @@
                                         id="Application_Date" onfocus="(this.type='date')" #date
                                         formControlName="Application_Date"> -->
                                     <input type="date" name="Application_Date" class="form-control" placeholder=" "
-                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)"
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" #date (focusout)="disabledate(date.value)"
                                         id="Application_Date" [(ngModel)]="applicationDate"
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
@@ -115,7 +115,7 @@
                         </div> -->
                         <div class="col-sm-3">
                             <div class="form-group input-group">
-                                <span class="border-lable-flt">
+                                <span class="border-lable-flt">                                  
                                     <ng-select [items]="purpose" bindValue="ID" bindLabel="NAME"
                                         formControlName="purpose" [(ngModel)]="selectPurpose"
                                         placeholder="Select Purpose" (ngModelChange)="getCollegeTableDetails($event)">

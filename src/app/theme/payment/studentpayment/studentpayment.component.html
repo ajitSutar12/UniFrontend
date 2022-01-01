@@ -11,9 +11,9 @@
                         <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <input type="text" name="Application_Date" class="form-control" placeholder=" " autofocus
-                                        max="{{datemax | date:'yyyy-MM-dd'}}" (focusout)="disabledate(date.value)" [(ngModel)]="applicationDate"
-                                        id="Application_Date" onfocus="(this.type='date')" #date
+                                    <input type="date" name="Application_Date" class="form-control" placeholder=" "
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" #date (focusout)="disabledate(date.value)"
+                                        id="Application_Date" [(ngModel)]="applicationDate"
                                         formControlName="Application_Date">
                                     <label for="Application_Date">Application Date</label>
                                 </span>
