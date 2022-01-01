@@ -201,7 +201,7 @@
                                 <span class="border-lable-flt">
                                     <input type="text" name="Total_Amount" class="form-control " placeholder=" "
                                         id="Total_Amount" pattern="^[A-Za-z\./ -]+$" [value]="TotalAmt"
-                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount">
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount" style="text-align: right;">
                                     <label for="Total_Amount">Total Amount<sub class="required">* </sub></label>
                                 </span>
                             </div>
@@ -239,20 +239,17 @@
                         </div>
                     </div>
                     <div class="row" style="margin-top:1%">
-                        <div class="col-sm-4">
+                        <div class="col-sm-8">
 
                         </div>
-                        <div class="col-sm-4">
-
-                        </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" >
                             <div class="form-group input-group">
                                 <!-- <select class="form-control" formControlName="bank_code">
                                     <option *ngFor="let bank of bankDetails" value="{{bank.CODE}}">{{bank.NAME}}</option>
                                 </select> -->
                                 <ng-select [(ngModel)]="selectedBank" formControlName="bank_code"
                                         placeholder="Select Bank Name"
-                                        >
+                                         >
                                         <ng-option *ngFor="let bank of bankDetails" [value]="bank.CODE">
                                             {{bank.NAME}}</ng-option>
                                     </ng-select>

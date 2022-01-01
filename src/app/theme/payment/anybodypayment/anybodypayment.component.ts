@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
 
+
 interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
@@ -31,6 +32,8 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   selectPurpose
   selectedCar: number;
   selectedCar1: number;
+  selectDepartment: any;
+  selectChallan: any;
   cars1 = [
     { id: 1, name: 'Department 1' },
     { id: 2, name: 'Department 2' },
@@ -73,8 +76,8 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
       Application_Date: ['', [Validators.required]],
       Received_From: ['', [Validators.required]],
       Exam: ['', [Validators.required, Validators.pattern]],
-      Select_Department: ['', [Validators.required]],
-      Challan_Structure: ['', [Validators.required]],
+      Select_Department: [''],
+      Challan_Structure: [''],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
       purpose: ['', [Validators.required]]
@@ -127,6 +130,42 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(){
     this.elementRef.nativeElement.focus();
+}
+
+saveAsDraft() {
+  debugger
+  const formVal = this.angForm.value;
+  const dataToSend = {
+    'Application_Date': formVal.Application_Date,
+    'Received_From': formVal.Received_From,
+    'Exam': formVal.Exam,
+    'purpose': formVal.purpose,
+    'Select_Department': formVal.Select_Department.ID,
+    'Challan_Structure': formVal.Challan_Structure.ID,
+    'Total_Amount': formVal.Total_Amount,
+    'Enter_Particular': formVal.Enter_Particular,
+    'studentDescriptionDetails': this.anyoneDescriptionDetails,
+    'Dept_NAME': '',
+    'Challan_NAME': '',
+    'Particular': formVal.Enter_Particular
+  }
+  this._anybody.postData(dataToSend).subscribe(
+    (data) => {
+      Swal.fire("Success!", "Data Added Successfully !", "success");
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+}
+
+pay() {
+  this._anybody.pay().subscribe(data => {
+    console.log(data);
+    window.open(data.msg)
+  }, err => {
+    console.log(err);
+  })
 }
 
 }

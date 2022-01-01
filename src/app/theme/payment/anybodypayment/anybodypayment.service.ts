@@ -17,13 +17,21 @@ export class AnybodyService {
 
     //Insertion Operation
     postData(data: any): Observable<any> {
-        return this.http.post(this.url + '/customer-id/insert', data).pipe(map((res) => res),
+        return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
             catchError((error) => {
                 Swal.fire('Please Input Proper Data!');
                 return throwError(error);
             })
         )
     }
+
+    //Call to payment method
+    pay(): Observable<any> {
+        let data = this.http.get('http://localhost:4000/getpath').pipe(catchError(this.handleError));
+        console.log(data)
+        return data;
+    }
+    
     // For append data
     getFormData(id: any): Observable<any> {
         return this.http.get(this.url + '/customer-id/' + id).pipe(catchError(this.handleError));

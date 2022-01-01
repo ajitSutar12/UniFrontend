@@ -18,13 +18,20 @@
                             </div>
                             <div *ngIf="forgetAnswer">
                                 <div class="form-group form-primary form-static-label">
+                                    <input type="text" name="email-address" [(ngModel)]="forgotAnswer"
+                                        class="form-control" required="">
+                                    <span class="form-bar"></span>
+                                    <label class="float-label">Email Address</label>
+                                </div>
+
+                                <div class="form-group form-primary form-static-label">
                                     <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME"
                                         placeholder="Select Password Recovery Question" [options]="simpleOption"
                                         [(ngModel)]="selectQue"> </ng-select>
                                 </div>
                                 
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="email-address" [(ngModel)]="forgotAnswer"
+                                    <input type="text" name="answer" [(ngModel)]="forgotAnswer"
                                         class="form-control" required="">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Your Answer</label>
@@ -52,12 +59,12 @@
                                 </div>
                             </div>
                             <div *ngIf="forgetPassword">
-                                <div class="form-group form-primary">
+                                <div class="form-group form-primary form-static-label">
                                     <input type="password" name="password" [(ngModel)]="password" class="form-control">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Password</label>
                                 </div>
-                                <div class="form-group form-primary">
+                                <div class="form-group form-primary form-static-label">
                                     <input type="password" name="confrm_password" [(ngModel)]="confirmpassword"
                                         class="form-control">
                                     <span class="form-bar"></span>
