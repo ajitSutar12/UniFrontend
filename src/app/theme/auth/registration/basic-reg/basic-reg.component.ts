@@ -116,7 +116,6 @@ export class BasicRegComponent implements OnInit {
 
   getCollegeCode(term: string = null): Observable<any> {
     return this.http
-      // .get<any>('http://www.omdbapi.com/?apikey=d3fb7156&s=' + term)
       .get<any>(this.url + '/registration/collegecode' + term)
       .pipe(map(resp => {
         if (resp.Error) {
@@ -348,14 +347,6 @@ export class BasicRegComponent implements OnInit {
     else if (password1 != password2) {
       Swal.fire("Warning!", "Password did not match: Please try again...!", "warning");
     }
-
-    // If same return True.
-    // else{
-    //   Swal.fire("Success!", "Password Match!", "success");
-
-    //     // alert("Password Match: Welcome to GeeksforGeeks!")
-
-    // }
   }
 
 }

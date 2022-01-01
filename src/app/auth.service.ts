@@ -29,14 +29,29 @@ export class AuthService {
   }
 
   resetPassword(data: any): Observable<any> {
-    let obj = {
-      'password' : data
-    }
-    return this.http.post<any>(this.base_url + '/resetpassword', obj);
+    // let obj = {
+    //   'password' : data
+    // }
+    // return this.http.post<any>(this.base_url + '/resetPassword', obj);
+
+
+    return this.http.post(this.base_url + '/registration/resetPassword', data).pipe(map((res) => res),
+      catchError((error) => {
+        console.log(error)
+        return throwError(error);
+      })
+    )
   }
 
-  forgetPassword(data: any): Observable<any>{
-    return this.http.post<any>(this.base_url + '/forgotPassword',data);
+  forgetPassword(data: any): Observable<any> {
+    // return this.http.post<any>(this.base_url + '/forgotPasswordregistration/forgotPassword/',data);
+
+    return this.http.post(this.base_url + '/registration/forgotPassword', data).pipe(map((res) => res),
+      catchError((error) => {
+        console.log(error)
+        return throwError(error);
+      })
+    )
   }
 
 }

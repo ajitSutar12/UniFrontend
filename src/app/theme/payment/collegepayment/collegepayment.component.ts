@@ -56,7 +56,7 @@ export class CollegepaymentComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
-  applicationDate: string;
+  // applicationDate: string;
   constructor(private fb: FormBuilder, private config: NgSelectConfig, private _college: CollegepaymentService, private http: HttpClient) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }

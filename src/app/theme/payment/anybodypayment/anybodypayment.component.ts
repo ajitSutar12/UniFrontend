@@ -63,7 +63,6 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   }
   //disabledate on keyup
   disabledate(data: any) {
-    console.log(data);
     if (data != "") {
       if (data > this.datemax) {
         Swal.fire("Invalid Input", "Please insert valid date ", "warning");
@@ -109,7 +108,6 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this._anybody.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        console.log("submit", data);
         // this.custData = data1.id;
         // this.addNewCustomer(data.id);
         // to reload after insertion of data
@@ -133,7 +131,6 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
 }
 
 saveAsDraft() {
-  debugger
   const formVal = this.angForm.value;
   const dataToSend = {
     'Application_Date': formVal.Application_Date,
@@ -161,7 +158,6 @@ saveAsDraft() {
 
 pay() {
   this._anybody.pay().subscribe(data => {
-    console.log(data);
     window.open(data.msg)
   }, err => {
     console.log(err);

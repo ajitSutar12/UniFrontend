@@ -5,12 +5,9 @@
             <div class="col-sm-12">
                 <!-- Authentication card start -->
 
-                <form class="md-float-material form-material" action="javascript:">
-                    <!-- <div class="text-center">
-            <img src="assets/images/logo.png" alt="logo.png">
-          </div> -->
+                <form class="md-float-material form-material">
                     <div class="auth-box card">
-                        <div class="card-block">
+                        <div class="card-body">
                             <div class="row m-b-20">
                                 <div class="col-md-12">
                                     <h3 class="text-left">Recover your password</h3>
@@ -18,64 +15,77 @@
                             </div>
                             <div *ngIf="forgetAnswer">
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="email-address" [(ngModel)]="forgotAnswer"
-                                        class="form-control" required="">
+                                    <input type="text" name="email-address" [(ngModel)]="email" class="form-control"
+                                        id="email" required="">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Email Address</label>
                                 </div>
 
                                 <div class="form-group form-primary form-static-label">
                                     <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME"
-                                        placeholder="Select Password Recovery Question" [options]="simpleOption"
-                                        [(ngModel)]="selectQue"> </ng-select>
+                                        [(ngModel)]="selectQue" (change)="value($event)"
+                                        placeholder="Select Password Recovery Question">
+                                    </ng-select>
                                 </div>
-                                
+
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="text" name="answer" [(ngModel)]="forgotAnswer"
-                                        class="form-control" required="">
+                                    <input type="text" name="answer" [(ngModel)]="forgotAnswer" class="form-control"
+                                        required="">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Your Answer</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <button type="button" (click)="SubmitAnswer()"
-                                            class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Submit
-                                            Answer</button>
+                                            class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">
+                                            <b style="color: white;">Submit
+                                                Answer</b></button>
                                     </div>
                                     <div class="col-md-6">
-                                        <button class="btn btn-dark btn-md btn-block waves-light text-center m-b-20 ripple"
-                                            [routerLink]="['/auth/login/simple']">Back</button>
+                                        <button
+                                            class="btn btn-dark btn-md btn-block waves-light text-center m-b-20 ripple"
+                                            [routerLink]="['/auth/login/simple']"><b
+                                                style="color: white;">Back</b></button>
                                     </div>
                                 </div>
-                                <!-- <p class="f-w-600 text-right">Back to <a [routerLink]="['/auth/login/simple']">Login.</a></p> -->
+
+                                <hr />
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <!-- <p class="text-inverse text-left m-b-0">Thank you.</p> -->
-                                        <!-- <p class="text-inverse text-left"><a [routerLink]="['/dashboard/default']"><b>Back to website</b></a></p> -->
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/images/comp.png" alt="small-logo.png">
+                                    <div class="col-md-4 text-right f-right">
+                                        <img src="assets/images/BwaysLogo.png" alt="small-logo.png" style="width: 100%;"
+                                            class="logosize">
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="forgetPassword">
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="password" name="password" [(ngModel)]="password" class="form-control">
+                                    <input [type]="passType" name="password" [(ngModel)]="password" class="form-control"
+                                        style="width: 90%;">
+                                    <span toggle="#password-field"
+                                        style="font-size: 20px;color: #262d38; cursor: pointer;"
+                                        class="fa fa-fw fa-eye field-icon toggle-password"
+                                        (click)="showHidePassword()"></span>
                                     <span class="form-bar"></span>
                                     <label class="float-label">Password</label>
                                 </div>
                                 <div class="form-group form-primary form-static-label">
-                                    <input type="password" name="confrm_password" [(ngModel)]="confirmpassword"
-                                        class="form-control">
+                                    <input [type]="passType1" name="confrm_password" [(ngModel)]="confirmpassword"
+                                        class="form-control" style="width: 90%;">
+                                    <span toggle="#password-field"
+                                        style="font-size: 20px;color: #262d38; cursor: pointer;"
+                                        class="fa fa-fw fa-eye field-icon toggle-password"
+                                        (click)="showHidePassword1()"></span>
                                     <span class="form-bar"></span>
                                     <label class="float-label">Confirm Password</label>
                                 </div>
                                 <div class="row">
-                                    <!-- <button class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Reset Password</button> -->
                                     <div class="col-md-12">
                                         <button type="button" (click)="resetPassword()"
-                                            class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple">Reset
-                                            Password</button>
+                                            class="btn btn-primary btn-md btn-block waves-light text-center m-b-20 ripple"><b
+                                                style="color: white;">Reset
+                                                Password</b></button>
                                     </div>
                                 </div>
                             </div>
@@ -89,3 +99,6 @@
     </div>
     <!-- end of container-fluid -->
 </section>
+<div class="footer">
+    <p class="text-center m-b-0"> &copy; Compserv Consultant Pvt. Ltd.</p>
+</div>

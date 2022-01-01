@@ -92,6 +92,7 @@ const MENUITEMS = [
             short_label: 'D',
             name: 'Student',
             type: 'sub',
+            id:0,
             children: [
               {
                 state: 'studentpayment',
@@ -103,10 +104,10 @@ const MENUITEMS = [
                   }
                 ]
               },
-              {
-                state: 'studentdraft',
-                name: 'Student Draft'
-              },
+              // {
+              //   state: 'studentdraft',
+              //   name: 'Student Draft'
+              // },
 
             ]
           },
@@ -115,15 +116,16 @@ const MENUITEMS = [
             short_label: 'D',
             name: 'College ',
             type: 'sub',
+            id: 1,
             children: [
               {
                 state: 'collegepayment',
                 name: 'College Payment'
               },
-              {
-                state: 'collegedraft',
-                name: 'College Draft'
-              },
+              // {
+              //   state: 'collegedraft',
+              //   name: 'College Draft'
+              // },
 
             ]
           },
@@ -132,15 +134,16 @@ const MENUITEMS = [
             short_label: 'D',
             name: 'Anybody ',
             type: 'sub',
+            id: 2,
             children: [
               {
                 state: 'anybodypayment',
                 name: 'Anybody Payment'
               },
-              {
-                state: 'anybodydraft',
-                name: 'Anybody Draft'
-              },
+              // {
+              //   state: 'anybodydraft',
+              //   name: 'Anybody Draft'
+              // },
 
             ]
           },
