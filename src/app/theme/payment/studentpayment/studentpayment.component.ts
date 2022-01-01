@@ -8,7 +8,7 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, fi
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
-
+import { every } from 'rxjs-compat/operator/every';
 
 @Component({
   selector: 'app-studentpayment',
@@ -35,23 +35,8 @@ export class StudentpaymentComponent implements OnInit {
   selectPurpose: any;
   hideColumn: boolean = true;
 
-  selectedCar: number;
-  selectedCar1: number;
   selectedBank: any;
-  cars1 = [
-    { id: 1, name: 'Department 1' },
-    { id: 2, name: 'Department 2' },
-    { id: 3, name: 'Department 3' },
-    { id: 4, name: 'Department 4' },
-  ];
 
-
-  cars = [
-    { id: 1, name: 'Department 1' },
-    { id: 2, name: 'Department 2' },
-    { id: 3, name: 'Department 3' },
-    { id: 4, name: 'Department 4' },
-  ];
   stringArray: any = [];
 
   singleSelect: any = [];
@@ -64,12 +49,6 @@ export class StudentpaymentComponent implements OnInit {
   // constructor(private fb: FormBuilder,) { }
   constructor(private fb: FormBuilder, private config: NgSelectConfig, private _student: StudentpaymentService, private http: HttpClient) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
-    // this.loadDepartment();
-    // this.loadChallan();
-    // this.loadPurpose();
-    // this.config.notFoundText = 'Custom not found';
-    // this.config.appendTo = 'body';
-    // this.config.bindValue = 'value';
   }
 
 
@@ -89,7 +68,6 @@ export class StudentpaymentComponent implements OnInit {
         debounceTime(800),
         tap(() => this.DepartmentLoading = true),
         switchMap(term => {
-
           return this.getDepartment(term).pipe(
             catchError(() => of([])), // empty list on error
             tap(() => this.DepartmentLoading = false)
@@ -131,7 +109,6 @@ export class StudentpaymentComponent implements OnInit {
         })
       )
     );
-
   }
 
   getChallan(term: string = null): Observable<any> {
@@ -182,16 +159,23 @@ export class StudentpaymentComponent implements OnInit {
 
   isTutionFee: boolean = false
   getChallanDropdown(event) {
+    console.log('event in getchalln', event)
     if (event == 104) {
       this.hideColumn = true;
       this.isTutionFee = true
     }
     else {
+      let TotalAmt = 0;
       this.hideColumn = false;
       this._student.StudentTableListViaDept(event).subscribe(data => {
         this.studentDescriptionDetails = data;
+        this.studentDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
       })
       this.isTutionFee = false
+      this.totalAmount = TotalAmt
+      console.log('in getchallan amount', this.totalAmount)
     }
   }
 
@@ -215,7 +199,6 @@ export class StudentpaymentComponent implements OnInit {
 
 
   ngOnInit(): void {
-    debugger
     this.createForm();
     this.applicationDate = moment().format('YYYY-MM-DD');
     this._student.getDepartmentData().subscribe(data => {
@@ -297,23 +280,30 @@ export class StudentpaymentComponent implements OnInit {
     })
   }
   studentDescriptionDetails: any;
-  TotalAmt: any = 0;
+  totalAmount: any = 0
   getStudentTableDetails(ele) {
+    debugger
+    let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
       this.studentDescriptionDetails = data;
+      console.log('getstudtable', data)
       this.studentDescriptionDetails.forEach(element => {
-        this.TotalAmt = this.TotalAmt + Number(element.AMOUNT)
+        TotalAmt = TotalAmt + Number(element.AMOUNT)
       });
+      this.totalAmount = TotalAmt;
     })
+
   }
 
   ///when change amount this time call below function
   changeAmt(ele, index) {
+    let TotalAmt = 0;
     let amount = ele.target.value;
     this.studentDescriptionDetails[index].AMOUNT = amount;
     this.studentDescriptionDetails.forEach(element => {
-      this.TotalAmt = this.TotalAmt + Number(element.AMOUNT)
+      TotalAmt = TotalAmt + Number(element.AMOUNT)
     });
+    this.totalAmount = TotalAmt
   }
 
   saveAsDraft() {
@@ -325,16 +315,20 @@ export class StudentpaymentComponent implements OnInit {
       'purpose': formVal.purpose,
       'Select_Department': formVal.Select_Department.ID,
       'Challan_Structure': formVal.Challan_Structure.ID,
-      'Total_Amount': formVal.Total_Amount,
+      'Total_Amount': this.totalAmount,
       'Enter_Particular': formVal.Enter_Particular,
       'studentDescriptionDetails': this.studentDescriptionDetails,
       'Dept_NAME': this.selectDepartment.NAME,
       'Challan_NAME': this.selectChallan.NAME,
-      'Particular': formVal.Enter_Particular
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code
     }
+    console.log('dataToSend', dataToSend)
     this._student.postData(dataToSend).subscribe(
       (data) => {
+
         Swal.fire("Success!", "Data Added Successfully !", "success");
+        window.open('http://localhost/Axis_bank?')
       },
       (error) => {
         console.log(error);

@@ -12,14 +12,15 @@ import { MenuItems } from './shared/menu-items/menu-items';
 import { BreadcrumbsComponent } from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentregisterationComponent } from './theme/studentregisteration/studentregisteration.component';
-import{UniversityformsRoutingModule} from './theme/universityforms/universityforms-routing.module';
-import{UniversityformsModule} from './theme/universityforms/universityforms.module';
-import {DashboardModule} from './theme/paymentdashboard/dashboard.module';
-import{PaymentModule} from './theme/payment/payment.module';
-import{DataTablesModule} from 'angular-datatables';
+import { UniversityformsRoutingModule } from './theme/universityforms/universityforms-routing.module';
+import { UniversityformsModule } from './theme/universityforms/universityforms.module';
+import { DashboardModule } from './theme/paymentdashboard/dashboard.module';
+import { PaymentModule } from './theme/payment/payment.module';
+import { DataTablesModule } from 'angular-datatables';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { NgSelectModule } from '@ng-select/ng-select';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserAuthInterceptor } from './user-auth.interceptor'
 
 @NgModule({
   declarations: [
@@ -28,8 +29,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AuthComponent,
     BreadcrumbsComponent,
     StudentregisterationComponent,
-    
-   
+
+
   ],
   imports: [
     BrowserModule,
@@ -38,7 +39,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-   
+
     UniversityformsRoutingModule,
     UniversityformsModule,
     PaymentModule,
@@ -46,11 +47,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgPasswordValidatorModule,
     DashboardModule,
     NgSelectModule
-  
-   
-    
+
+
+
   ],
-  providers: [MenuItems],
+  providers: [MenuItems,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UserAuthInterceptor,
+      multi: true
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

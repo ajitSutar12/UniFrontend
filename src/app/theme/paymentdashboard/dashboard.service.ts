@@ -9,8 +9,7 @@ import { environment } from '../../../environments/environment'
 export class DashboardService {
     // Variable for handleError
     [x: string]: any;
-    // API 
-    // // customer-id";
+    // API
     url = environment.base_url;
 
     constructor(private http: HttpClient) { }

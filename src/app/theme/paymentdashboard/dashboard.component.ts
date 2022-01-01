@@ -10,7 +10,7 @@ export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
   application_id
 
-  constructor(private router: Router,private _dashboard :DashboardService) { }
+  constructor(private router: Router, private _dashboard: DashboardService) { }
 
   ngOnInit(): void {
     this.dtOptions = {
@@ -19,31 +19,38 @@ export class DashboardComponent implements OnInit {
   }
 
   gotoPrint(value) {
+
     this.router.navigateByUrl('/Payment/Receipt', { state: value });
   }
-
-  getSuccessfulRecord(usercode){
+  successfulRecord
+  getSuccessfulRecord(usercode) {
     this._dashboard.getsuccessful(usercode).subscribe(
       (data) => {
-       console.log(data)
+        console.log(data)
+        this.successfulRecord = data
       },
       (error) => {
         console.log(error);
       })
   }
-  getUnSuccessfulRecord(usercode){
+
+  unsuccessfulRecord
+  getUnSuccessfulRecord(usercode) {
     this._dashboard.getunsuccessful(usercode).subscribe(
       (data) => {
-       console.log(data)
+        console.log(data)
+        this.unsuccessfulRecord = data
       },
       (error) => {
         console.log(error);
       })
   }
-  getSuccessfulnotprintRecord(usercode){
+  successfulNotprint
+  getSuccessfulnotprintRecord(usercode) {
     this._dashboard.getsuccessfulnotprint(usercode).subscribe(
       (data) => {
-       console.log(data)
+        console.log(data)
+        this.successfulNotprint = data
       },
       (error) => {
         console.log(error);

@@ -18,6 +18,8 @@ import { AnybodydraftComponent } from './anybodydraft/anybodydraft.component';
 import { ProceedToPayComponent } from './proceed-to-pay/proceed-to-pay.component'
 import { ProceedToPayModule } from './proceed-to-pay/proceed-to-pay.module'
 import { ReceiptModule } from './receipt/receipt.module'
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { UserAuthInterceptor } from 'src/app/user-auth.interceptor';
 @NgModule({
   declarations: [StudentComponent, CollegeComponent, AnybodyComponent, StudentdraftComponent, CollegedraftComponent, AnybodydraftComponent, ProceedToPayComponent],
   imports: [
@@ -31,6 +33,11 @@ import { ReceiptModule } from './receipt/receipt.module'
     AnybodypaymentModule,
     ProceedToPayModule,
     ReceiptModule
-  ]
+  ],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: UserAuthInterceptor,
+    multi: true
+  }]
 })
 export class PaymentModule { }

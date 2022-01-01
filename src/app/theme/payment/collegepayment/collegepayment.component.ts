@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormsModule } from "@angular/forms";
-import { NgSelectConfig } from '@ng-select/ng-select';
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import Swal from 'sweetalert2';
 import { CollegepaymentService } from './collegepayment.service'
-
-
-import { concat, Observable, of, Subject, throwError } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
 interface AnybodyInterface {
@@ -26,52 +20,36 @@ interface AnybodyInterface {
   styleUrls: ['./collegepayment.component.scss']
 })
 export class CollegepaymentComponent implements OnInit {
-
-
+  //envirnoment variable
+  url = environment.base_url;
+  // dropdown variables
   Department = []
   purpose = []
   selectDepartment
   selectPurpose
   selectChallan
-  applicationDate: any;
-  url = environment.base_url;
-
-
-  selectedCar: number;
-  selectedCar1: number;
-  cars1 = [
-    { id: 1, name: 'Department 1' },
-    { id: 2, name: 'Department 2' },
-    { id: 3, name: 'Department 3' },
-    { id: 4, name: 'Department 4' },
-  ];
-
-  cars = [
-    { id: 1, name: 'Department 1' },
-    { id: 2, name: 'Department 2' },
-    { id: 3, name: 'Department 3' },
-    { id: 4, name: 'Department 4' },
-  ];
-  selectedValue: string = "selected"
+  //Budget table variable
+  studentDescriptionDetails: any;
   // Created Form Group
   angForm: FormGroup;
+  //application date variables
   datemax: string;
-  // applicationDate: string;
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _college: CollegepaymentService, private http: HttpClient) {
+  applicationDate: string;
+
+  constructor(private fb: FormBuilder, private _college: CollegepaymentService) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
   ngOnInit(): void {
-    this.applicationDate = moment().format('YYYY-MM-DD')
     this.createForm();
     this.applicationDate = moment().format('YYYY-MM-DD');
     this._college.getPurposeData().subscribe(data => {
       this.purpose = data
     })
   }
+
   //disabledate on keyup
   disabledate(data: any) {
-
     console.log(data);
     if (data != "") {
       if (data > this.datemax) {
@@ -81,6 +59,7 @@ export class CollegepaymentComponent implements OnInit {
       }
     }
   }
+
   createForm() {
     this.angForm = this.fb.group({
       Application_Date: ['', [Validators.required]],
@@ -94,108 +73,66 @@ export class CollegepaymentComponent implements OnInit {
     });
   }
 
-
-  studentDescriptionDetails: any;
+  //load budget table based on purpose code
   getCollegeTableDetails(event) {
-    debugger
     this._college.collegeTableListViaDept(event).subscribe(data => {
       this.studentDescriptionDetails = data;
     })
   }
 
+  //method for save and draft 
+  saveAsDraft() {
+    const formVal = this.angForm.value;
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal.Challan_Structure.ID,
+      'Total_Amount': formVal.Total_Amount,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': '',
+      'Challan_NAME': '',
+      'Particular': formVal.Enter_Particular
+    }
+    this._college.postData(dataToSend).subscribe(
+      (data) => {
+        Swal.fire("Success!", "Data Added Successfully !", "success");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+  //method for save and proceed
+  submit() {
+    const formVal = this.angForm.value;
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal.Challan_Structure.ID,
+      'Total_Amount': formVal.Total_Amount,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': '',
+      'Challan_NAME': '',
+      'Particular': formVal.Enter_Particular
+    }
+    this._college.postData(dataToSend).subscribe(
+      (data) => {
+        Swal.fire("Success!", "Data Added Successfully !", "success");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 
-
-
-  // submit() {
-  //   const formVal = this.angForm.value;
-  //   const dataToSend = {
-  //     'Application_Date': formVal.Application_Date,
-  //     'Received_From': formVal.Received_From,
-  //     'Exam': formVal.Exam,
-  //     'Select_Department': formVal.Select_Department,
-  //     'Challan_Structure': formVal.Challan_Structure,
-  //     'Total_Amount': formVal.Total_Amount,
-  //     'Enter_Particular': formVal.Enter_Particular,
-
-  //   }
-  //   this._college.postData(dataToSend).subscribe(
-  //     (data) => {
-  //       Swal.fire("Success!", "Data Added Successfully !", "success");
-  //       console.log("submit", data);
-  //       // this.custData = data1.id;
-  //       // this.addNewCustomer(data.id);
-  //       // to reload after insertion of data
-  //       // this.rerender();
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-
-  //   //To clear form
-  //   this.resetForm();
-  // }
   // Reset Function
   resetForm() {
     this.createForm();
   }
-
-  submit() {
-    debugger
-    const formVal = this.angForm.value;
-    const dataToSend = {
-      'Application_Date': formVal.Application_Date,
-      'Received_From': formVal.Received_From,
-      'Exam': formVal.Examination,
-      'purpose': formVal.purpose,
-      // 'Select_Department': '',
-      'Select_Department': formVal.Select_Department.ID,
-      'Challan_Structure': formVal.Challan_Structure.ID,
-      // 'Challan_Structure': '',
-      'Total_Amount': formVal.Total_Amount,
-      // 'Enter_Particular': formVal.Enter_Particular,
-      'studentDescriptionDetails': this.studentDescriptionDetails,
-      'Dept_NAME': '',
-      'Challan_NAME': '',
-      'Particular': formVal.Enter_Particular
-    }
-    this._college.postData(dataToSend).subscribe(
-      (data) => {
-        Swal.fire("Success!", "Data Added Successfully !", "success");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  saveAsDraft() {
-    debugger
-    const formVal = this.angForm.value;
-    const dataToSend = {
-      'Application_Date': formVal.Application_Date,
-      'Received_From': formVal.Received_From,
-      'Exam': formVal.Examination,
-      'purpose': formVal.purpose,
-      'Select_Department': '',
-      // 'Select_Department': formVal.Select_Department.ID,
-      // 'Challan_Structure': formVal.Challan_Structure.ID,
-      'Challan_Structure': '',
-      'Total_Amount': formVal.Total_Amount,
-      // 'Enter_Particular': formVal.Enter_Particular,
-      'studentDescriptionDetails': this.studentDescriptionDetails,
-      'Dept_NAME': '',
-      'Challan_NAME': '',
-      'Particular': formVal.Enter_Particular
-    }
-    this._college.postData(dataToSend).subscribe(
-      (data) => {
-        Swal.fire("Success!", "Data Added Successfully !", "success");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
 }

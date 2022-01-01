@@ -29,10 +29,8 @@ export class BasicLoginComponent implements OnInit {
     }
 
     this._authService.login(obj).subscribe(data=>{
-      // debugger
-      console.log(data)
       localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('user', data.user);
       if(data.user){
         this.router.navigate(['/dashboard']);
       }
