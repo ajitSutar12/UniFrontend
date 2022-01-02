@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 import { MenuItems } from '../../shared/menu-items/menu-items';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -171,7 +172,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public menuItems: MenuItems) {
+  constructor(public menuItems: MenuItems, private router: Router) {
     this.animateSidebar = '';
     this.navType = 'st2';
     this.themeLayout = 'vertical';
@@ -248,21 +249,16 @@ export class AdminComponent implements OnInit, OnDestroy {
     /*this.setLayoutType('img');*/
 
     let data: any = localStorage.getItem('user');
-    console.log('data', localStorage.getItem('user'))
     let result = JSON.parse(data);
-    console.log(result)
     this.userData = result;
-    console.log("this.userData", this.userData)
 
     let menuData: string = '';
-    console.log("menuData", menuData)
     if (menuData == '') {
       menuData = this.userData.USER_TYPE
     } else {
       menuData = menuData + ',' + this.userData.USER_TYPE
     }
     let menuItemList = this.menuItems.getAll();
-    console.log("menuItemList", menuItemList)
     this.meunItemList = menuItemList[0].main;
     var meunItemList = menuItemList[0].main;
     this.Name = this.userData.NAME;
@@ -278,30 +274,31 @@ export class AdminComponent implements OnInit, OnDestroy {
         });
       }
     });
-    console.log(this.meunItemList);
+    this.menuItem = menuItemList;
 
-    // this.menuItem = menuItemList;
 
-    // var first = this.menuItem[0].main.findIndex(
-    //   function (el) {
-    //     return (el !== null);
-    //   }
-    // );
-    // var arrSor = [];
+    var first = this.menuItem[0].main.findIndex(
+      function (el) {
+        return (el !== null);
+      }
+    );
 
-    // this.menuItem[0].main.forEach(function (el) {
-    //   if (el === null) {
-    //     arrSor.push(el);
-    //   } else {
-    //     arrSor.unshift(el);
-    //   }
-    // });
-    // this.menuListData = arrSor.reverse();
-    // console.log("this.menuListData ", this.menuListData )
-
-    // if (this.userData == 404) {
-    //   Swal.fire("Warning!", "Your Session Has Been Expired", "error");
-    // }
+    var arrSor = [];
+console.log(this.menuItem[0].main[1].children,"this.menuItem[0].main[1].children")
+    this.menuItem[0].main[1].children.forEach(function (el) {
+      console.log("el",el)
+     
+        if (el === null) {
+          arrSor.push(el);
+          console.log(arrSor,"ok")
+        } else {
+          arrSor.unshift(el);
+          console.log(arrSor," notok")
+        }
+      
+    });
+    this.menuListData = arrSor.reverse();
+    console.log("this.meunItemList",this.meunItemList)
 
 
   }
@@ -641,5 +638,8 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     }
   }
-
+  logoutSession() {
+    localStorage.clear();
+    this.router.navigateByUrl('/auth/login/simple')
+  }
 }

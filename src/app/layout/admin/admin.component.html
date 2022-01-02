@@ -137,9 +137,12 @@
                   </a>
                 </li> -->
                                 <li class="ripple">
-                                    <a [routerLink]="['/auth/login/simple/']">
+                                    <a (click)="logoutSession()">
                                         <i class="icon-layout-sidebar-left"></i> Logout
                                     </a>
+                                    <!-- <a [routerLink]="['/auth/login/simple/']">
+                                        <i class="icon-layout-sidebar-left"></i> Logout
+                                    </a> -->
                                 </li>
                             </ul>
                         </li>

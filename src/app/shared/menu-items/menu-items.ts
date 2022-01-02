@@ -177,13 +177,13 @@ const MENUITEMS = [
 
         ]
       },
-      {
-        state: 'exit',
-        short_label: 'D',
-        name: 'LogOut',
-        type: 'link',
-        icon: 'icon-home'
-      },
+      // {
+      //   state: 'exit',
+      //   short_label: 'D',
+      //   name: 'LogOut',
+      //   type: 'link',
+      //   icon: 'icon-home'
+      // },
       // {
       //   state: 'navigation',
       //   short_label: 'N',

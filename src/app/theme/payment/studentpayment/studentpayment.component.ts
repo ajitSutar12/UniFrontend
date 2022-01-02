@@ -184,7 +184,7 @@ export class StudentpaymentComponent implements OnInit {
   getDepartmentCode(term: string = null) {
     this._student.getChallandata(term).subscribe(data => {
       this.challanlist = data
-      console.log(this.challanlist )
+      console.log(this.challanlist)
     })
   }
 
@@ -280,36 +280,42 @@ export class StudentpaymentComponent implements OnInit {
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
-      'Exam': formVal.Exam,
-      'Select_Department': formVal.Select_Department,
-      'Challan_Structure': formVal.Challan_Structure,
-      'Total_Amount': formVal.Total_Amount,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
+      'Total_Amount': this.totalAmount,
       'Enter_Particular': formVal.Enter_Particular,
-      'bank_code': formVal.bank_code
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code,
+      'fees_code': this?.chalanID == "" ? "" : this?.chalanID
     }
 
     this._student.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
         var userData = JSON.parse(localStorage.getItem('user'));
-        var date     = moment().format('DD-MM-YYYY');
-        let ppi = userData.NAME+'|'+date+'|'+userData.CELL_NO+'|'+userData.EMAIL_ID+'|'+dataToSend.Total_Amount;
-        let CRN = data.TRAN_NO;
-        window.open('http://localhost/PHP_Algo/Formdata.php?ppi='+ppi+'&CRN='+CRN);
+        var date = moment().format('DD-MM-YYYY');
+        let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        let CRN = data;
+        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN+'$Amt='+this.totalAmount);
       },
       (error) => {
         console.log(error);
       }
     );
-    
+
   }
   studentDescriptionDetails: any;
   totalAmount: any = 0
-  chalanID : any
+  chalanID: any
   getStudentTableDetails(ele) {
     debugger
     this.chalanID = ele
-    console.log(ele.id,"chalan")
+    console.log(ele.id, "chalan")
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
       this.studentDescriptionDetails = data;
@@ -350,13 +356,14 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
       'Particular': formVal.Enter_Particular,
       'bank_code': formVal.bank_code,
-      'fees_code':this?.chalanID == "" ? "" : this?.chalanID
+      'fees_code': this?.chalanID == "" ? "" : this?.chalanID
     }
     console.log('dataToSend', dataToSend)
 
     this._student.postData(dataToSend).subscribe(
       (data => {
 
+        console.log('save data', data)
         Swal.fire("Success!", "Data Added Successfully !", "success");
         window.open('http://localhost/Axis_bank?')
       }),

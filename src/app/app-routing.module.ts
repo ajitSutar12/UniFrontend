@@ -32,10 +32,10 @@ const routes: Routes = [
       },
      
      
-      {
-        path: 'exit',
-        loadChildren: () => import('./theme/exit/exit.module').then(m => m.ExitModule)
-      },
+      // {
+      //   path: 'exit',
+      //   loadChildren: () => import('./theme/exit/exit.module').then(m => m.ExitModule)
+      // },
       {
         path: 'navigation',
         loadChildren: () => import('./theme/navigation/navigation.module').then(m => m.NavigationModule)
