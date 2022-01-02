@@ -250,7 +250,7 @@
                                 <ng-select [(ngModel)]="selectedBank" formControlName="bank_code"
                                         placeholder="Select Bank Name"
                                          >
-                                        <ng-option *ngFor="let bank of bankDetails" [value]="bank.CODE">
+                                        <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
                                             {{bank.NAME}}</ng-option>
                                     </ng-select>
                             </div>

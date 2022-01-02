@@ -307,19 +307,20 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   saveAsDraft() {
+    debugger
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
-      'Exam': formVal.Exam,
+      'Exam': formVal.Examination,
       'purpose': formVal.purpose,
       'Select_Department': formVal.Select_Department.ID,
-      'Challan_Structure': formVal.Challan_Structure.ID,
+      'Challan_Structure': '',
       'Total_Amount': this.totalAmount,
       'Enter_Particular': formVal.Enter_Particular,
       'studentDescriptionDetails': this.studentDescriptionDetails,
       'Dept_NAME': this.selectDepartment.NAME,
-      'Challan_NAME': this.selectChallan.NAME,
+      'Challan_NAME': '',
       'Particular': formVal.Enter_Particular,
       'bank_code': formVal.bank_code
     }

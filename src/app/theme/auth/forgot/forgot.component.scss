@@ -1,0 +1,8 @@
+.ng-dropdown-panel .scroll-host {
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    display: block;
+    margin-top: -20px !important;
+    -webkit-overflow-scrolling: touch;
+}

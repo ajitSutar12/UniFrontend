@@ -135,25 +135,30 @@ saveAsDraft() {
   const dataToSend = {
     'Application_Date': formVal.Application_Date,
     'Received_From': formVal.Received_From,
-    'Exam': formVal.Exam,
+    'Exam': formVal.Examination,
     'purpose': formVal.purpose,
     'Select_Department': formVal.Select_Department.ID,
-    'Challan_Structure': formVal.Challan_Structure.ID,
+    'Challan_Structure': '',
     'Total_Amount': formVal.Total_Amount,
     'Enter_Particular': formVal.Enter_Particular,
     'studentDescriptionDetails': this.anyoneDescriptionDetails,
     'Dept_NAME': '',
     'Challan_NAME': '',
-    'Particular': formVal.Enter_Particular
+    'Particular': formVal.Enter_Particular,
+    'bank_code': formVal.bank_code
   }
-  this._anybody.postData(dataToSend).subscribe(
-    (data) => {
-      Swal.fire("Success!", "Data Added Successfully !", "success");
-    },
-    (error) => {
-      console.log(error);
-    }
-  );
+
+    console.log('dataToSend', dataToSend)
+    this._anybody.postData(dataToSend).subscribe(
+      (data) => {
+
+        Swal.fire("Success!", "Data Added Successfully !", "success");
+        window.open('http://localhost/Axis_bank?')
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
 }
 
 pay() {
