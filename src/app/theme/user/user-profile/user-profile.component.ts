@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {animate, style, transition, trigger} from '@angular/animations';
-import {HttpClient} from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -12,12 +12,12 @@ import {HttpClient} from '@angular/common/http';
   animations: [
     trigger('fadeInOutTranslate', [
       transition(':enter', [
-        style({opacity: 0}),
-        animate('400ms ease-in-out', style({opacity: 1}))
+        style({ opacity: 0 }),
+        animate('400ms ease-in-out', style({ opacity: 1 }))
       ]),
       transition(':leave', [
-        style({transform: 'translate(0)'}),
-        animate('400ms ease-in-out', style({opacity: 0}))
+        style({ transform: 'translate(0)' }),
+        animate('400ms ease-in-out', style({ opacity: 0 }))
       ])
     ])
   ]
@@ -41,8 +41,27 @@ export class UserProfileComponent implements OnInit {
   public sortBy = '';
   public sortOrder = 'desc';
   profitChartOption: any;
-
+  Category: any;
+  Email: any;
+  Number: any
+  Name: any
+  public userData: any;
   constructor(public httpClient: HttpClient) {
+    let data: any = localStorage.getItem('user');
+    console.log(data,"data")
+    let result = JSON.parse(data);
+    this.userData = result;
+    this.Name = this.userData.NAME
+    this.Email = this.userData.EMAIL_ID
+    this.Number = this.userData.CELL_NO
+    if(this.userData.USER_TYPE == 0){
+      this.Category = "Student"
+    }else if(this.userData.USER_TYPE == 1){
+      this.Category = "Teacher"
+    }else if(this.userData.USER_TYPE == 2){
+      this.Category = "AnyBody"
+    }
+    
   }
 
   ngOnInit() {
@@ -78,7 +97,7 @@ export class UserProfileComponent implements OnInit {
       this.profitChartOption = {
         tooltip: {
           trigger: 'item',
-          formatter: function(params) {
+          formatter: function (params) {
             const date = new Date(params.value[0]);
             let data = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + ' ';
             data += date.getHours() + ':' + date.getMinutes();
@@ -107,17 +126,17 @@ export class UserProfileComponent implements OnInit {
           name: 'Profit',
           type: 'line',
           showAllSymbol: true,
-          symbolSize: function(value) {
+          symbolSize: function (value) {
             return Math.round(value[2] / 10) + 2;
           },
-          data: (function() {
+          data: (function () {
             const d: any = [];
             let len = 0;
             const now = new Date();
             while (len++ < 200) {
               const random1: any = (Math.random() * 30).toFixed(2);
               const random2: any = (Math.random() * 100).toFixed(2);
-              d.push([ new Date(2014, 9, 1, 0, len * 10000), random1 - 0, random2 - 0 ]);
+              d.push([new Date(2014, 9, 1, 0, len * 10000), random1 - 0, random2 - 0]);
             }
             return d;
           })()

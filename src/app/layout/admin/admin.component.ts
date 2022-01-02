@@ -147,6 +147,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   public userData: any;
   public meunItemList: any[];
+  public Name: any;
 
   scroll = (): void => {
     const scrollPosition = window.pageYOffset;
@@ -252,7 +253,6 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     let menuData: string = '';
     console.log("menuData", menuData)
-    debugger
     if (menuData == '') {
       menuData = this.userData.USER_TYPE
     } else {
@@ -262,12 +262,12 @@ export class AdminComponent implements OnInit, OnDestroy {
     console.log("menuItemList", menuItemList)
     this.meunItemList = menuItemList[0].main;
     var meunItemList = menuItemList[0].main;
-
+    this.Name   =  this.userData.NAME;
     this.meunItemList.forEach(function (element, index) {
       if(element.state == 'Payment'){
-        debugger
+        
         element.children.forEach(function(ele, i) {
-          debugger
+          
           if(ele.id == menuData){
 
           }else{
