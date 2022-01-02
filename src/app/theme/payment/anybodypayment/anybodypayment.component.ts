@@ -84,9 +84,15 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   }
 
   anyoneDescriptionDetails: any
+  
   getAnyoneTableDetails(event) {
     this._anybody.anyoneTableListViaDept(event).subscribe(data => {
       this.anyoneDescriptionDetails = data;
+      let TotalAmt = 0;
+      this.studentDescriptionDetails.forEach(element => {
+        TotalAmt = TotalAmt + Number(element.AMOUNT)
+      });
+      this.totalAmount = TotalAmt
     })
   }
 
@@ -129,6 +135,17 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(){
     this.elementRef.nativeElement.focus();
 }
+studentDescriptionDetails: any;
+totalAmount: any = 0
+changeAmt(ele, index) {
+  let TotalAmt = 0;
+  let amount = ele.target.value;
+  this.studentDescriptionDetails[index].AMOUNT = amount;
+  this.studentDescriptionDetails.forEach(element => {
+    TotalAmt = TotalAmt + Number(element.AMOUNT)
+  });
+  this.totalAmount = TotalAmt
+}
 
 saveAsDraft() {
   const formVal = this.angForm.value;
@@ -139,7 +156,7 @@ saveAsDraft() {
     'purpose': formVal.purpose,
     'Select_Department': formVal.Select_Department.ID,
     'Challan_Structure': '',
-    'Total_Amount': formVal.Total_Amount,
+    'Total_Amount': this.totalAmount,
     'Enter_Particular': formVal.Enter_Particular,
     'studentDescriptionDetails': this.anyoneDescriptionDetails,
     'Dept_NAME': '',

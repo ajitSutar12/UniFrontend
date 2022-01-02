@@ -172,9 +172,10 @@ export class StudentpaymentComponent implements OnInit {
         this.studentDescriptionDetails.forEach(element => {
           TotalAmt = TotalAmt + Number(element.AMOUNT)
         });
+        this.totalAmount = TotalAmt
       })
       this.isTutionFee = false
-      this.totalAmount = TotalAmt
+
       console.log('in getchallan amount', this.totalAmount)
     }
   }
@@ -187,12 +188,13 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    this._student.getDepartmentData().subscribe(data => {
-      this.Department = data
-    })
+
 
     this._student.getPurposeData().subscribe(data => {
       this.Purpose = data
+      this._student.getDepartmentData().subscribe(data => {
+        this.Department = data
+      })
     })
   }
 
@@ -315,7 +317,7 @@ export class StudentpaymentComponent implements OnInit {
       'Exam': formVal.Examination,
       'purpose': formVal.purpose,
       'Select_Department': formVal.Select_Department.ID,
-      'Challan_Structure': '',
+      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
       'Total_Amount': this.totalAmount,
       'Enter_Particular': formVal.Enter_Particular,
       'studentDescriptionDetails': this.studentDescriptionDetails,

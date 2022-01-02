@@ -138,7 +138,7 @@ const MENUITEMS = [
             children: [
               {
                 state: 'anybodypayment',
-                name: 'Anybody Payment'
+                name: 'Anyone Payment'
               },
               // {
               //   state: 'anybodydraft',

@@ -57,9 +57,9 @@ export class UserProfileComponent implements OnInit {
     if(this.userData.USER_TYPE == 0){
       this.Category = "Student"
     }else if(this.userData.USER_TYPE == 1){
-      this.Category = "Teacher"
+      this.Category = "College"
     }else if(this.userData.USER_TYPE == 2){
-      this.Category = "AnyBody"
+      this.Category = "Anyone"
     }
     
   }

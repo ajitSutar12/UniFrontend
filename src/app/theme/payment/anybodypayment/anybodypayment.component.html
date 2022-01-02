@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
@@ -94,7 +94,7 @@
                                         <tr>
                                             <th scope="col" style="width: 15%;">BUDGET CODE</th>
                                             <th scope="col" style="width: 20%;">BUDGET HEAD</th>
-                                          
+
                                             <th scope="col" style="width: 20;">AMOUNT</th>
                                         </tr>
                                     </thead>
@@ -102,10 +102,10 @@
                                         <tr *ngFor="let data of anyoneDescriptionDetails">
                                             <th scope="row">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
-                                          
+
                                             <td> <input type="text" name="Examination" class="form-control"
                                                     placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$"
-                                                    style="text-align: right;"
+                                                    style="text-align: right;" (keyup)="changeAmt($event,i)"
                                                     title="Input allowed only  A-Z a-z (Space)" value="{{data.AMOUNT}}">
                                             </td>
                                         </tr>
@@ -175,7 +175,8 @@
                                 <!-- <button class="btn btn-primary  ripple light " style="margin-right:3px"
                                     (click)="saveAsDraft()">Save As
                                     Draft</button> -->
-                                <button class="btn btn-primary ripple light" style="margin:3px" (click)="saveAsDraft()">Save
+                                <button class="btn btn-primary ripple light" style="margin:3px"
+                                    (click)="saveAsDraft()">Save
                                     & Proceed To
                                     Pay</button>
                                 <button class="btn btn-dark ripple light" [routerLink]="">Back</button>
