@@ -184,6 +184,7 @@ export class StudentpaymentComponent implements OnInit {
   getDepartmentCode(term: string = null) {
     this._student.getChallandata(term).subscribe(data => {
       this.challanlist = data
+      console.log(this.challanlist )
     })
   }
 
@@ -274,17 +275,41 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pay() {
-    this._student.pay().subscribe(data => {
-      console.log(data);
-      window.open(data.msg)
-    }, err => {
-      console.log(err);
-    })
+    const formVal = this.angForm.value;
+
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Exam,
+      'Select_Department': formVal.Select_Department,
+      'Challan_Structure': formVal.Challan_Structure,
+      'Total_Amount': formVal.Total_Amount,
+      'Enter_Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code
+    }
+
+    this._student.postData(dataToSend).subscribe(
+      (data) => {
+        Swal.fire("Success!", "Data Added Successfully !", "success");
+        var userData = JSON.parse(localStorage.getItem('user'));
+        var date     = moment().format('DD-MM-YYYY');
+        let ppi = userData.NAME+'|'+date+'|'+userData.CELL_NO+'|'+userData.EMAIL_ID+'|'+dataToSend.Total_Amount;
+        let CRN = data.TRAN_NO;
+        window.open('http://localhost/PHP_Algo/Formdata.php?ppi='+ppi+'&CRN='+CRN);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    
   }
   studentDescriptionDetails: any;
   totalAmount: any = 0
+  chalanID : any
   getStudentTableDetails(ele) {
     debugger
+    this.chalanID = ele
+    console.log(ele.id,"chalan")
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
       this.studentDescriptionDetails = data;
@@ -321,10 +346,11 @@ export class StudentpaymentComponent implements OnInit {
       'Total_Amount': this.totalAmount,
       'Enter_Particular': formVal.Enter_Particular,
       'studentDescriptionDetails': this.studentDescriptionDetails,
-      'Dept_NAME': this.selectDepartment.NAME,
-      'Challan_NAME': '',
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
       'Particular': formVal.Enter_Particular,
-      'bank_code': formVal.bank_code
+      'bank_code': formVal.bank_code,
+      'fees_code':this?.chalanID == "" ? "" : this?.chalanID
     }
     console.log('dataToSend', dataToSend)
 

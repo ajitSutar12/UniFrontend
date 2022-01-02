@@ -87,14 +87,14 @@ const routes: Routes = [
       {
         path: 'anybody',
         data: {
-          title: 'Anybody',
+          title: 'Anyone',
           status: false
         },
         children: [
           {
             path: 'anybodypayment',
             data: {
-              title: 'Anybody Payment',
+              title: 'Anyone Payment',
 
             },
             component: AnybodypaymentComponent
@@ -102,7 +102,7 @@ const routes: Routes = [
           {
             path: 'anybodydraft',
             data: {
-              title: 'Anybody Draft',
+              title: 'Anyone Draft',
 
             },
             component: AnybodydraftComponent

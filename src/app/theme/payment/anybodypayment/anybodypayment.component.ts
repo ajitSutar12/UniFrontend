@@ -8,6 +8,7 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, fi
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
+import { StudentpaymentService } from '../studentpayment/studentpayment.service';
 
 
 interface AnybodyInterface {
@@ -46,11 +47,14 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     { id: 3, name: 'Department 3' },
     { id: 4, name: 'Department 4' },
   ];
+
+  selectedBank: any;
+  bankDetails: any;
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
   applicationDate: string;
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private http: HttpClient, private elementRef: ElementRef) {
+  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private _student: StudentpaymentService, private http: HttpClient, private elementRef: ElementRef) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
@@ -60,7 +64,14 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this._anybody.getPurposeData().subscribe(data => {
       this.purpose = data
     })
+    //Bank details master
+    this._student.getBankCodeDetails().subscribe(data => {
+      this.bankDetails = data;
+    })
+
   }
+
+
   //disabledate on keyup
   disabledate(data: any) {
     if (data != "") {
@@ -79,17 +90,18 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
       Challan_Structure: [''],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
-      purpose: ['', [Validators.required]]
+      purpose: ['', [Validators.required]],
+      bank_code: ['']
     });
   }
 
   anyoneDescriptionDetails: any
-  
+
   getAnyoneTableDetails(event) {
     this._anybody.anyoneTableListViaDept(event).subscribe(data => {
       this.anyoneDescriptionDetails = data;
       let TotalAmt = 0;
-      this.studentDescriptionDetails.forEach(element => {
+      this.anyoneDescriptionDetails.forEach(element => {
         TotalAmt = TotalAmt + Number(element.AMOUNT)
       });
       this.totalAmount = TotalAmt
@@ -132,39 +144,40 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this.createForm();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.elementRef.nativeElement.focus();
-}
-studentDescriptionDetails: any;
-totalAmount: any = 0
-changeAmt(ele, index) {
-  let TotalAmt = 0;
-  let amount = ele.target.value;
-  this.studentDescriptionDetails[index].AMOUNT = amount;
-  this.studentDescriptionDetails.forEach(element => {
-    TotalAmt = TotalAmt + Number(element.AMOUNT)
-  });
-  this.totalAmount = TotalAmt
-}
-
-saveAsDraft() {
-  const formVal = this.angForm.value;
-  const dataToSend = {
-    'Application_Date': formVal.Application_Date,
-    'Received_From': formVal.Received_From,
-    'Exam': formVal.Examination,
-    'purpose': formVal.purpose,
-    'Select_Department': formVal.Select_Department.ID,
-    'Challan_Structure': '',
-    'Total_Amount': this.totalAmount,
-    'Enter_Particular': formVal.Enter_Particular,
-    'studentDescriptionDetails': this.anyoneDescriptionDetails,
-    'Dept_NAME': '',
-    'Challan_NAME': '',
-    'Particular': formVal.Enter_Particular,
-    'bank_code': formVal.bank_code
   }
-
+  studentDescriptionDetails: any;
+  totalAmount: any = 0
+  changeAmt(ele, index) {
+    let TotalAmt = 0;
+    let amount = ele.target.value;
+    this.studentDescriptionDetails[index].AMOUNT = amount;
+    this.studentDescriptionDetails.forEach(element => {
+      TotalAmt = TotalAmt + Number(element.AMOUNT)
+    });
+    this.totalAmount = TotalAmt
+  }
+  chalanID = null;
+  saveAsDraft() {
+    debugger
+    const formVal = this.angForm.value;
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Exam,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
+      'Total_Amount': this.totalAmount,
+      'Enter_Particular': formVal.Enter_Particular,
+      'studentDescriptionDetails': this.anyoneDescriptionDetails,
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code,
+      'fees_code': this.chalanID == "" ? null : this.chalanID,
+    }
     console.log('dataToSend', dataToSend)
     this._anybody.postData(dataToSend).subscribe(
       (data) => {
@@ -176,14 +189,46 @@ saveAsDraft() {
         console.log(error);
       }
     );
-}
+  }
 
-pay() {
-  this._anybody.pay().subscribe(data => {
-    window.open(data.msg)
-  }, err => {
-    console.log(err);
-  })
-}
+  // saveAsDraft() {
+  //   const formVal = this.angForm.value;
+  //   const dataToSend = {
+  //     'Application_Date': formVal.Application_Date,
+  //     'Received_From': formVal.Received_From,
+  //     'Exam': formVal.Examination,
+  //     'purpose': formVal.purpose,
+  //     'Select_Department': formVal.Select_Department.ID,
+  //     'Challan_Structure': '',
+  //     'Total_Amount': this.totalAmount,
+  //     'Enter_Particular': formVal.Enter_Particular,
+  //     'studentDescriptionDetails': this.anyoneDescriptionDetails,
+  //     'Dept_NAME': '',
+  //     'Challan_NAME': '',
+  //     'Particular': formVal.Enter_Particular,
+  //     'bank_code': formVal.bank_code
+  //   }
+
+  //     console.log('dataToSend', dataToSend)
+  //     this._anybody.postData(dataToSend).subscribe(
+  //       (data) => {
+
+  //         Swal.fire("Success!", "Data Added Successfully !", "success");
+  //         window.open('http://localhost/Axis_bank?')
+  //       },
+  //       (error) => {
+  //         console.log(error);
+  //       }
+  //     );
+  // }
+
+
+  pay() {
+    this._anybody.pay().subscribe(data => {
+      window.open(data.msg)
+    }, err => {
+      console.log(err);
+    })
+  }
 
 }

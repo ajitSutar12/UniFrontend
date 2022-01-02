@@ -132,7 +132,7 @@ const MENUITEMS = [
           {
             state: 'anybody',
             short_label: 'D',
-            name: 'Anybody ',
+            name: 'Anyone ',
             type: 'sub',
             id: 2,
             children: [

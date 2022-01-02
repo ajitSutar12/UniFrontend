@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AnybodypaymentRoutingModule } from './anybodypayment-routing.module';
-import{AnybodypaymentComponent} from './anybodypayment.component'
-import{AnybodyService} from './anybodypayment.service'
+import { AnybodypaymentComponent } from './anybodypayment.component'
+import { AnybodyService } from './anybodypayment.service'
+import { StudentpaymentService } from '../studentpayment/studentpayment.service';
 @NgModule({
   declarations: [AnybodypaymentComponent],
   imports: [
@@ -14,6 +15,6 @@ import{AnybodyService} from './anybodypayment.service'
     FormsModule,
     ReactiveFormsModule
   ],
-  providers:[AnybodyService]
+  providers: [AnybodyService, StudentpaymentService]
 })
 export class AnybodypaymentModule { }

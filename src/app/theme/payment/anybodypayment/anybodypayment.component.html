@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h5>Anybody Payment Form</h5>
+                <h5>Anyone Payment Form</h5>
                 <h6 style="float: right;"><sub class="required">* </sub>: Required Fields</h6>
             </div>
             <div class="card-block">
@@ -99,7 +99,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let data of anyoneDescriptionDetails">
+                                        <tr *ngFor="let data of anyoneDescriptionDetails;let i = index">
                                             <th scope="row">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
 
@@ -130,7 +130,7 @@
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="text" name="Total_Amount" class="form-control " placeholder=" "
-                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$" style="text-align: right;"
+                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$" style="text-align: right;" [value]="totalAmount"
                                         title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount">
                                     <label for="Total_Amount">Total Amount<sub class="required">* </sub></label>
                                 </span>
@@ -166,6 +166,26 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                      
+                    </div>
+                    <div class="row" style="margin-top:1%">
+                        <div class="col-sm-8">
+
+                        </div>
+                        <div class="col-sm-4" >
+                            <div class="form-group input-group">
+                                <!-- <select class="form-control" formControlName="bank_code">
+                                    <option *ngFor="let bank of bankDetails" value="{{bank.CODE}}">{{bank.NAME}}</option>
+                                </select> -->
+                                <ng-select [(ngModel)]="selectedBank" formControlName="bank_code"
+                                        placeholder="Select Bank Name"
+                                         >
+                                        <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
+                                            {{bank.NAME}}</ng-option>
+                                    </ng-select>
+                            </div>
                         </div>
                     </div>
                     <div class="row mt-3">
