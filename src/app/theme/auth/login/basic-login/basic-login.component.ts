@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import {AuthService} from '../../../../auth.service';
+import { AuthService } from '../../../../auth.service';
 
 @Component({
   selector: 'app-basic-login',
@@ -14,27 +14,27 @@ export class BasicLoginComponent implements OnInit {
   isInvalidPassword: boolean = false;
   mobileno: string;
   password: string;
- passType: string = 'password';
-  constructor(private router: Router,private _authService : AuthService) { }
+  passType: string = 'password';
+  constructor(private router: Router, private _authService: AuthService) { }
 
   ngOnInit() {
     document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
   }
 
-  login(){
+  login() {
 
     let obj = {
-      "username" : this.mobileno,
-      "password" : this.password
+      "username": this.mobileno,
+      "password": this.password
     }
 
-    this._authService.login(obj).subscribe(data=>{
+    this._authService.login(obj).subscribe(data => {
       localStorage.setItem('token', data.access_token);
       localStorage.setItem('user',  JSON.stringify(data.user));
       if(data.user){
         this.router.navigate(['/dashboard']);
       }
-    },err=>{
+    }, err => {
       Swal.fire({
         title: '',
         text: "Please Check Your Mobile Number And Password",
@@ -44,12 +44,12 @@ export class BasicLoginComponent implements OnInit {
       })
     })
   }
-  
-  showHidePassword(){
-    if(this.passType == 'password'){
+
+  showHidePassword() {
+    if (this.passType == 'password') {
       this.passType = 'text';
     }
-    else{
+    else {
       this.passType = 'password';
     }
   }

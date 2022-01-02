@@ -264,13 +264,11 @@ export class AdminComponent implements OnInit, OnDestroy {
     var meunItemList = menuItemList[0].main;
     this.Name   =  this.userData.NAME;
     this.meunItemList.forEach(function (element, index) {
-      if(element.state == 'Payment'){
-        
-        element.children.forEach(function(ele, i) {
-          
-          if(ele.id == menuData){
+      if (element.state == 'Payment') {
+        element.children.forEach(function (ele, i) {
+          if (ele.id == menuData) {
 
-          }else{
+          } else {
             delete meunItemList[index].children[i];
           }
         });

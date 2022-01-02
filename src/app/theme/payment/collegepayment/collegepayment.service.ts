@@ -44,5 +44,9 @@ export class CollegepaymentService {
         console.log('college service', id)
         return this.http.get(this.url + '/payment/ListCollegePurpose' + id).pipe(catchError(this.handleError));
     }
+
+    getBankCodeDetails(): Observable<any> {
+        return this.http.get(this.url + '/payment/bankList').pipe(catchError(this.handleError));
+    }
 }
 

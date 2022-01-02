@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { ReceiptService } from './receipt.service'
 
-import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
+// import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -21,7 +21,7 @@ export class ReceiptComponent implements OnInit {
   angForm: FormGroup;
 
   numberInWords!: string;
-  lang: SUPPORTED_LANGUAGE = 'en';
+  // lang: SUPPORTED_LANGUAGE = 'en';
   value = 123;
 
   receiptTable = { //main
@@ -52,7 +52,8 @@ export class ReceiptComponent implements OnInit {
   applicationID
 
   constructor(private fb: FormBuilder, private router: Router, private _recepit: ReceiptService,
-    private ngxNumToWordsService: NgxNumToWordsService) {
+    // private ngxNumToWordsService: NgxNumToWordsService
+    ) {
     console.log(this.router.getCurrentNavigation().extras.state);
     this.applicationID = this.router.getCurrentNavigation().extras.state;
   }
@@ -65,8 +66,8 @@ export class ReceiptComponent implements OnInit {
     //   console.log('receipt data', data)
     //   // this.receiptTable = data
     // })
-    this.numberInWords = this.ngxNumToWordsService.inWords(this.value, this.lang)
-    console.log('numberInWords', this.numberInWords)
+    // this.numberInWords = this.ngxNumToWordsService.inWords(this.value, this.lang)
+    // console.log('numberInWords', this.numberInWords)
 
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
       console.log('receipt', data)

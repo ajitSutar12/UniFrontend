@@ -94,12 +94,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr *ngFor="let data of studentDescriptionDetails">
+                                        <tr *ngFor="let data of studentDescriptionDetails;let i = index">
                                             <th scope="row">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
                                             <td> <input type="text" name="Examination" class="form-control"
-                                                    placeholder="Enter Amount " id="Examination" pattern="^[0-9]+$" style="text-align: right;"
-                                                    title="Input allowed only  A-Z a-z (Space)" value="{{data.AMOUNT}}">
+                                                    style="text-align: right;" placeholder="Enter Amount "
+                                                    id="Examination" pattern="^[0-9]+$"
+                                                    title="Input allowed only  A-Z a-z (Space)"
+                                                    (keyup)="changeAmt($event,i)" value="{{data.AMOUNT}}">
                                             </td>
                                         </tr>
                                     </tbody>
@@ -122,8 +124,9 @@
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="text" name="Total_Amount" class="form-control " placeholder=" "
-                                        id="Total_Amount" pattern="^[A-Za-z\./ -]+$" style="text-align: right;"
-                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount">
+                                        id="Total_Amount" pattern="^[0-9]+$" style="text-align: right;"
+                                        [value]="totalAmount" title="Input allowed only  A-Z a-z (Space)"
+                                        formControlName="Total_Amount">
                                     <label for="Total_Amount">Total Amount<sub class="required">* </sub></label>
                                 </span>
                             </div>
@@ -155,13 +158,31 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="margin-top:1%">
+                        <div class="col-sm-8">
+
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group input-group">
+                                <!-- <select class="form-control" formControlName="bank_code">
+                                    <option *ngFor="let bank of bankDetails" value="{{bank.CODE}}">{{bank.NAME}}</option>
+                                </select> -->
+                                <ng-select [(ngModel)]="selectedBank" formControlName="bank_code"
+                                    placeholder="Select Bank Name">
+                                    <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
+                                        {{bank.NAME}}</ng-option>
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row mt-3">
                         <div class="col-sm-12">
                             <div style="float: right;">
-                                <button class="btn btn-primary  ripple light " style="margin-right:3px"
+                                <!-- <button class="btn btn-primary  ripple light " style="margin-right:3px"
                                     (click)="saveAsDraft()">Save As
-                                    Draft</button>
-                                <button class="btn btn-primary ripple light" style="margin:3px" (click)="submit()">Save
+                                    Draft</button> -->
+                                <button class="btn btn-primary ripple light" style="margin:3px"
+                                    (click)="saveAsDraft()">Save
                                     & Proceed To
                                     Pay</button>
                                 <button class="btn btn-dark ripple light" [routerLink]="">Back</button>

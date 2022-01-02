@@ -16,6 +16,16 @@ export class StudentpaymentService {
     constructor(private http: HttpClient) { }
 
     //Insertion Operation
+    // postData(data: any): Observable<any> {
+    //     debugger
+    //     return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
+    //         catchError((error) => {
+    //             Swal.fire('Please Input Proper Data!');
+    //             return throwError(error);
+    //         })
+    //     )
+    // }
+
     postData(data: any): Observable<any> {
         return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
             catchError((error) => {
@@ -68,12 +78,12 @@ export class StudentpaymentService {
         return this.http.get(this.url + '/payment/getPurposeForStud' + id).pipe(catchError(this.handleError));
     }
 
-    getBankCodeDetails():Observable<any>{
-        return this.http.get(this.url+'/payment/bankList').pipe(catchError(this.handleError));
+    getBankCodeDetails(): Observable<any> {
+        return this.http.get(this.url + '/payment/bankList').pipe(catchError(this.handleError));
     }
 
-    getStudentDraftCode():Observable<any>{
-        return this.http.get(this.url+'/payment/draftList').pipe(catchError(this.handleError));
+    getStudentDraftCode(): Observable<any> {
+        return this.http.get(this.url + '/payment/draftList').pipe(catchError(this.handleError));
     }
 
 }

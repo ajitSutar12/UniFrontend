@@ -234,8 +234,8 @@ export class StudentpaymentComponent implements OnInit {
       Application_Date: ['', [Validators.required]],
       Received_From: ['', [Validators.required]],
       Examination: ['', [Validators.required]],
-      Select_Department: ['Select Department', [Validators.required]],
-      Challan_Structure: ['', [Validators.required]],
+      Select_Department: ['Select Department',],
+      Challan_Structure: ['',],
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.required]],
       purpose: ['', [Validators.required]],
@@ -327,12 +327,13 @@ export class StudentpaymentComponent implements OnInit {
       'bank_code': formVal.bank_code
     }
     console.log('dataToSend', dataToSend)
+
     this._student.postData(dataToSend).subscribe(
-      (data) => {
+      (data => {
 
         Swal.fire("Success!", "Data Added Successfully !", "success");
         window.open('http://localhost/Axis_bank?')
-      },
+      }),
       (error) => {
         console.log(error);
       }
