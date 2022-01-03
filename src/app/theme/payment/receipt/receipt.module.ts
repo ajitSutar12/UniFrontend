@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ReceiptComponent } from './receipt.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReceiptService } from './receipt.service'
-// import { NgxNumToWordsModule } from 'ngx-num-to-words';
+import { NgxNumToWordsModule } from 'ngx-num-to-words';
 @NgModule({
   declarations: [ReceiptComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    // NgxNumToWordsModule
+    NgxNumToWordsModule
   ],
   providers: [ReceiptService]
 })

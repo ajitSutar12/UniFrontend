@@ -8,7 +8,7 @@ import { DashboardService } from './dashboard.service';
 })
 export class DashboardComponent implements OnInit {
   dtOptions: DataTables.Settings = {};
-  application_id
+  application_id = 19201110000386
 
   constructor(private router: Router, private _dashboard: DashboardService) { }
 

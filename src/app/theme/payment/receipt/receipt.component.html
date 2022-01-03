@@ -108,7 +108,7 @@
                                             {{receiptTable.totalAmount}}</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="4">{{receiptTable.LetterAmount}}</td>
+                                        <td colspan="4">Rupees {{receiptTable.LetterAmount}} ONLY</td>
                                     </tr>
                                     <tr>
                                         <td colspan="4" style="text-align:right;">KRMADALE</td>
@@ -129,6 +129,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="row">
+                                    <div class="col-sm-2"></div>
                                     <div class="col-sm">
                                         <button class="btn btn-primary"
                                             (click)="printDiv('printableArea')">PRINT</button> &nbsp;

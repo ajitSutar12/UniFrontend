@@ -22,6 +22,7 @@
                                 </div>
 
                                 <div class="form-group form-primary form-static-label">
+                                    <label>Select Question</label>
                                     <ng-select [items]="questions" bindValue="CODE" bindLabel="NAME"
                                         [(ngModel)]="selectQue" (change)="value($event)"
                                         placeholder="Select Password Recovery Question">
@@ -51,10 +52,11 @@
 
                                 <hr />
                                 <div class="row">
-                                    <div class="col-md-8">
+                                    <div class="col-md-8 text-left f-left" >
+                                        <label class="text-center m-b-0"> &copy; Compserv Consultant Pvt. Ltd.</label>
                                     </div>
                                     <div class="col-md-4 text-right f-right">
-                                        <img src="assets/images/BwaysLogo.png" alt="small-logo.png" style="width: 100%;"
+                                        <img src="assets/images/bways.png" alt="small-logo.png" style="width: 100%;"
                                             class="logosize">
                                     </div>
                                 </div>
@@ -62,7 +64,7 @@
                             <div *ngIf="forgetPassword">
                                 <div class="form-group form-primary form-static-label">
                                     <input [type]="passType" name="password" [(ngModel)]="password" class="form-control"
-                                        style="width: 90%;">
+                                        style="width: 90%;" [NgPasswordValidator]="options" (keyup)="onInput($event)"  pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$">
                                     <span toggle="#password-field"
                                         style="font-size: 20px;color: #262d38; cursor: pointer;"
                                         class="fa fa-fw fa-eye field-icon toggle-password"
@@ -72,7 +74,7 @@
                                 </div>
                                 <div class="form-group form-primary form-static-label">
                                     <input [type]="passType1" name="confrm_password" [(ngModel)]="confirmpassword"
-                                        class="form-control" style="width: 90%;">
+                                        class="form-control" style="width: 90%;"   pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$">
                                     <span toggle="#password-field"
                                         style="font-size: 20px;color: #262d38; cursor: pointer;"
                                         class="fa fa-fw fa-eye field-icon toggle-password"
@@ -99,6 +101,6 @@
     </div>
     <!-- end of container-fluid -->
 </section>
-<div class="footer">
+<!-- <div class="footer">
     <p class="text-center m-b-0"> &copy; Compserv Consultant Pvt. Ltd.</p>
-</div>
+</div> -->

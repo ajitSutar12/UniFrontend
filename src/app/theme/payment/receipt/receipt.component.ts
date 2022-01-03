@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { ReceiptService } from './receipt.service'
 
-// import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
+import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -20,23 +20,32 @@ export class ReceiptComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
 
-  numberInWords!: string;
-  // lang: SUPPORTED_LANGUAGE = 'en';
+  numberInWords: string;
+  lang: SUPPORTED_LANGUAGE = 'en';
   value = 123;
 
   receiptTable = { //main
     recieptNo: 2525,
     deptName: 'YASHVANTRAO CHAVAN SCHOOL OF RURAL DEVELOPMENT', //DEPT_NAME
-    receiptDate: '04/02/2021',
+    // receiptDate: '04/02/2021',
+    receiptDate: '',
     receivedFrom: 'PAWALE ANUJA RAJARAM',   //PAID_BY
-    depositInAC: "A/c - 1 UCO Bank Shivaji University",
-    modeOfInstall: 'By Cash',
-    depositRecNo: 1234,
-    depositDate: "04/02/2021",
-    bankname: 'VIDYANAGAR',
-    manualRecNo: '1234',
-    examination: 'MCA I',
-    monthYear: ' March 2021',
+    // depositInAC: "A/c - 1 UCO Bank Shivaji University",
+    depositInAC: "",
+    // modeOfInstall: 'By Cash',
+    modeOfInstall: '',
+    // depositRecNo: 1234,
+    depositRecNo: '',
+    // depositDate: "04/02/2021",
+    depositDate: "",
+    // bankname: 'VIDYANAGAR',
+    bankname: '',
+    // manualRecNo: '1234',
+    manualRecNo: '',
+    // examination: 'MCA I',
+    examination: '',
+    // monthYear: 'March 2021',
+    monthYear: '',
     datatable: [ //particular
       {
         'SrNo': 1, //SR_NO
@@ -46,14 +55,15 @@ export class ReceiptComponent implements OnInit {
       }],
     totalAmount: 6500, //TRAN_AMT
     LetterAmount: "Rupees SIX THOUSAND FIVE HUNDRED ONLY",
-    contactNo: 9090909090,
+    // contactNo: 9090909090,
+    contactNo: '',
   }
 
   applicationID
 
   constructor(private fb: FormBuilder, private router: Router, private _recepit: ReceiptService,
-    // private ngxNumToWordsService: NgxNumToWordsService
-    ) {
+    private ngxNumToWordsService: NgxNumToWordsService
+  ) {
     console.log(this.router.getCurrentNavigation().extras.state);
     this.applicationID = this.router.getCurrentNavigation().extras.state;
   }
@@ -62,18 +72,25 @@ export class ReceiptComponent implements OnInit {
     // this.applicationID = history.state;
 
     console.log('applicationID', this.applicationID)
-    // this._recepit.getReceiptData(this.applicationID).subscribe(data => {
-    //   console.log('receipt data', data)
-    //   // this.receiptTable = data
-    // })
-    // this.numberInWords = this.ngxNumToWordsService.inWords(this.value, this.lang)
-    // console.log('numberInWords', this.numberInWords)
+    this.applicationID += ''
+    let temp = "123456789"
+    let receno = this.applicationID.substring(this.applicationID.length - 7)
+    // receno = receno.replace("0", "")
+    receno = receno.replace(/0/g, "")
+
+    console.log('lastFourDigits', receno)
 
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
       console.log('receipt', data)
+      this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
+      console.log('numberInWords', this.numberInWords)
+
+      this.receiptTable['recieptNo'] = receno.replace(/0/g, "")
       this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
+      this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
       this.receiptTable['datatable'] = data.particular
+      this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
 
     })
   }

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 import { MenuItems } from '../../shared/menu-items/menu-items';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
@@ -148,6 +149,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   public userData: any;
   public meunItemList: any[];
   public Name: any;
+  public menuItem: any;
+  public menuListData: any;
 
   scroll = (): void => {
     const scrollPosition = window.pageYOffset;
@@ -262,7 +265,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     console.log("menuItemList", menuItemList)
     this.meunItemList = menuItemList[0].main;
     var meunItemList = menuItemList[0].main;
-    this.Name   =  this.userData.NAME;
+    this.Name = this.userData.NAME;
     this.meunItemList.forEach(function (element, index) {
       if (element.state == 'Payment') {
         element.children.forEach(function (ele, i) {
@@ -270,13 +273,35 @@ export class AdminComponent implements OnInit, OnDestroy {
 
           } else {
             delete meunItemList[index].children[i];
+            
           }
         });
       }
     });
     console.log(this.meunItemList);
 
+    // this.menuItem = menuItemList;
 
+    // var first = this.menuItem[0].main.findIndex(
+    //   function (el) {
+    //     return (el !== null);
+    //   }
+    // );
+    // var arrSor = [];
+
+    // this.menuItem[0].main.forEach(function (el) {
+    //   if (el === null) {
+    //     arrSor.push(el);
+    //   } else {
+    //     arrSor.unshift(el);
+    //   }
+    // });
+    // this.menuListData = arrSor.reverse();
+    // console.log("this.menuListData ", this.menuListData )
+
+    // if (this.userData == 404) {
+    //   Swal.fire("Warning!", "Your Session Has Been Expired", "error");
+    // }
 
 
   }

@@ -148,7 +148,7 @@ export class BasicRegComponent implements OnInit {
         'CELL_NO': formVal.Mobile_No,
         'EMAIL_ID': formVal.Email_Address,
         'COLLEGE_CODE': parseInt(formVal.College_Code),
-        'USER_NAME': formVal.User_Name,
+        // 'USER_NAME': formVal.User_Name,
         'PASSWORD': formVal.Confirm_Password,
         'PASSREQQUE': formVal.PASSREQQUE,
         'PASSREQANS': formVal.PASSREQANS,
