@@ -76,16 +76,19 @@ export class ReceiptComponent implements OnInit {
     let temp = "123456789"
     let receno = this.applicationID.substring(this.applicationID.length - 7)
     // receno = receno.replace("0", "")
-    receno = receno.replace(/0/g, "")
-
+    receno = receno.replace(/^0+/, '')
     console.log('lastFourDigits', receno)
+
+    var str = "123456789";
+    var parts = str.match(/.{1,3}/g);
+    var new_value = parts.join("-");
 
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
       console.log('receipt', data)
       this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
       console.log('numberInWords', this.numberInWords)
 
-      this.receiptTable['recieptNo'] = receno.replace(/0/g, "")
+      this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
       this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
       this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT

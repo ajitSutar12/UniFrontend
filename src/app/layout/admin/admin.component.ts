@@ -269,7 +269,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
           } else {
             delete meunItemList[index].children[i];
-            
+
           }
         });
       }
@@ -284,21 +284,21 @@ export class AdminComponent implements OnInit, OnDestroy {
     );
 
     var arrSor = [];
-console.log(this.menuItem[0].main[1].children,"this.menuItem[0].main[1].children")
+    console.log(this.menuItem[0].main[1].children, "this.menuItem[0].main[1].children")
     this.menuItem[0].main[1].children.forEach(function (el) {
-      console.log("el",el)
-     
-        if (el === null) {
-          arrSor.push(el);
-          console.log(arrSor,"ok")
-        } else {
-          arrSor.unshift(el);
-          console.log(arrSor," notok")
-        }
-      
+      console.log("el", el)
+
+      if (el === null) {
+        arrSor.push(el);
+        console.log(arrSor, "ok")
+      } else {
+        arrSor.unshift(el);
+        console.log(arrSor, " notok")
+      }
+
     });
-    this.menuListData = arrSor.reverse();
-    console.log("this.meunItemList",this.meunItemList)
+    this.meunItemList = arrSor.reverse();
+    console.log("this.meunItemList", this.meunItemList)
 
 
   }
@@ -640,6 +640,7 @@ console.log(this.menuItem[0].main[1].children,"this.menuItem[0].main[1].children
   }
   logoutSession() {
     localStorage.clear();
+
     this.router.navigateByUrl('/auth/login/simple')
   }
 }

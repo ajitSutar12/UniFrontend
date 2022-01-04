@@ -61,26 +61,23 @@
 
                 </tbody> -->
                 <tbody>
-                  <tr *ngFor="let data of successfulRecord">
-                    <td>{{data.srno}}</td>
-                    <td>{{data.applicationno}}</td>
-                    <td>{{data.applicationDate}}</td>
-                    <td>{{data.amount}}</td>
+                  <tr **ngFor="let item of success">
+                    <td>{{item.TRAN_NO}}</td>
+                    <td>{{item.TRAN_DATE}}</td>
+                    <td>{{item.TRAN_AMT}}</td>
+
+                  </tr>
+                  <!-- <tr *ngFor="let data of success; let i:index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.TRAN_NO}}</td>
+                    <td>{{data.TRAN_DATE}}</td>
+                    <td>{{data.TRAN_AMT}}</td>
                     <td><span class="badge badge-pill badge-success">Success </span> &nbsp;
                       <span class="badge badge-pill badge-success" style="cursor: pointer;"
                         (click)="gotoPrint(1)">Print</span>
                     </td>
-                  </tr>
-                  <tr>
-                    <td>1</td>
-                    <td>112312</td>
-                    <td>12/12/2020</td>
-                    <td>800</td>
-                    <td><span class="badge badge-pill badge-success">Success </span> &nbsp;
-                      <span class="badge badge-pill badge-success" style="cursor: pointer;"
-                        (click)="gotoPrint(application_id)">Print</span>
-                    </td>
-                  </tr>
+                  </tr> -->
+                  
                 </tbody>
               </table>
             </div>
@@ -149,11 +146,11 @@
                   </tr>
                 </tbody> -->
                 <tbody>
-                  <tr *ngFor="let data of unsuccessfulRecord">
-                    <td>{{data.srno}}</td>
-                    <td>{{data.applicationno}}</td>
-                    <td>{{data.applicationDate}}</td>
-                    <td>{{data.amount}}</td>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td><span class="badge badge-pill badge-danger">Unsuccessful</span></td>
                   </tr>
                 </tbody>
@@ -224,11 +221,11 @@
                   </tr>
                 </tbody> -->
                 <tbody>
-                  <tr *ngFor="let data of successfulNotprint">
-                    <td>{{data.srno}}</td>
-                    <td>{{data.applicationno}}</td>
-                    <td>{{data.applicationDate}}</td>
-                    <td>{{data.amount}}</td>
+                  <tr >
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td><span class="badge badge-pill badge-warning">Not Printed !</span></td>
                   </tr>
                 </tbody>

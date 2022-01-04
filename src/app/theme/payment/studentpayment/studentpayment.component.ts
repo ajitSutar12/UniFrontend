@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
 import { every } from 'rxjs-compat/operator/every';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-studentpayment',
@@ -47,7 +48,7 @@ export class StudentpaymentComponent implements OnInit {
   angForm: FormGroup;
   datemax: string;
   // constructor(private fb: FormBuilder,) { }
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _student: StudentpaymentService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _student: StudentpaymentService, private http: HttpClient) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
@@ -209,12 +210,13 @@ export class StudentpaymentComponent implements OnInit {
     })
 
     //Bank details master
-    this._student.getBankCodeDetails().subscribe(data => {
-      this.bankDetails = data;
-    })
+
 
     this._student.getPurposeData().subscribe(data => {
       this.Purpose = data
+      this._student.getBankCodeDetails().subscribe(data => {
+        this.bankDetails = data;
+      })
     })
   }
   dropdownOptions = [
@@ -246,6 +248,8 @@ export class StudentpaymentComponent implements OnInit {
 
   submit() {
     const formVal = this.angForm.value;
+    const user = JSON.parse(localStorage.getItem('user'));
+
 
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
@@ -255,7 +259,9 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_Structure': formVal.Challan_Structure,
       'Total_Amount': formVal.Total_Amount,
       'Enter_Particular': formVal.Enter_Particular,
-      'bank_code': formVal.bank_code
+      'bank_code': formVal.bank_code,
+      'user_id': user.USER_ID,
+      'user_name': user.USER_NAME
     }
     this._student.postData(dataToSend).subscribe(
       (data) => {
@@ -276,6 +282,7 @@ export class StudentpaymentComponent implements OnInit {
 
   pay() {
     const formVal = this.angForm.value;
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
@@ -291,7 +298,9 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
       'Particular': formVal.Enter_Particular,
       'bank_code': formVal.bank_code,
-      'fees_code': this?.chalanID == "" ? "" : this?.chalanID
+      'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
+      'user_id': user.USER_ID,
+      'user_name': user.USER_NAME
     }
 
     this._student.postData(dataToSend).subscribe(
@@ -301,7 +310,8 @@ export class StudentpaymentComponent implements OnInit {
         var date = moment().format('DD-MM-YYYY');
         let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
         let CRN = data;
-        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN+'$Amt='+this.totalAmount);
+        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID);
+        this.router.navigateByUrl('/dashboard');
       },
       (error) => {
         console.log(error);

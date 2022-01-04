@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
 import { StudentpaymentService } from '../studentpayment/studentpayment.service';
-
+import { Router } from '@angular/router';
 
 interface AnybodyInterface {
   Application_Date: Date;
@@ -54,7 +54,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   angForm: FormGroup;
   datemax: string;
   applicationDate: string;
-  constructor(private fb: FormBuilder, private config: NgSelectConfig, private _anybody: AnybodyService, private _student: StudentpaymentService, private http: HttpClient, private elementRef: ElementRef) {
+  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _anybody: AnybodyService, private _student: StudentpaymentService, private http: HttpClient, private elementRef: ElementRef) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
@@ -63,8 +63,9 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this.createForm();
     this._anybody.getPurposeData().subscribe(data => {
       this.purpose = data
+
     })
-    //Bank details master
+    // Bank details master
     this._student.getBankCodeDetails().subscribe(data => {
       this.bankDetails = data;
     })
@@ -181,9 +182,13 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     console.log('dataToSend', dataToSend)
     this._anybody.postData(dataToSend).subscribe(
       (data) => {
-
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        window.open('http://localhost/Axis_bank?')
+        var userData = JSON.parse(localStorage.getItem('user'));
+        var date = moment().format('DD-MM-YYYY');
+        let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        let CRN = data;
+        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount);
+        this.router.navigateByUrl('/dashboard');
       },
       (error) => {
         console.log(error);

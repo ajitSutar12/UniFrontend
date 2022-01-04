@@ -39,7 +39,7 @@ import { UserAuthInterceptor } from './user-auth.interceptor'
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-
+    
     UniversityformsRoutingModule,
     UniversityformsModule,
     PaymentModule,

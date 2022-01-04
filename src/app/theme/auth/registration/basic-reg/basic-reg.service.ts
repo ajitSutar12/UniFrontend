@@ -19,7 +19,8 @@ export class BasicRegService {
     postData(data: any): Observable<any> {
         return this.http.post(this.url + '/registration/insert', data).pipe(map((res) => res),
             catchError((error) => {
-                Swal.fire('Please Input Proper Data!');
+                console.log('error', error)
+                Swal.fire('User Already Exists!');
                 return throwError(error);
             })
         )

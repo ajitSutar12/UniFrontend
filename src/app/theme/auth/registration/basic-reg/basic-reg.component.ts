@@ -10,6 +10,8 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, fi
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment'
 import { Router } from '@angular/router';
+import { CustomValidators } from './custom-validators';
+
 interface Basicreginterface {
   Type: boolean
   Full_Name: string,
@@ -75,11 +77,38 @@ export class BasicRegComponent implements OnInit {
       Mobile_No: ["", [Validators.required]],
       Email_Address: ["", [Validators.required]],
       College_Code: ["",],
-      User_Name: ["", [Validators.required]],
-      Create_Password: ["", [Validators.required]],
-      Confirm_Password: ["", [Validators.required]],
+      User_Name: ["", [Validators.required, Validators.pattern]],
+      Create_Password: ["", [Validators.required, Validators.pattern]],
+      Confirm_Password: ["", [Validators.required, Validators.pattern]],
       PASSREQQUE: [" ", [Validators.required]],
       PASSREQANS: ["", [Validators.pattern, Validators.required]],
+
+      // User_Name: [
+      //   "",
+      //   Validators.compose([
+      //     Validators.required,
+      //     // check whether the entered password has a number
+      //     CustomValidators.patternValidator(/\d/, {
+      //       hasNumber: true
+      //     }),
+      //     // check whether the entered password has upper case letter
+      //     CustomValidators.patternValidator(/[A-Z]/, {
+      //       hasCapitalCase: true
+      //     }),
+      //     // check whether the entered password has a lower case letter
+      //     CustomValidators.patternValidator(/[a-z]/, {
+      //       hasSmallCase: true
+      //     }),
+      //     // check whether the entered password has a special character
+      //     CustomValidators.patternValidator(
+      //       /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,
+      //       {
+      //         hasSpecialCharacters: true
+      //       }
+      //     ),
+      //     Validators.minLength(8)
+      //   ])
+      // ],
     });
   }
 
@@ -129,6 +158,7 @@ export class BasicRegComponent implements OnInit {
 
 
   submit() {
+    debugger
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       if (formVal.Type == 'Student') {
@@ -148,7 +178,7 @@ export class BasicRegComponent implements OnInit {
         'CELL_NO': formVal.Mobile_No,
         'EMAIL_ID': formVal.Email_Address,
         'COLLEGE_CODE': parseInt(formVal.College_Code),
-        // 'USER_NAME': formVal.User_Name,
+        'USER_NAME': formVal.User_Name,
         'PASSWORD': formVal.Confirm_Password,
         'PASSREQQUE': formVal.PASSREQQUE,
         'PASSREQANS': formVal.PASSREQANS,
@@ -184,9 +214,9 @@ export class BasicRegComponent implements OnInit {
     rules: {
       password: {
         type: "range",
-        length: 8,
-        min: 6,
-        max: 10,
+        length: 12,
+        min: 8,
+        max: 12,
       },
       "include-symbol": true,
       "include-number": true,
@@ -214,8 +244,8 @@ export class BasicRegComponent implements OnInit {
       "include-number": [true],
       type: ["range"],
       length: [""],
-      min: ["6"],
-      max: ["10"],
+      min: ["8"],
+      max: ["12"],
       heading: [""],
       successMessage: [""],
     });
@@ -256,13 +286,13 @@ export class BasicRegComponent implements OnInit {
         case "range":
           this.form.patchValue({
             length: "",
-            min: "6",
-            max: "10",
+            min: "8",
+            max: "12",
           });
           break;
         case "number":
           this.form.patchValue({
-            length: "8",
+            length: "12",
             min: "",
             max: "",
           });

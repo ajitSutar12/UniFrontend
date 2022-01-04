@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { CollegepaymentService } from './collegepayment.service'
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
+import { Router } from '@angular/router';
 interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
@@ -31,7 +32,7 @@ export class CollegepaymentComponent implements OnInit {
   selectChallan
   chalanID = null;
   selectedBank: any;
-  
+
   //Budget table variable
   studentDescriptionDetails: any;
   // Created Form Group
@@ -40,7 +41,7 @@ export class CollegepaymentComponent implements OnInit {
   datemax: string;
   applicationDate: string;
 
-  constructor(private fb: FormBuilder, private _college: CollegepaymentService) {
+  constructor(private fb: FormBuilder, private _college: CollegepaymentService, private router: Router,) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
@@ -140,9 +141,13 @@ export class CollegepaymentComponent implements OnInit {
     }
     this._college.postData(dataToSend).subscribe(
       (data) => {
-
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        window.open('http://localhost/Axis_bank?')
+        var userData = JSON.parse(localStorage.getItem('user'));
+        var date = moment().format('DD-MM-YYYY');
+        let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        let CRN = data;
+        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount);
+        this.router.navigateByUrl('/dashboard');
       },
       (error) => {
         console.log(error);

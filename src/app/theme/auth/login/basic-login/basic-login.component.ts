@@ -10,9 +10,9 @@ import { AuthService } from '../../../../auth.service';
 })
 export class BasicLoginComponent implements OnInit {
 
-  isInvalidNumber: boolean = false;
+  isInvalidUsername: boolean = false;
   isInvalidPassword: boolean = false;
-  mobileno: string;
+  username: string;
   password: string;
   passType: string = 'password';
   constructor(private router: Router, private _authService: AuthService) { }
@@ -24,20 +24,20 @@ export class BasicLoginComponent implements OnInit {
   login() {
 
     let obj = {
-      "username": this.mobileno,
+      "username": this.username,
       "password": this.password
     }
 
     this._authService.login(obj).subscribe(data => {
       localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user',  JSON.stringify(data.user));
-      if(data.user){
+      localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.user) {
         this.router.navigate(['/dashboard']);
       }
     }, err => {
       Swal.fire({
         title: '',
-        text: "Please Check Your Mobile Number And Password",
+        text: "Please Check Your Username And Password",
         icon: 'error',
         confirmButtonColor: '#229954',
         confirmButtonText: 'OK'

@@ -125,12 +125,12 @@
                       </div>
                     </div>
                     <div class="row">
-                      <!-- <div class="col-sm-12">
+                      <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="User_Name" pattern="^[A-Za-z\s .]+$" class="form-control"
-                              placeholder=" " maxlength="10" minlength="3" id="User_Name" formControlName="User_Name"
-                              required>
+                            <input type="text" name="User_Name" class="form-control" placeholder=" " maxlength="12"
+                              minlength="12" id="User_Name" formControlName="User_Name"
+                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,12}$" required>
                             <label for="User_Name">User Name<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -139,10 +139,11 @@
                           class="alert alert-danger">
                           <div
                             *ngIf="angForm.controls['User_Name'].errors?.pattern || angForm.controls['User_Name'].errors?.maxlength || angForm.controls['User_Name'].errors?.minlength || angForm.controls['User_Name'].errors?.required">
-                            Please Enter Valid User Name
+                            <!-- Please Enter Valid User Name -->
+                            Length of Username must be 12
                           </div>
                         </div>
-                      </div> -->
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-sm-12">
