@@ -247,7 +247,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     // sidebar img
     /*this.setLayoutType('img');*/
-
+    debugger
     let data: any = localStorage.getItem('user');
     let result = JSON.parse(data);
     this.userData = result;
@@ -275,6 +275,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     });
     this.menuItem = menuItemList;
+    console.log(this.menuItem);
 
 
     var first = this.menuItem[0].main.findIndex(
@@ -285,17 +286,13 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     var arrSor = [];
     console.log(this.menuItem[0].main[1].children, "this.menuItem[0].main[1].children")
-    this.menuItem[0].main[1].children.forEach(function (el) {
-      console.log("el", el)
 
+    this.menuItem[0].main.forEach(function (el) {
       if (el === null) {
         arrSor.push(el);
-        console.log(arrSor, "ok")
       } else {
         arrSor.unshift(el);
-        console.log(arrSor, " notok")
       }
-
     });
     this.meunItemList = arrSor.reverse();
     console.log("this.meunItemList", this.meunItemList)

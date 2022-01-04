@@ -92,6 +92,7 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
       this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
+      this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE
       this.receiptTable['datatable'] = data.particular
       this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
 
