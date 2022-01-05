@@ -92,7 +92,8 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['examination'] = data.main[0].EXAM_NAME
       this.receiptTable['deptName'] = data.main[0].Dept_Name
       this.receiptTable['Purpose_Name'] = data.main[0].Purpose_Name
-      this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
+      this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
+      // this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
       this.receiptTable['datatable'] = data.particular
       this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
     })
@@ -102,7 +103,10 @@ export class ReceiptComponent implements OnInit {
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
+    var printButton = document.getElementById("printButton");
+    printButton.style.visibility = 'hidden';
     window.print();
+    printButton.style.visibility = 'visible';
     document.body.innerHTML = originalContents;
 
   }

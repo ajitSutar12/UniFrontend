@@ -80,13 +80,13 @@
                                         <td><b>Examination</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.examination}}
-                                            <table style="width: 50%;float: right;">
+                                            <!-- <table style="width: 50%;float: right;">
                                                 <tr>
                                                     <td style="padding: 0;"><b>Month & Year</b>
                                                         :{{receiptTable.monthYear}}
                                                     </td>
                                                 </tr>
-                                            </table>
+                                            </table> -->
                                         </td>
                                     </tr>
                                 </table>
@@ -136,8 +136,8 @@
                                 <div class="row">
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm">
-                                        <input type="button" class="btn btn-primary" (click)="printDiv('printableArea')"
-                                            value="Print" />
+                                        <input type="button" id="printButton" class="btn btn-primary"
+                                            (click)="printDiv('printableArea')" value="Print" />
                                         <!-- <input type="button" class="btn btn-primary" id="printbtn"
                                             (click)="printDiv('printableArea')"><label for="printbtn">PRINT</label> -->
                                         <!-- <button class="btn btn-primary"

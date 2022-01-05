@@ -4,10 +4,10 @@
 
 export const environment = {
   production: false,
-  base_url: 'http://192.168.1.230:3000'
+  // base_url: 'http://192.168.1.230:3000'
   // base_url: 'http://192.168.255.22:7276'
   // base_url: 'http://localhost:7276'
-  // base_url: 'http://localhost:3000'
+  base_url: 'http://localhost:3000'
 };
 
 /*
