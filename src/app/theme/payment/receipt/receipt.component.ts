@@ -83,7 +83,7 @@ export class ReceiptComponent implements OnInit {
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
       console.log('receipt', data)
       console.log("tran date", str.substring(6, 8) + "/" + str.substring(4, 6) + "/" + str.substring(0, 4))
-
+      this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
       this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
       // this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
