@@ -17,7 +17,7 @@ export class StudentpaymentService {
 
     //Insertion Operation
     // postData(data: any): Observable<any> {
-    //     debugger
+    //     
     //     return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
     //         catchError((error) => {
     //             Swal.fire('Please Input Proper Data!');

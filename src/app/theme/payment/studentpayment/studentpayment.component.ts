@@ -323,7 +323,7 @@ export class StudentpaymentComponent implements OnInit {
   totalAmount: any = 0
   chalanID: any
   getStudentTableDetails(ele) {
-    debugger
+    
     this.chalanID = ele
     console.log(ele.id, "chalan")
     let TotalAmt = 0;
@@ -350,7 +350,7 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   saveAsDraft() {
-    debugger
+    
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,

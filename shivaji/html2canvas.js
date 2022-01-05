@@ -3748,9 +3748,9 @@
         }
     };
 
-    var elementDebuggerAttribute = 'data-html2canvas-debug';
+    var elementAttribute = 'data-html2canvas-debug';
     var getElementDebugType = function (element) {
-        var attribute = element.getAttribute(elementDebuggerAttribute);
+        var attribute = element.getAttribute(elementAttribute);
         switch (attribute) {
             case 'all':
                 return 1 /* ALL */;
@@ -3776,7 +3776,7 @@
             this.elements = [];
             this.flags = 0;
             if (isDebugging(element, 3 /* PARSE */)) {
-                debugger;
+                ;
             }
             this.styles = new CSSParsedDeclaration(context, window.getComputedStyle(element, null));
             if (isHTMLElementNode(element)) {
@@ -5228,7 +5228,7 @@
         };
         DocumentCloner.prototype.createElementClone = function (node) {
             if (isDebugging(node, 2 /* CLONE */)) {
-                debugger;
+                ;
             }
             if (isCanvasElement(node)) {
                 return this.createCanvasClone(node);
@@ -6584,7 +6584,7 @@
                     switch (_a.label) {
                         case 0:
                             if (contains(paint.container.flags, 16 /* DEBUG_RENDER */)) {
-                                debugger;
+                                ;
                             }
                             if (!paint.container.styles.isVisible()) return [3 /*break*/, 3];
                             return [4 /*yield*/, this.renderNodeBackgroundAndBorders(paint)];
@@ -6888,7 +6888,7 @@
                     switch (_p.label) {
                         case 0:
                             if (contains(stack.element.container.flags, 16 /* DEBUG_RENDER */)) {
-                                debugger;
+                                ;
                             }
                             // https://www.w3.org/TR/css-position-3/#painting-order
                             // 1. the background and borders of the element forming the stacking context.

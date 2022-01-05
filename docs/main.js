@@ -3687,7 +3687,7 @@ class AnybodypaymentComponent {
     }
     saveAsDraft() {
         var _a, _b, _c, _d;
-        debugger;
+        ;
         const formVal = this.angForm.value;
         const dataToSend = {
             'Application_Date': formVal.Application_Date,
@@ -5380,7 +5380,7 @@ class ReceiptComponent {
         document.body.innerHTML = originalContents;
     }
     downloadAsPDF(divName) {
-        debugger;
+        ;
         const doc = new jspdf__WEBPACK_IMPORTED_MODULE_1__["default"]();
         const printableArea = document.getElementById(divName).innerHTML;
         // const printableArea = this.printableArea.nativeElement;
@@ -6757,7 +6757,7 @@ class StudentpaymentComponent {
         });
     }
     getStudentTableDetails(ele) {
-        debugger;
+        ;
         this.chalanID = ele;
         console.log(ele.id, "chalan");
         let TotalAmt = 0;
@@ -6782,7 +6782,7 @@ class StudentpaymentComponent {
     }
     saveAsDraft() {
         var _a, _b, _c, _d;
-        debugger;
+        ;
         const formVal = this.angForm.value;
         const dataToSend = {
             'Application_Date': formVal.Application_Date,
@@ -7135,7 +7135,7 @@ class StudentpaymentService {
     }
     //Insertion Operation
     // postData(data: any): Observable<any> {
-    //     debugger
+    //     
     //     return this.http.post(this.url + '/payment/draft', data).pipe(map((res) => res),
     //         catchError((error) => {
     //             Swal.fire('Please Input Proper Data!');

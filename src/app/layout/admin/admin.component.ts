@@ -247,7 +247,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     // sidebar img
     /*this.setLayoutType('img');*/
-    debugger
+    
     let data: any = localStorage.getItem('user');
     let result = JSON.parse(data);
     this.userData = result;

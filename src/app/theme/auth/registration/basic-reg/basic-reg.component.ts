@@ -158,7 +158,7 @@ export class BasicRegComponent implements OnInit {
 
 
   submit() {
-    debugger
+    
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       if (formVal.Type == 'Student') {

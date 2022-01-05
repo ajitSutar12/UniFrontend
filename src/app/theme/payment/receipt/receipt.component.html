@@ -13,28 +13,22 @@
                                 <table border="0">
                                     <tr>
                                         <td style="width: 30%;"><img src="../../../../assets//images//Unilogo.png"></td>
-                                        <td class="head"><b>SHIVAJI UNIVERSITY, KOLHAPUR</b><br><b>BANK RECEIPT (By
-                                                Cash)</b>
+                                        <td class="head"><b>SHIVAJI UNIVERSITY, KOLHAPUR</b><br><b>BANK RECEIPT</b>
                                         </td>
                                     </tr>
                                 </table>
-                                <table border="0" style="table-layout: fixed;">
+                                <table>
                                     <tr>
-                                        <td style="width: 25.5%;"><b>Receipt No.</b></td>
+                                        <td style="width: 25%;"><b>Receipt No.</b></td>
                                         <td style="width: 1%;">:</td>
-                                        <td style="width: 22.5%;">{{receiptTable.recieptNo}}</td>
-                                        <td style="width: 15%;"><b>Department</b></td>
-                                        <td style="width: 1%;">:</td>
-                                        <td style="width: 34%; white-space: normal;" rowspan="2">
-                                            {{receiptTable.deptName}}</td>
+                                        <td style="width: 74%;">{{receiptTable.recieptNo}}</td>
                                     </tr>
                                     <tr>
-                                        <td><b>Receipt Date</b></td>
-                                        <td>:</td>
-                                        <td>{{receiptTable.receiptDate| date:"yyyy-MM-dd"}}</td>
+                                        <td style="width: 25%;"><b>Receipt Date</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.receiptDate}}</td>
                                     </tr>
                                 </table>
-
                                 <table>
                                     <tr>
                                         <td style="width: 25%;"><b>Received From</b></td>
@@ -42,16 +36,26 @@
                                         <td style="width: 74%;">{{receiptTable.receivedFrom}}</td>
                                     </tr>
                                     <tr>
+                                        <td style="width: 25%;"><b>Department</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.deptName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width: 25%;"><b>Purpose</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.Purpose_Name}}</td>
+                                    </tr>
+                                    <tr>
                                         <td><b>Deposit In A/c</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.depositInAC}}</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td><b>Mode of Inst.</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.modeOfInstall}}</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td><b>Deposit Rec.No.</b></td>
                                         <td>:</td>
                                         <td> {{receiptTable.depositRecNo}} <table style="width: 50%;float: right;">
@@ -61,21 +65,22 @@
                                                 </tr>
                                             </table>
                                         </td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td><b>Drawee Bank:</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.bankname}}</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td><b>Manual Rec.No</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.manualRecNo}}</td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td><b>Examination</b></td>
                                         <td>:</td>
-                                        <td>{{receiptTable.examination}} <table style="width: 50%;float: right;">
+                                        <td>{{receiptTable.examination}}
+                                            <table style="width: 50%;float: right;">
                                                 <tr>
                                                     <td style="padding: 0;"><b>Month & Year</b>
                                                         :{{receiptTable.monthYear}}
@@ -117,14 +122,14 @@
                                         <td colspan="2" style="text-align:left;"><b>Office Copy</b></td>
                                         <td colspan="2" style="text-align:right;"><b>Authorised Signatory</b></td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td colspan="4">CONTACT NO - {{receiptTable.contactNo}}</td>
-                                    </tr>
-                                    <tr>
+                                    </tr> -->
+                                    <!-- <tr>
                                         <td colspan="4"><i><b>Note : The Receipt is subject to the realisation of
                                                     Cheque</b></i>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </table>
                             </div>
                             <div class="col-6">
@@ -139,10 +144,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div id="pdfTable"> -->
-
                     </div>
-
                 </div>
             </div>
         </div>

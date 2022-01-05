@@ -27,6 +27,7 @@ export class ReceiptComponent implements OnInit {
   receiptTable = { //main
     recieptNo: 2525,
     deptName: 'YASHVANTRAO CHAVAN SCHOOL OF RURAL DEVELOPMENT', //DEPT_NAME
+    Purpose_Name: '',
     // receiptDate: '04/02/2021',
     receiptDate: '',
     receivedFrom: 'PAWALE ANUJA RAJARAM',   //PAID_BY
@@ -75,27 +76,25 @@ export class ReceiptComponent implements OnInit {
     this.applicationID += ''
     let temp = "123456789"
     let receno = this.applicationID.substring(this.applicationID.length - 7)
-    // receno = receno.replace("0", "")
     receno = receno.replace(/^0+/, '')
-    console.log('lastFourDigits', receno)
 
-    var str = "123456789";
-    var parts = str.match(/.{1,3}/g);
-    var new_value = parts.join("-");
+    var str = "20220104";
 
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
       console.log('receipt', data)
-      this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
-      console.log('numberInWords', this.numberInWords)
+      console.log("tran date", str.substring(6, 8) + "/" + str.substring(4, 6) + "/" + str.substring(0, 4))
 
       this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
-      this.receiptTable['deptName'] = data.main[0].DEPT_NAME
+      // this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
       this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
-      this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE
+      this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
+      this.receiptTable['examination'] = data.main[0].EXAM_NAME
+      this.receiptTable['deptName'] = data.main[0].Dept_Name
+      this.receiptTable['Purpose_Name'] = data.main[0].Purpose_Name
+      this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
       this.receiptTable['datatable'] = data.particular
       this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
-
     })
   }
 
@@ -113,7 +112,6 @@ export class ReceiptComponent implements OnInit {
   @ViewChild('printableArea') printableArea: ElementRef;
 
   public downloadAsPDF(divName) {
-    debugger
     const doc = new jsPDF();
 
     const printableArea = document.getElementById(divName).innerHTML;

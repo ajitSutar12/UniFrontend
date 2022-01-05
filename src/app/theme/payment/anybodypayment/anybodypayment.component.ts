@@ -161,7 +161,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   }
   chalanID = null;
   saveAsDraft() {
-    debugger
+    
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
