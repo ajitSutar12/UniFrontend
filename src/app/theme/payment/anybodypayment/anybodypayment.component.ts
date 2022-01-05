@@ -163,6 +163,8 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   saveAsDraft() {
     
     const formVal = this.angForm.value;
+    let collegeCode = JSON.parse(localStorage.getItem('user'))
+
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
@@ -178,6 +180,8 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
       'Particular': formVal.Enter_Particular,
       'bank_code': formVal.bank_code,
       'fees_code': this.chalanID == "" ? null : this.chalanID,
+      'user_id': collegeCode.USER_ID,
+      'user_name': collegeCode.USER_NAME
     }
     console.log('dataToSend', dataToSend)
     this._anybody.postData(dataToSend).subscribe(
@@ -185,9 +189,10 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
         Swal.fire("Success!", "Data Added Successfully !", "success");
         var userData = JSON.parse(localStorage.getItem('user'));
         var date = moment().format('DD-MM-YYYY');
-        let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
         let CRN = data;
-        window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount);
+
+        let ppi = CRN+'|'+CRN+'|'+userData.NAME+'|'+userData.CELL_NO+'|'+userData.EMAIL_ID+'|'+'-'+'|'+'-'+'|'+formVal.Enter_Particular+'|'+CRN+'|'+CRN+'|'+this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID);
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {

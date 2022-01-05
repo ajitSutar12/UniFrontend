@@ -34,12 +34,12 @@
                               <i class="helper"></i>Student<span class="required"> </span>
                             </label>
                           </div>
-                          <div class="radio radio-inline">
+                          <!-- <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="College" formControlName="Type" name="Type" (click)="select()">
                               <i class="helper"></i>College<span class="required"> </span>
                             </label>
-                          </div>
+                          </div> -->
                           <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="Anybody" name="Type" formControlName="Type"
@@ -129,8 +129,7 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="text" name="User_Name" class="form-control" placeholder=" " maxlength="12"
-                              minlength="12" id="User_Name" formControlName="User_Name"
-                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{12,12}$" required>
+                              minlength="12" id="User_Name" formControlName="User_Name" required>
                             <label for="User_Name">User Name<sub class="required">* </sub></label>
                           </span>
                         </div>
