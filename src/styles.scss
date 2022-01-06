@@ -81,4 +81,17 @@ textarea.form-control {
 // .text-center {
 //     color: white;
 // }
-
+.card .card-header h5 {
+    margin-bottom: 0;
+    color: #37474f;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    display: inline-block;
+    margin-right: 10px;
+    line-height: 1.4;
+    position: relative;
+}
+.table.compact td, .table.compact th {
+    padding: 0.45rem;
+    white-space: break-spaces;
+}

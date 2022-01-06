@@ -73,3 +73,15 @@ select{
   .col-sm{
     margin-bottom: 5px !important;
   }
+
+  .table thead th {
+
+    background: #e2e3f9 !important;
+    text-transform: none !important;
+  }
+
+  .form-control:disabled, .form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+    color: black !important;
+}
