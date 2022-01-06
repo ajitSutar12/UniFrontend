@@ -12,7 +12,9 @@ export class DashboardComponent implements OnInit {
   success = new Array();
   unsccess = new Array();
   notPrinted = new Array();
-  constructor(private router: Router, private _dashboard: DashboardService) {
+  constructor(private router: Router, private _dashboard: DashboardService) { }
+
+  ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
     this._dashboard.getsuccessful(user.USER_ID).subscribe(data => {
@@ -28,9 +30,6 @@ export class DashboardComponent implements OnInit {
         }
       });
     })
-  }
-
-  ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers'
     };

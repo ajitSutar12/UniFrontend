@@ -108,7 +108,7 @@ export class ReceiptComponent implements OnInit {
     window.print();
     printButton.style.visibility = 'visible';
     document.body.innerHTML = originalContents;
-
+    this._recepit.updateData(this.applicationID)
   }
 
   title = 'htmltopdf';

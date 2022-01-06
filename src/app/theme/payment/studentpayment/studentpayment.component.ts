@@ -190,8 +190,6 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-
-
     this._student.getPurposeData().subscribe(data => {
       this.Purpose = data
       this._student.getDepartmentData().subscribe(data => {
@@ -201,17 +199,14 @@ export class StudentpaymentComponent implements OnInit {
   }
 
 
-
   ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log('stud payment', user)
     this.createForm();
     this.applicationDate = moment().format('YYYY-MM-DD');
     this._student.getDepartmentData().subscribe(data => {
       this.Department = data
     })
-
-    //Bank details master
-
-
     this._student.getPurposeData().subscribe(data => {
       this.Purpose = data
       this._student.getBankCodeDetails().subscribe(data => {
@@ -233,9 +228,10 @@ export class StudentpaymentComponent implements OnInit {
     }
   }
   createForm() {
+    const user = JSON.parse(localStorage.getItem('user'));
     this.angForm = this.fb.group({
       Application_Date: ['', [Validators.required]],
-      Received_From: ['', [Validators.required]],
+      Received_From: [user.NAME, [Validators.required]],
       Examination: ['', [Validators.required]],
       Select_Department: ['Select Department',],
       Challan_Structure: ['',],
@@ -281,54 +277,54 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pay() {
-    const formVal = this.angForm.value;
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    const dataToSend = {
-      'Application_Date': formVal.Application_Date,
-      'Received_From': formVal.Received_From,
-      'Exam': formVal.Examination,
-      'purpose': formVal.purpose,
-      'Select_Department': formVal.Select_Department.ID,
-      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
-      'Total_Amount': this.totalAmount,
-      'Enter_Particular': formVal.Enter_Particular,
-      'studentDescriptionDetails': this.studentDescriptionDetails,
-      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
-      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
-      'Particular': formVal.Enter_Particular,
-      'bank_code': formVal.bank_code,
-      'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
-      'user_id': user.USER_ID,
-      'user_name': user.USER_NAME
-    }
-
-    this._student.postData(dataToSend).subscribe(
-      (data) => {
-        Swal.fire("Success!", "Data Added Successfully !", "success");
-        var userData = JSON.parse(localStorage.getItem('user'));
-        var date = moment().format('DD-MM-YYYY');
-        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        let CRN = data;
-
-        let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID,"", "width=800,height=500,top=400,left=400");
-        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID,'');
-
-        this.router.navigateByUrl('/dashboard');
-      },
-      (error) => {
-        console.log(error);
+    if (this.angForm.valid) {
+      const formVal = this.angForm.value;
+      const user = JSON.parse(localStorage.getItem('user'));
+      const dataToSend = {
+        'Application_Date': formVal.Application_Date,
+        'Received_From': formVal.Received_From,
+        'Exam': formVal.Examination,
+        'purpose': formVal.purpose,
+        'Select_Department': formVal.Select_Department.ID,
+        'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
+        'Total_Amount': this.totalAmount,
+        'Enter_Particular': formVal.Enter_Particular,
+        'studentDescriptionDetails': this.studentDescriptionDetails,
+        'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+        'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
+        'Particular': formVal.Enter_Particular,
+        'bank_code': formVal.bank_code,
+        'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
+        'user_id': user.USER_ID,
+        'user_name': user.USER_NAME
       }
-    );
+      this._student.postData(dataToSend).subscribe(
+        (data) => {
+          Swal.fire("Success!", "Data Added Successfully !", "success");
+          var userData = JSON.parse(localStorage.getItem('user'));
+          var date = moment().format('DD-MM-YYYY');
+          let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+          let CRN = data;
+
+          // let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+
+          // window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID);
+          window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+
+          this.router.navigateByUrl('/dashboard');
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
 
   }
   studentDescriptionDetails: any;
   totalAmount: any = 0
   chalanID: any
   getStudentTableDetails(ele) {
-    
+
     this.chalanID = ele
     console.log(ele.id, "chalan")
     let TotalAmt = 0;
@@ -355,7 +351,7 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   saveAsDraft() {
-    
+
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,

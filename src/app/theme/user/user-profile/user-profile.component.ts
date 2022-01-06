@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-
-
+import { FormGroup, Validators, FormControl, FormBuilder } from "@angular/forms";
+import { UserProfileService } from './user-profile.service'
+import Swal from "sweetalert2";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -23,6 +25,10 @@ import { HttpClient } from '@angular/common/http';
   ]
 })
 export class UserProfileComponent implements OnInit {
+
+  // Created Form Group
+  angForm: FormGroup;
+
   editProfile = true;
   editProfileIcon = 'icofont-edit';
 
@@ -46,26 +52,24 @@ export class UserProfileComponent implements OnInit {
   Number: any
   Name: any
   public userData: any;
-  constructor(public httpClient: HttpClient) {
+  constructor(public httpClient: HttpClient, private fb: FormBuilder, private _user: UserProfileService, private router: Router) { }
+
+  ngOnInit() {
     let data: any = localStorage.getItem('user');
-    console.log(data,"data")
+    console.log(data, "data")
     let result = JSON.parse(data);
     this.userData = result;
     this.Name = this.userData.NAME
     this.Email = this.userData.EMAIL_ID
     this.Number = this.userData.CELL_NO
-    if(this.userData.USER_TYPE == 0){
+    if (this.userData.USER_TYPE == 0) {
       this.Category = "Student"
-    }else if(this.userData.USER_TYPE == 1){
+    } else if (this.userData.USER_TYPE == 1) {
       this.Category = "College"
-    }else if(this.userData.USER_TYPE == 2){
+    } else if (this.userData.USER_TYPE == 2) {
       this.Category = "Anyone"
     }
-    
-  }
-
-  ngOnInit() {
-
+    this.createForm();
     setTimeout(() => {
       this.editorContent = 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising ';
       this.editorContent += 'pain was born and I will give you a complete account of the system, and expound the actual ';
@@ -145,6 +149,49 @@ export class UserProfileComponent implements OnInit {
     }, 1);
   }
 
+  createForm() {
+    this.angForm = this.fb.group({
+      Full_Name: ["", [Validators.pattern]],
+      Mobile_No: ["", [Validators.pattern]],
+      Email_Address: ["", [Validators.pattern]],
+    })
+  }
+  updateTrue: boolean = false
+  updateProfile(value) {
+    if (value == 1) {
+      this.updateTrue = true
+    }
+    else {
+      this.updateTrue = false
+      this.createForm()
+    }
+  }
+  update() {
+    if (this.angForm.valid) {
+      const formVal = this.angForm.value;
+      const dataToSend = {
+        'NAME': formVal.Full_Name,
+        'CELL_NO': formVal.Mobile_No,
+        'EMAIL_ID': formVal.Email_Address,
+        'USER_ID': this.userData.USER_ID
+      }
+      this._user.updateData(dataToSend).subscribe(
+        (data) => {
+          Swal.fire("Success!", "Data Updated Successfully !", "success");
+          this.router.navigate(['/dashboard'])
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+      //To clear form
+      this.resetForm();
+    }
+  }
+  resetForm() {
+    this.createForm()
+  }
+
   toggleEditProfile() {
     this.editProfileIcon = (this.editProfileIcon === 'icofont-close') ? 'icofont-edit' : 'icofont-close';
     this.editProfile = !this.editProfile;
@@ -171,5 +218,11 @@ export class UserProfileComponent implements OnInit {
   onContentChanged({ quill, html, text }) {
     console.log('quill content is changed!', quill, html, text);
   }
+
+
+
+
+
+
 
 }

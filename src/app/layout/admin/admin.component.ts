@@ -247,7 +247,7 @@ export class AdminComponent implements OnInit, OnDestroy {
 
     // sidebar img
     /*this.setLayoutType('img');*/
-    
+
     let data: any = localStorage.getItem('user');
     let result = JSON.parse(data);
     this.userData = result;
@@ -636,8 +636,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   }
   logoutSession() {
-    localStorage.clear();
-
+    localStorage.removeItem('user');
     this.router.navigateByUrl('/auth/login/simple')
   }
 }

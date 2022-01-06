@@ -17,7 +17,6 @@ export class AuthService {
 
 
   login(article: any): Observable<any> {
-    console.log(this.base_url);
     let httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache'
