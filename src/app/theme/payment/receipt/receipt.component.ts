@@ -89,7 +89,7 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
       this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
       this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
-      this.receiptTable['examination'] = data.main[0].EXAM_NAME
+      // this.receiptTable['examination'] = data.main[0].EXAM_NAME
       this.receiptTable['deptName'] = data.main[0].Dept_Name
       this.receiptTable['Purpose_Name'] = data.main[0].Purpose_Name
       this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
