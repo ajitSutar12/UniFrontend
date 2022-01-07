@@ -22,9 +22,8 @@
                 <tbody>
                   <tr *ngFor="let item of success; let i = index">
                     <td>{{i+1}}</td>
-                    <!-- <td>{{item.TRAN_NO}}</td> -->
                     <td>{{item.applicationId}}</td>
-                    <td>{{item.TRAN_DATE }}</td>
+                    <td>{{item.trandate }}</td>
                     <td>{{item.TRAN_AMT}}</td> 
                     <td>
                       <span class="badge badge-pill badge-success" style="cursor: pointer;"
@@ -63,8 +62,8 @@
                 <tbody>
                   <tr *ngFor="let item of unsccess; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{item.TRAN_NO}}</td>
-                    <td>{{item.TRAN_DATE}}</td>
+                    <td>{{item.applicationId}}</td>
+                    <td>{{item.trandate}}</td>
                     <td>{{item.TRAN_AMT}}</td>
                   </tr>
                 </tbody>
@@ -100,8 +99,8 @@
                 <tbody>
                   <tr *ngFor="let item of notPrinted; let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{item.TRAN_NO}}</td>
-                    <td>{{item.TRAN_DATE}}</td>
+                    <td>{{item.applicationId}}</td>
+                    <td>{{item.trandate}}</td>
                     <td>{{item.TRAN_AMT}}</td>
                     <td><span class="badge badge-pill badge-warning">Not Printed !</span></td>
                   </tr>

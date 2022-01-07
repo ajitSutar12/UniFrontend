@@ -20,7 +20,7 @@ export class BasicRegService {
         return this.http.post(this.url + '/registration/insert', data).pipe(map((res) => res),
             catchError((error) => {
                 console.log('error', error)
-                Swal.fire('User Already Exists!');
+                Swal.fire('Username Already Exists!');
                 return throwError(error);
             })
         )

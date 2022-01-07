@@ -100,15 +100,16 @@ export class ReceiptComponent implements OnInit {
   }
 
   printDiv(divName) {
+    this._recepit.updateData(this.applicationID).subscribe((data) => { })
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
     var printButton = document.getElementById("printButton");
     printButton.style.visibility = 'hidden';
+
     window.print();
     printButton.style.visibility = 'visible';
     document.body.innerHTML = originalContents;
-    this._recepit.updateData(this.applicationID)
   }
 
   title = 'htmltopdf';

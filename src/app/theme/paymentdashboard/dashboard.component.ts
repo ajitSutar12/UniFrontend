@@ -21,16 +21,21 @@ export class DashboardComponent implements OnInit {
       console.log(data);
       this.dashboardDetails = data;
       this.dashboardDetails.forEach(element => {
-        debugger
         if (element.STATUS_CODE == 0) {
-          element['TRAN_DATE'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
+          element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
           element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.success.push(element);
         } else if (element.STATUS_CODE == 21) {
+          element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
+          let appId = element.TRAN_NO.toString()
+          element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.unsccess.push(element)
         }
         if (element.IS_PRINTED == null && element.STATUS_CODE == 0) {
+          element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
+          let appId = element.TRAN_NO.toString()
+          element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.notPrinted.push(element)
         }
       });
