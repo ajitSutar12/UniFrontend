@@ -41,7 +41,7 @@ export class StudentpaymentComponent implements OnInit {
   chalanID: any
   isTutionFee: boolean = false
   challanlist = new Array();
-
+  noDataFound: boolean = false
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
@@ -56,6 +56,7 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   getChallanDropdown(event) {
+    this.selectDepartment = null
     if (event == 104) {
       this.hideColumn = true;
       this.isTutionFee = true
@@ -64,11 +65,19 @@ export class StudentpaymentComponent implements OnInit {
       let TotalAmt = 0;
       this.hideColumn = false;
       this._student.StudentTableListViaDept(event).subscribe(data => {
-        this.studentDescriptionDetails = data;
-        this.studentDescriptionDetails.forEach(element => {
-          TotalAmt = TotalAmt + Number(element.AMOUNT)
-        });
-        this.totalAmount = TotalAmt.toFixed(2)
+        if (data.length == 0) {
+          this.noDataFound = true
+          this.studentDescriptionDetails = []
+          this.totalAmount = 0
+        }
+        else {
+          this.noDataFound = false
+          this.studentDescriptionDetails = data;
+          this.studentDescriptionDetails.forEach(element => {
+            TotalAmt = TotalAmt + Number(element.AMOUNT)
+          });
+          this.totalAmount = TotalAmt.toFixed(2)
+        }
       })
       this.isTutionFee = false
     }
@@ -215,8 +224,7 @@ export class StudentpaymentComponent implements OnInit {
     $event.target.select();
   }
 
-  decimalAllContent($event){
-    debugger
+  decimalAllContent($event) {
     let value = Number($event.target.value);
     let data = value.toFixed(2);
     $event.target.value = data;
@@ -226,11 +234,19 @@ export class StudentpaymentComponent implements OnInit {
     this.chalanID = ele
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
-      this.studentDescriptionDetails = data;
-      this.studentDescriptionDetails.forEach(element => {
-        TotalAmt = TotalAmt + Number(element.AMOUNT)
-      });
-      this.totalAmount = TotalAmt.toFixed(2);
+      if (data.length == 0) {
+        this.noDataFound = true
+        this.studentDescriptionDetails = []
+        this.totalAmount = 0
+      }
+      else {
+        this.noDataFound = false
+        this.studentDescriptionDetails = data;
+        this.studentDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
+        this.totalAmount = TotalAmt.toFixed(2);
+      }
     })
   }
 

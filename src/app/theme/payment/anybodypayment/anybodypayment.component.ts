@@ -37,6 +37,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   studentDescriptionDetails: any;
   totalAmount: any = 0
   chalanID = null;
+  noDataFound: boolean = false
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
@@ -85,12 +86,20 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
 
   getAnyoneTableDetails(event) {
     this._anybody.anyoneTableListViaDept(event).subscribe(data => {
-      this.anyoneDescriptionDetails = data;
-      let TotalAmt = 0;
-      this.anyoneDescriptionDetails.forEach(element => {
-        TotalAmt = TotalAmt + Number(element.AMOUNT)
-      });
-      this.totalAmount = TotalAmt
+      if (data.length == 0) {
+        this.noDataFound = true
+        this.anyoneDescriptionDetails = []
+        this.totalAmount = 0
+      }
+      else {
+        this.noDataFound = false
+        this.anyoneDescriptionDetails = data;
+        let TotalAmt = 0;
+        this.anyoneDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
+        this.totalAmount = TotalAmt
+      }
     })
   }
 
@@ -181,6 +190,17 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     }, err => {
       console.log(err);
     })
+  }
+
+  selectAllContent($event) {
+    $event.target.select();
+  }
+
+  decimalAllContent($event) {
+    debugger
+    let value = Number($event.target.value);
+    let data = value.toFixed(2);
+    $event.target.value = data;
   }
 
 }

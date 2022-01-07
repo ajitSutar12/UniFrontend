@@ -33,6 +33,7 @@ export class CollegepaymentComponent implements OnInit {
   chalanID = null;
   selectedBank: any;
   totalAmount: any = 0
+  noDataFound: boolean = false
   //Budget table variable
   studentDescriptionDetails: any;
   // Created Form Group
@@ -88,11 +89,19 @@ export class CollegepaymentComponent implements OnInit {
   getCollegeTableDetails(event) {
     let TotalAmt = 0
     this._college.collegeTableListViaDept(event).subscribe(data => {
-      this.studentDescriptionDetails = data;
-      this.studentDescriptionDetails.forEach(element => {
-        TotalAmt = TotalAmt + Number(element.AMOUNT)
-      });
-      this.totalAmount = TotalAmt;
+      if (data.length == 0) {
+        this.noDataFound = true
+        this.studentDescriptionDetails = []
+        this.totalAmount = 0
+      }
+      else {
+        this.noDataFound = false
+        this.studentDescriptionDetails = data;
+        this.studentDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
+        this.totalAmount = TotalAmt;
+      }
     })
   }
 
@@ -105,6 +114,17 @@ export class CollegepaymentComponent implements OnInit {
       TotalAmt = TotalAmt + Number(element.AMOUNT)
     });
     this.totalAmount = TotalAmt
+  }
+
+  selectAllContent($event) {
+    $event.target.select();
+  }
+
+  decimalAllContent($event) {
+    debugger
+    let value = Number($event.target.value);
+    let data = value.toFixed(2);
+    $event.target.value = data;
   }
 
   //method for save and draft 

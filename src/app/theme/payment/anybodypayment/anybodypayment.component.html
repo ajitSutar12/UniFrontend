@@ -88,10 +88,18 @@
                                         <tr *ngFor="let data of anyoneDescriptionDetails;let i = index">
                                             <th scope="row" style="word-wrap: break-word">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
-                                            <td> <input type="text" name="amount" style="text-align: right;"
+                                            <td> <input type="text" name="amount" style="text-align: right;width:75%"
                                                     placeholder="Enter Amount " id="amount" pattern="^[0-9]+$"
                                                     title="Input allowed only  A-Z a-z (Space)"
-                                                    (keyup)="changeAmt($event,i)" value="{{data.AMOUNT}}">
+                                                    (focus)="selectAllContent($event)"
+                                                    (focusout)="decimalAllContent($event)"
+                                                    (mouseup)="$event.preventDefault()" (keyup)="changeAmt($event,i)"
+                                                    value="{{ data.AMOUNT.toFixed(2)}}">
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="noDataFound" style="color: #e11313; text-align: center;">
+                                            <td colspan="3">
+                                                Data Not Found
                                             </td>
                                         </tr>
                                     </tbody>
