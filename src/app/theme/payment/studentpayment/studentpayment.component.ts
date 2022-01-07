@@ -173,7 +173,7 @@ export class StudentpaymentComponent implements OnInit {
         this.studentDescriptionDetails.forEach(element => {
           TotalAmt = TotalAmt + Number(element.AMOUNT)
         });
-        this.totalAmount = TotalAmt
+        this.totalAmount = TotalAmt.toFixed(2)
       })
       this.isTutionFee = false
 
@@ -325,6 +325,13 @@ export class StudentpaymentComponent implements OnInit {
   selectAllContent($event) {
     $event.target.select();
   }
+
+  decimalAllContent($event){
+    debugger
+    let value = Number($event.target.value);
+    let data = value.toFixed(2);
+    $event.target.value = data;
+  }
   studentDescriptionDetails: any;
   totalAmount: any = 0
   chalanID: any
@@ -339,7 +346,7 @@ export class StudentpaymentComponent implements OnInit {
       this.studentDescriptionDetails.forEach(element => {
         TotalAmt = TotalAmt + Number(element.AMOUNT)
       });
-      this.totalAmount = TotalAmt;
+      this.totalAmount = TotalAmt.toFixed(2);
     })
 
   }
@@ -352,7 +359,7 @@ export class StudentpaymentComponent implements OnInit {
     this.studentDescriptionDetails.forEach(element => {
       TotalAmt = TotalAmt + Number(element.AMOUNT)
     });
-    this.totalAmount = TotalAmt
+    this.totalAmount = TotalAmt.toFixed(2)
   }
 
   saveAsDraft() {

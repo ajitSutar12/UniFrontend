@@ -165,8 +165,9 @@
                                                     id="Examination" pattern="^[0-9]+$"
                                                     title="Input allowed only  A-Z a-z (Space)"
                                                     (focus)="selectAllContent($event)"
+                                                    (focusout)="decimalAllContent($event)"
                                                     (mouseup)="$event.preventDefault()" (keyup)="changeAmt($event,i)"
-                                                    value="{{ data.AMOUNT}}">
+                                                    value="{{ data.AMOUNT.toFixed(2)}}">
                                             </td>
                                         </tr>
                                     </tbody>
