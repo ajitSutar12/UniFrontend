@@ -8,10 +8,10 @@
             <div class="card-block">
                 <form action="javascript:" [formGroup]="angForm" novalidate>
                     <div class="row">
-                        <div class="col-sm-2" style="max-width: 13%">
+                        <div class="col-sm-2" style="max-width: 14%">
                             <label for="Application_Date">Application Date</label>
                         </div>
-                        <div class="col-sm-2" >
+                        <div class="col-sm-2">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="date" name="Application_Date" class="form-control" placeholder=" "
@@ -28,10 +28,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2" style="max-width: 12%">
+                        <div class="col-sm-2" style="max-width: 14%">
                             <label for="Received_From">Received From<sub class="required">* </sub></label>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-5">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <input type="text" name="Received_From" class="form-control"
@@ -49,7 +49,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-1" style="max-width: 13%">
+                        <div class="col-sm-1"></div>
+                        <!-- <div class="col-sm-1" style="max-width: 13%">
                             <label for="Examination">Examination<sub class="required">* </sub></label>
                         </div>
                         <div class="col-sm -1">
@@ -68,66 +69,44 @@
                                     This is required field
                                 </div>
                             </div>
+                        </div> -->
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="purpose">Purpose<sub class="required">* </sub></label>
                         </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2" style="max-width: 13%">
-                                <label for="Examination">Purpose<sub class="required">* </sub></label>
+                        <div class="col-sm-8">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <ng-select style="font-size: 12px;" [items]="Purpose" bindValue="ID"
+                                        bindLabel="NAME" formControlName="purpose" [(ngModel)]="selectPurpose"
+                                        id="purpose" placeholder="Select Purpose"
+                                        (ngModelChange)="getChallanDropdown($event)">
+                                    </ng-select>
+                                </span>
                             </div>
-                            <div class="col-sm-8">
-                                <div class="form-group input-group">
-                                    <span class="border-lable-flt">
-                                        <!-- <ng-select [items]="Purpose | async" bindLabel="NAME" bindValue="NAME"
-                                            [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
-                                            [loading]="PurposeLoading"
-                                            typeToSearchText="Please enter {{minLengthTerm}} or more characters"
-                                            formControlName="purpose" [typeahead]="PurposeInput" [(ngModel)]="selectPurpose"
-                                            placeholder="Select Purpose" (ngModelChange)="getChallanDropdown($event)">
-                                        </ng-select> -->
-                                        <ng-select [items]="Purpose" bindValue="ID" bindLabel="NAME"
-                                            formControlName="purpose" [(ngModel)]="selectPurpose"
-                                            placeholder="Select Purpose" (ngModelChange)="getChallanDropdown($event)">
-                                        </ng-select>
-                                    </span>
-                                </div>
-                                <div class="form-group form-primary form-static-label"
-                                    *ngIf="angForm.controls['purpose'].invalid && (angForm.controls['purpose'].dirty || angForm.controls['purpose'].touched)"
-                                    class="alert alert-danger mt-2">
-                                    <div *ngIf="angForm.controls['purpose'].errors?.required">
-                                        This is required field
-                                    </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['purpose'].invalid && (angForm.controls['purpose'].dirty || angForm.controls['purpose'].touched)"
+                                class="alert alert-danger mt-2">
+                                <div *ngIf="angForm.controls['purpose'].errors?.required">
+                                    This is required field
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                        <div class="col-sm-2" style="max-width: 13%">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2" style="max-width: 14%">
                             <label for="Examination">Department<sub class="required">* </sub></label>
                         </div>
                         <div class="col-sm-8" style="margin-bottom: 5px;">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <!-- <ng-select [items]="Department | async" bindLabel="NAME" bindValue="ID"
-                                        [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
-                                        [loading]="DepartmentLoading"
-                                        typeToSearchText="Please enter {{minLengthTerm}} or more characters"
-                                        formControlName="Select_Department" [typeahead]="DepartmentInput"
-                                        [(ngModel)]="selectDepartment" placeholder="Select Department"
-                                        (ngModelChange)="getDepartmentCode($event)">
-                                    </ng-select> -->
-
-
-                                    <!-- <ng-select [items]="Department" bindValue="ID" bindLabel="NAME"
-                                        formControlName="Select_Department" [(ngModel)]="selectDepartment"
-                                        placeholder="Select Department"
-                                        (ngModelChange)="getDepartmentCode($event)">
-                                    </ng-select> -->
-
-                                    <ng-select [(ngModel)]="selectDepartment" formControlName="Select_Department"
-                                        placeholder="Select Department" (ngModelChange)="getDepartmentCode($event.ID)">
+                                    <ng-select style="font-size: 12px;" [(ngModel)]="selectDepartment"
+                                        formControlName="Select_Department" placeholder="Select Department"
+                                        (ngModelChange)="getDepartmentCode($event.ID)">
                                         <ng-option *ngFor="let dept of Department" [value]="dept">
                                             {{dept.NAME}}</ng-option>
                                     </ng-select>
-
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label "
@@ -140,31 +119,19 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="isTutionFee">
-                        <div class="col-sm-2" style="max-width: 13%">
-                            <label for="Examination">Challan Structure<sub class="required">* </sub></label>
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Challan_Structure">Challan Structure<sub class="required">* </sub></label>
                         </div>
                         <div class="col-sm-8">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
-                                    <!-- <ng-select [items]="Challan | async" bindLabel="NAME" bindValue="ID"
-                                        [trackByFn]="trackByFn" [minTermLength]="minLengthTerm"
-                                        [loading]="ChallanLoading"
-                                        typeToSearchText="Please enter {{minLengthTerm}} or more characters"
-                                        formControlName="Challan_Structure" [typeahead]="ChallanInput"
-                                        [(ngModel)]="selectChallan" placeholder="Select Challan Structure">
-                                    </ng-select> -->
-                                    <!-- <ng-select [items]="challanlist" bindValue="ID" bindLabel="NAME"
-                                        formControlName="Challan_Structure" [(ngModel)]="selectChallan"
-                                        placeholder="Select Challan Structure"
-                                        (ngModelChange)="getStudentTableDetails($event)"></ng-select> -->
-
-                                    <ng-select [(ngModel)]="selectChallan" formControlName="Challan_Structure"
+                                    <ng-select style="font-size: 12px;" [(ngModel)]="selectChallan"
+                                        id="Challan_Structure" formControlName="Challan_Structure"
                                         placeholder="Select Challan Structure"
                                         (ngModelChange)="getStudentTableDetails($event.ID)">
                                         <ng-option *ngFor="let challan of challanlist" [value]="challan">
                                             {{challan.NAME}}</ng-option>
                                     </ng-select>
-
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
@@ -180,11 +147,11 @@
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
                                 <table class="table table-bordered compact">
-                                    <thead >
+                                    <thead>
                                         <tr style="background-color: #d6e2f8 !important;">
                                             <th scope="col" style="width: 10%;">Budget Code</th>
-                                            <th scope="col" style="width: 20%;">Budget Head</th>
-                                            <th scope="col" style="width: 40%;" *ngIf="hideColumn">Particular</th>
+                                            <th scope="col" style="width: 35%;">Budget Head</th>
+                                            <th scope="col" style="width: 25%;" *ngIf="hideColumn">Particular</th>
                                             <th scope="col" style="width: 10%;">Amount</th>
                                         </tr>
                                     </thead>
@@ -193,64 +160,34 @@
                                             <th scope="row" style="word-wrap: break-word">{{data.BUDGET_CODE}}</th>
                                             <td>{{data.GL_NAME}}</td>
                                             <td *ngIf="hideColumn" style="word-wrap: break-word">{{data.NAME}}</td>
-                                            <td> <input type="text" name="Examination" 
+                                            <td> <input type="text" name="Examination"
                                                     style="text-align: right;width:75%" placeholder="Enter Amount "
                                                     id="Examination" pattern="^[0-9]+$"
-                                                    title="Input allowed only  A-Z a-z (Space)" (focus)="selectAllContent($event)" (mouseup)="$event.preventDefault()"
-                                                    (keyup)="changeAmt($event,i)" value="{{ data.AMOUNT}}">
+                                                    title="Input allowed only  A-Z a-z (Space)"
+                                                    (focus)="selectAllContent($event)"
+                                                    (mouseup)="$event.preventDefault()" (keyup)="changeAmt($event,i)"
+                                                    value="{{ data.AMOUNT}}">
                                             </td>
                                         </tr>
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-2" style="max-width: 13%">
-                            <label for="Examination">Particular<sub class="required">* </sub></label>
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Enter_Particular">Particular</label>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group input-group">
                                 <span class="border-lable-flt">
                                     <textarea type="text" name="Enter_Particular" class="form-control" placeholder=" "
-                                        style="height: 40px;" pattern="^[A-Za-z\./ -]+$"
+                                        style="height: 40px;" pattern="^[A-Za-z0-9\./ -]+$"
                                         title="Input allowed only  A-Z a-z  - / . (Space)" id="Enter_Particular"
-                                        maxlength="4000" formControlName="Enter_Particular" required></textarea>
+                                        maxlength="4000" formControlName="Enter_Particular"></textarea>
                                     <!-- <label for="Enter_Particular">Enter Particular<sub class="required">* </sub></label> -->
                                 </span>
                             </div>
-                        </div>
-                        
-                        <div class="col">
-
-                        </div>
-                        <div class="col-sm-2" style="max-width: 13%">
-                            <label for="Total_Amount">Total Amount<sub class="required">* </sub>  <i class="fa fa-rupee"></i></label>
-                        </div>
-                        <div class="col-sm-2 " style="float: right;">
-                            <div class="form-group input-group">
-                                <span class="border-lable-flt">
-                                   
-                                    <input type="text" name="Total_Amount" class="form-control " placeholder=" "
-                                        style="text-align: right;font-size: 21px;" id="Total_Amount" pattern="^[A-Za-z\./ -]+$"
-                                        [value]="totalAmount" title="Input allowed only  A-Z a-z (Space)"
-                                        formControlName="Total_Amount" disabled>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            
-                        </div>
-                        <div class="col">
-
-                        </div>
-
-
-                        <div class="col-sm-4 ">
-                            
                             <div class="form-group form-primary form-static-label"
                                 *ngIf="angForm.controls['Enter_Particular'].invalid && (angForm.controls['Enter_Particular'].dirty || angForm.controls['Enter_Particular'].touched)"
                                 class="alert alert-danger">
@@ -258,12 +195,27 @@
                                     This is required field
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Total_Amount">Total Amount<sub class="required">* </sub> <i
+                                    class="fa fa-rupee"></i></label>
+                        </div>
+                        <div class="col-sm-2" style="float: right;">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Total_Amount" class="form-control " placeholder=" "
+                                        style="text-align: right;font-size: 21px;" id="Total_Amount"
+                                        pattern="^[A-Za-z\./ -]+$" [value]="totalAmount"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount"
+                                        disabled>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="row" style="margin-top:1%">
-                        
-                        <div class="col-sm-2" style="max-width: 13%">
+                        <div class="col-sm-2" style="max-width: 14%">
                             <label for="Total_Amount">Payment Bank<sub class="required">* </sub></label>
                         </div>
                         <div class="col-sm-3">
@@ -277,7 +229,6 @@
                         </div>
                     </div>
                     <div class="row mt-3">
-
                         <div class="col-sm-12">
                             <div style="float: right;">
                                 <!-- <button class="btn btn-primary  ripple light " style="margin-right:3px"
@@ -289,7 +240,6 @@
                                 <button class="btn btn-dark ripple light" [routerLink]="">Back</button>
                             </div>
                         </div>
-
                     </div>
                 </form>
             </div>

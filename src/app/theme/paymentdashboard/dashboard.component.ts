@@ -22,6 +22,9 @@ export class DashboardComponent implements OnInit {
       this.dashboardDetails = data;
       this.dashboardDetails.forEach(element => {
         if (element.STATUS_CODE == 0) {
+          // this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
+
+          element['TRAN_DATE'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           this.success.push(element);
         } else if (element.STATUS_CODE == 21) {
           this.unsccess.push(element)

@@ -199,6 +199,7 @@ export class BasicRegComponent implements OnInit {
   // Reset Function
   resetForm() {
     this.createForm();
+    this.selectedCode = null
     this.selectstudent()
   }
 

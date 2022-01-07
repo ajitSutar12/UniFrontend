@@ -22,21 +22,21 @@ export class StudentpaymentComponent implements OnInit {
   Department: Observable<any>;
   DepartmentLoading = false;
   DepartmentInput = new Subject<string>();
-  selectDepartment: any;
+  selectDepartment: any = null
   minLengthTerm = 2;
 
   Challan: Observable<any>;
   ChallanLoading = false;
   ChallanInput = new Subject<string>();
-  selectChallan: any;
+  selectChallan: any = null
 
   Purpose: Observable<any>;
   PurposeLoading = false;
   PurposeInput = new Subject<string>();
-  selectPurpose: any;
+  selectPurpose: any = null
   hideColumn: boolean = true;
 
-  selectedBank: any;
+  selectedBank: any = null
 
   stringArray: any = [];
 
@@ -183,6 +183,7 @@ export class StudentpaymentComponent implements OnInit {
 
   challanlist = new Array();
   getDepartmentCode(term: string = null) {
+    this.selectChallan = null
     this._student.getChallandata(term).subscribe(data => {
       this.challanlist = data
       console.log(this.challanlist)
@@ -211,6 +212,7 @@ export class StudentpaymentComponent implements OnInit {
       this.Purpose = data
       this._student.getBankCodeDetails().subscribe(data => {
         this.bankDetails = data;
+        this.selectedBank = data[0].ID
       })
     })
   }
@@ -232,11 +234,11 @@ export class StudentpaymentComponent implements OnInit {
     this.angForm = this.fb.group({
       Application_Date: ['', [Validators.required]],
       Received_From: [user.NAME, [Validators.required]],
-      Examination: ['', [Validators.required]],
-      Select_Department: ['Select Department',],
+      Examination: [null],
+      Select_Department: ['',],
       Challan_Structure: ['',],
       Total_Amount: [''],
-      Enter_Particular: ['', [Validators.required]],
+      Enter_Particular: ['', [Validators.pattern]],
       purpose: ['', [Validators.required]],
       bank_code: ['']
     });
@@ -245,8 +247,6 @@ export class StudentpaymentComponent implements OnInit {
   submit() {
     const formVal = this.angForm.value;
     const user = JSON.parse(localStorage.getItem('user'));
-
-
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
@@ -277,6 +277,7 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pay() {
+    debugger
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       const user = JSON.parse(localStorage.getItem('user'));
@@ -308,7 +309,7 @@ export class StudentpaymentComponent implements OnInit {
 
           let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
 
-          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID);
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
           // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
           this.router.navigateByUrl('/dashboard');
