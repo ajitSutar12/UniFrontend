@@ -30,10 +30,9 @@
                                                 name="mobileno" [(ngModel)]="mobileno" class="form-control"
                                                 minlength="10" maxlength="10" pattern="^[0-9]+$"
                                                 title="Please Enter Mobile Number"> -->
-                                            <input type="text" name="User_Name" pattern="^[A-Za-z\s .]+$"
-                                                title="Please Enter User Name" [(ngModel)]="username"
-                                                class="form-control" maxlength="12" minlength="12" id="User_Name"
-                                                required>
+                                            <input type="text" name="User_Name" title="Please Enter User Name"
+                                                [(ngModel)]="username" class="form-control" maxlength="10" minlength="3"
+                                                id="User_Name" required>
                                             <span class="form-bar"></span>
                                             <label class="float-label">User Name</label>
                                             <label class="invalid" *ngIf="isInvalidUsername">Invalid username</label>
@@ -69,7 +68,8 @@
                                                     <b style="color: white;">Sign in</b>
                                                 </button>
                                                 <div class="text-center">New Registration?<a
-                                                        [routerLink]="['/auth/registration/simple']" style="text-decoration: underline;color:red"> <b> Click here to
+                                                        [routerLink]="['/auth/registration/simple']"
+                                                        style="text-decoration: underline;color:red"> <b> Click here to
                                                             register</b></a></div>
 
                                             </div>

@@ -92,7 +92,7 @@ const MENUITEMS = [
             short_label: 'D',
             name: 'Student',
             type: 'sub',
-            id:0,
+            id: 0,
             children: [
               {
                 state: 'studentpayment',
@@ -132,13 +132,13 @@ const MENUITEMS = [
           {
             state: 'anybody',
             short_label: 'D',
-            name: 'Anyone ',
+            name: 'Other ',
             type: 'sub',
             id: 2,
             children: [
               {
                 state: 'anybodypayment',
-                name: 'Anyone Payment'
+                name: 'Other Payment'
               },
               // {
               //   state: 'anybodydraft',

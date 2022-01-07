@@ -87,14 +87,14 @@ const routes: Routes = [
       {
         path: 'anybody',
         data: {
-          title: 'Anyone',
+          title: 'Other',
           status: false
         },
         children: [
           {
             path: 'anybodypayment',
             data: {
-              title: 'Anyone Payment',
+              title: 'Other Payment',
 
             },
             component: AnybodypaymentComponent

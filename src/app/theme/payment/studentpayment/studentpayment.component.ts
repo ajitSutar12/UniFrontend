@@ -3,12 +3,10 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { NgSelectConfig } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 import { StudentpaymentService } from './studentpayment.service'
-import { concat, Observable, of, Subject, throwError } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
-import { every } from 'rxjs-compat/operator/every';
 import { Router } from '@angular/router';
 
 @Component({
@@ -20,19 +18,13 @@ export class StudentpaymentComponent implements OnInit {
   url = environment.base_url;
 
   Department: Observable<any>;
-  DepartmentLoading = false;
-  DepartmentInput = new Subject<string>();
   selectDepartment: any = null
   minLengthTerm = 2;
 
   Challan: Observable<any>;
-  ChallanLoading = false;
-  ChallanInput = new Subject<string>();
   selectChallan: any = null
 
   Purpose: Observable<any>;
-  PurposeLoading = false;
-  PurposeInput = new Subject<string>();
   selectPurpose: any = null
   hideColumn: boolean = true;
 
@@ -44,6 +36,12 @@ export class StudentpaymentComponent implements OnInit {
   applicationDate: any;
   bankDetails: any;
 
+  studentDescriptionDetails: any;
+  totalAmount: any = 0
+  chalanID: any
+  isTutionFee: boolean = false
+  challanlist = new Array();
+
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
@@ -52,115 +50,12 @@ export class StudentpaymentComponent implements OnInit {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
   }
 
-
   //dropdown bind
   trackByFn(item: any) {
     return item.imdbID;
   }
 
-  loadDepartment() {
-    this.Department = concat(
-      of([]), // default items
-      this.DepartmentInput.pipe(
-        filter(res => {
-          return res !== null && res.length >= this.minLengthTerm
-        }),
-        distinctUntilChanged(),
-        debounceTime(800),
-        tap(() => this.DepartmentLoading = true),
-        switchMap(term => {
-          return this.getDepartment(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => this.DepartmentLoading = false)
-          )
-        })
-      )
-    );
-
-  }
-
-  getDepartment(term: string = null): Observable<any> {
-    return this.http
-      .get<any>(this.url + '/payment/department' + term)
-      .pipe(map(resp => {
-        if (resp.Error) {
-          throwError(resp.Error);
-        } else {
-          return resp;
-        }
-      })
-      );
-  }
-
-  loadChallan() {
-    this.Challan = concat(
-      of([]), // default items
-      this.ChallanInput.pipe(
-        filter(res => {
-          return res !== null && res.length >= this.minLengthTerm
-        }),
-        distinctUntilChanged(),
-        debounceTime(800),
-        tap(() => this.ChallanLoading = true),
-        switchMap(term => {
-          return this.getChallan(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => this.ChallanLoading = false)
-          )
-        })
-      )
-    );
-  }
-
-  getChallan(term: string = null): Observable<any> {
-    return this.http
-      .get<any>(this.url + '/payment/challan' + term)
-      .pipe(map(resp => {
-        if (resp.Error) {
-          throwError(resp.Error);
-        } else {
-          return resp;
-        }
-      })
-      );
-  }
-
-  loadPurpose() {
-    this.Purpose = concat(
-      of([]), // default items
-      this.PurposeInput.pipe(
-        filter(res => {
-          return res !== null && res.length >= this.minLengthTerm
-        }),
-        distinctUntilChanged(),
-        debounceTime(800),
-        tap(() => this.PurposeLoading = true),
-        switchMap(term => {
-          return this.getPurpose(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => this.PurposeLoading = false)
-          )
-        })
-      )
-    );
-  }
-
-  getPurpose(term: string = null): Observable<any> {
-    return this.http
-      .get<any>(this.url + '/payment/purpose' + term)
-      .pipe(map(resp => {
-        if (resp.Error) {
-          throwError(resp.Error);
-        } else {
-          return resp;
-        }
-      })
-      );
-  }
-
-  isTutionFee: boolean = false
   getChallanDropdown(event) {
-    console.log('event in getchalln', event)
     if (event == 104) {
       this.hideColumn = true;
       this.isTutionFee = true
@@ -176,12 +71,10 @@ export class StudentpaymentComponent implements OnInit {
         this.totalAmount = TotalAmt.toFixed(2)
       })
       this.isTutionFee = false
-
-      console.log('in getchallan amount', this.totalAmount)
     }
   }
 
-  challanlist = new Array();
+
   getDepartmentCode(term: string = null) {
     this.selectChallan = null
     this._student.getChallandata(term).subscribe(data => {
@@ -216,9 +109,7 @@ export class StudentpaymentComponent implements OnInit {
       })
     })
   }
-  dropdownOptions = [
-    1, 2
-  ]
+
   //disabledate on keyup
   disabledate(data: any) {
     if (data != "") {
@@ -229,6 +120,7 @@ export class StudentpaymentComponent implements OnInit {
       }
     }
   }
+
   createForm() {
     const user = JSON.parse(localStorage.getItem('user'));
     this.angForm = this.fb.group({
@@ -267,7 +159,6 @@ export class StudentpaymentComponent implements OnInit {
         console.log(error);
       }
     );
-
     //To clear form
     this.resetForm();
   }
@@ -277,7 +168,6 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pay() {
-    debugger
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       const user = JSON.parse(localStorage.getItem('user'));
@@ -319,7 +209,6 @@ export class StudentpaymentComponent implements OnInit {
         }
       );
     }
-
   }
 
   selectAllContent($event) {
@@ -332,26 +221,20 @@ export class StudentpaymentComponent implements OnInit {
     let data = value.toFixed(2);
     $event.target.value = data;
   }
-  studentDescriptionDetails: any;
-  totalAmount: any = 0
-  chalanID: any
-  getStudentTableDetails(ele) {
 
+  getStudentTableDetails(ele) {
     this.chalanID = ele
-    console.log(ele.id, "chalan")
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
       this.studentDescriptionDetails = data;
-      console.log('getstudtable', data)
       this.studentDescriptionDetails.forEach(element => {
         TotalAmt = TotalAmt + Number(element.AMOUNT)
       });
       this.totalAmount = TotalAmt.toFixed(2);
     })
-
   }
 
-  ///when change amount this time call below function
+  //when change amount this time call below function
   changeAmt(ele, index) {
     let TotalAmt = 0;
     let amount = ele.target.value;
@@ -363,7 +246,6 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   saveAsDraft() {
-
     const formVal = this.angForm.value;
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
@@ -381,11 +263,8 @@ export class StudentpaymentComponent implements OnInit {
       'bank_code': formVal.bank_code,
       'fees_code': this?.chalanID == "" ? "" : this?.chalanID
     }
-    console.log('dataToSend', dataToSend)
-
     this._student.postData(dataToSend).subscribe(
       (data => {
-
         console.log('save data', data)
         Swal.fire("Success!", "Data Added Successfully !", "success");
         window.open('http://localhost/Axis_bank?')

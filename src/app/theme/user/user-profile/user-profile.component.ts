@@ -67,7 +67,7 @@ export class UserProfileComponent implements OnInit {
     } else if (this.userData.USER_TYPE == 1) {
       this.Category = "College"
     } else if (this.userData.USER_TYPE == 2) {
-      this.Category = "Anyone"
+      this.Category = "Other"
     }
     this.createForm();
     setTimeout(() => {

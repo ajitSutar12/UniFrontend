@@ -27,12 +27,12 @@ export class CollegepaymentComponent implements OnInit {
   Department = []
   purpose = []
   bankDetails = []
-  selectDepartment
-  selectPurpose
-  selectChallan
+  selectDepartment: any = null
+  selectPurpose: any = null
+  selectChallan: any = null
   chalanID = null;
   selectedBank: any;
-
+  totalAmount: any = 0
   //Budget table variable
   studentDescriptionDetails: any;
   // Created Form Group
@@ -54,8 +54,8 @@ export class CollegepaymentComponent implements OnInit {
     //Bank details master
     this._college.getBankCodeDetails().subscribe(data => {
       this.bankDetails = data;
+      this.selectedBank = data[0].ID
     })
-
   }
 
   //disabledate on keyup
@@ -65,26 +65,25 @@ export class CollegepaymentComponent implements OnInit {
       if (data > this.datemax) {
         Swal.fire("Invalid Input", "Please insert valid date ", "warning");
         (document.getElementById("Application_Date") as HTMLInputElement).value = ""
-
       }
     }
   }
 
   createForm() {
+    const user = JSON.parse(localStorage.getItem('user'));
     this.angForm = this.fb.group({
       Application_Date: ['', [Validators.required]],
-      Received_From: ['', [Validators.required]],
-      Examination: ['', [Validators.required, Validators.pattern]],
+      Received_From: [user.NAME, [Validators.required]],
+      Examination: [null],
       Select_Department: ['',],
       Challan_Structure: ['',],
       Total_Amount: [''],
-      Enter_Particular: ['', [Validators.required]],
+      Enter_Particular: ['', [Validators.pattern]],
       purpose: ['', [Validators.required]],
       bank_code: ['']
     });
   }
 
-  totalAmount: any = 0
   //load budget table based on purpose code
   getCollegeTableDetails(event) {
     let TotalAmt = 0
@@ -95,17 +94,6 @@ export class CollegepaymentComponent implements OnInit {
       });
       this.totalAmount = TotalAmt;
     })
-
-    // let TotalAmt = 0;
-    // this._student.StudentTableList(ele).subscribe(data => {
-    //   this.studentDescriptionDetails = data;
-    //   console.log('getstudtable', data)
-    //   this.studentDescriptionDetails.forEach(element => {
-    //     TotalAmt = TotalAmt + Number(element.AMOUNT)
-    //   });
-    //   this.totalAmount = TotalAmt;
-    // })
-
   }
 
   ///when change amount this time call below function
@@ -148,10 +136,8 @@ export class CollegepaymentComponent implements OnInit {
         var date = moment().format('DD-MM-YYYY');
         let CRN = data;
         // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        let ppi = CRN+'|'+CRN+'|'+userData.NAME+'|'+userData.CELL_NO+'|'+userData.EMAIL_ID+'|'+'-'+'|'+'-'+'|'+formVal.Enter_Particular+'|'+CRN+'|'+CRN+'|'+this.totalAmount;
-
-        
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount+'&user_id='+userData.USER_ID,"", "width=800,height=500,top=400,left=400");
+        let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "", "width=800,height=500,top=400,left=400");
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {
