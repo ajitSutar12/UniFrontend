@@ -198,6 +198,7 @@ export class StudentpaymentComponent implements OnInit {
         'user_id': user.USER_ID,
         'user_name': user.USER_NAME
       }
+      console.log('pay data', dataToSend)
       this._student.postData(dataToSend).subscribe(
         (data) => {
           Swal.fire("Success!", "Data Added Successfully !", "success");

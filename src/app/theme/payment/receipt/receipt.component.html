@@ -80,14 +80,14 @@
                                         <td><b>Examination</b></td>
                                         <td>:</td>
                                         <td>{{receiptTable.examination}} -->
-                                            <!-- <table style="width: 50%;float: right;">
+                                    <!-- <table style="width: 50%;float: right;">
                                                 <tr>
                                                     <td style="padding: 0;"><b>Month & Year</b>
                                                         :{{receiptTable.monthYear}}
                                                     </td>
                                                 </tr>
                                             </table> -->
-                                        <!-- </td>
+                                    <!-- </td>
                                     </tr> -->
                                 </table>
 
@@ -98,9 +98,10 @@
                                         <td style="width: 25%;text-align:right;"><b>Budget</b></td>
                                         <td style="width: 25%;text-align:right;"><b>Amount</b></td>
                                     </tr>
-                                    <tr *ngFor="let data of receiptTable.datatable">
-                                        <td style="width: 10%;text-align:right;">{{data.SR_NO}}</td>
-                                        <td style="width: 40%;">{{data.PARTICULARS}}</td>
+                                    <tr *ngFor="let data of receiptTable.datatable; let i = index">
+                                        <td style="width: 10%;text-align:right;">{{i+1}}</td>
+                                        <td style="width: 40%;">{{data.PARTICULARS==null?data.BUDGET_HEAD:
+                                            data.PARTICULARS}}</td>
                                         <td style="width: 25%;text-align:right;">{{data.BUDGET_CODE}}</td>
                                         <td style="width: 25%;text-align:right;">{{data.AMOUNT}}</td>
                                     </tr>

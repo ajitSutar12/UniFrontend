@@ -25,12 +25,12 @@ export class ReceiptComponent implements OnInit {
   value = 123;
 
   receiptTable = { //main
-    recieptNo: 2525,
-    deptName: 'YASHVANTRAO CHAVAN SCHOOL OF RURAL DEVELOPMENT', //DEPT_NAME
+    recieptNo: 0,
+    deptName: '', //DEPT_NAME
     Purpose_Name: '',
     // receiptDate: '04/02/2021',
     receiptDate: '',
-    receivedFrom: 'PAWALE ANUJA RAJARAM',   //PAID_BY
+    receivedFrom: '',   //PAID_BY
     // depositInAC: "A/c - 1 UCO Bank Shivaji University",
     depositInAC: "",
     // modeOfInstall: 'By Cash',
@@ -49,13 +49,13 @@ export class ReceiptComponent implements OnInit {
     monthYear: '',
     datatable: [ //particular
       {
-        'SrNo': 1, //SR_NO
-        'Particular': 'Admission Fee', //PARTICULARS
-        'Budget': '	A.67.R.6',  //BUDGET_CODE
-        'Amount': 20.00 //AMOUNT
+        'SrNo': 0, //SR_NO
+        'Particular': '', //PARTICULARS
+        'Budget': '	',  //BUDGET_CODE
+        'Amount': 0 //AMOUNT
       }],
-    totalAmount: 6500, //TRAN_AMT
-    LetterAmount: "Rupees SIX THOUSAND FIVE HUNDRED ONLY",
+    totalAmount: 0, //TRAN_AMT
+    LetterAmount: "",
     // contactNo: 9090909090,
     contactNo: '',
   }
@@ -95,6 +95,7 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
       // this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
       this.receiptTable['datatable'] = data.particular
+      
       this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
     })
   }
@@ -106,7 +107,6 @@ export class ReceiptComponent implements OnInit {
     document.body.innerHTML = printContents;
     var printButton = document.getElementById("printButton");
     printButton.style.visibility = 'hidden';
-
     window.print();
     printButton.style.visibility = 'visible';
     document.body.innerHTML = originalContents;
