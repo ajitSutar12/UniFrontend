@@ -41,5 +41,11 @@ export class BasicRegService {
     getQuestionData(): Observable<any> {
         return this.http.get(this.url + '/registration/QUESTIONS').pipe(catchError(this.handleError));
     }
+
+    getCollegeList(): Observable<any> {
+        return this.http.get(this.url + '/registration/collegecode').pipe(catchError(this.handleError));
+    }
+
+
 }
 

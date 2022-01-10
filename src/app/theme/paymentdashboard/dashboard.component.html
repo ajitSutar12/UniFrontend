@@ -1,4 +1,11 @@
 <div class="row">
+  <div class="col-md-12" style="padding-bottom: 10px;">
+    <a [routerLink] = "['/Payment/student/studentpayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showStudentButton">New Payment</a>
+    <a [routerLink] = "['/Payment/college/collegepayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showCollegeButton">New Payment</a>
+    <a [routerLink] = "['/Payment/anybody/anybodypayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showAnyButton">New Payment</a>
+  </div>
+</div>
+<div class="row">
   <div class="col-12">
     <div class="card">
       <div class="card-header" style="background-color: #e2e3f9;">

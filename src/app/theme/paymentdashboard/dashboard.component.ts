@@ -12,11 +12,31 @@ export class DashboardComponent implements OnInit {
   success = new Array();
   unsccess = new Array();
   notPrinted = new Array();
+  showStudentButton: boolean=false;
+  showCollegeButton: boolean=false;
+  showAnyButton: boolean=false;
   constructor(private router: Router, private _dashboard: DashboardService) { }
   applicationId: number = 0
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user);
+    console.log(user.USER_TYPE);
+    if(user.USER_TYPE == 0){
+      this.showStudentButton=true;
+      this.showCollegeButton=false;
+      this.showAnyButton=false;
+    }
+    if(user.USER_TYPE == 1){
+      this.showStudentButton=false;
+      this.showCollegeButton=true;
+      this.showAnyButton=false;
+    }
+    if(user.USER_TYPE == 2){
+      this.showStudentButton=false;
+      this.showCollegeButton=false;
+      this.showAnyButton=true;
+    }
+
     this._dashboard.getsuccessful(user.USER_ID).subscribe(data => {
       console.log(data);
       this.dashboardDetails = data;
@@ -48,5 +68,8 @@ export class DashboardComponent implements OnInit {
   gotoPrint(value) {
     this.router.navigateByUrl('/Payment/Receipt', { state: value });
   }
+
+
+  
 
 }

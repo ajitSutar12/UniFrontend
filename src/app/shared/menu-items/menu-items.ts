@@ -34,195 +34,195 @@ export interface Menu {
 const MENUITEMS = [
   {
     label: '',
-    main: [
-      {
-        state: 'dashboard',
-        short_label: 'D',
-        name: 'Dashboard',
-        type: 'link',
-        icon: 'icon-home',
-        // children: [
-        //   {
-        //     state: 'studentpayment',
-        //     short_label: 'D',
-        //     name: 'Student Payment',
-        //     type: 'sub',
-        //     // children: [
-        //     //   {
-        //     //     state: 'demo',
-        //     //     name: 'Demo'
-        //     //   },
+    // main: [
+    //   {
+    //     state: 'dashboard',
+    //     short_label: 'D',
+    //     name: 'Dashboard',
+    //     type: 'link',
+    //     icon: 'icon-home',
+    //     // children: [
+    //     //   {
+    //     //     state: 'studentpayment',
+    //     //     short_label: 'D',
+    //     //     name: 'Student Payment',
+    //     //     type: 'sub',
+    //     //     // children: [
+    //     //     //   {
+    //     //     //     state: 'demo',
+    //     //     //     name: 'Demo'
+    //     //     //   },
 
-        //     // ]
-      },
+    //     //     // ]
+    //   },
 
-      //       // {
-      //       //   state: 'ecommerce',
-      //       //   name: 'Ecommerce'
-      //       // },
-      //       // {
-      //       //   state: 'crm-dashboard',
-      //       //   name: 'CRM'
-      //       // },
-      //       // {
-      //       //   state: 'analytics',
-      //       //   name: 'Analytics',
-      //       //   badge: [
-      //       //     {
-      //       //       type: 'info',
-      //       //       value: 'NEW'
-      //       //     }
-      //       //   ]
-      //       // },
-      //       // {
-      //       //   state: 'project',
-      //       //   name: 'Project'
-      //       // }
-      //   ]
-      // },
-      {
-        state: 'Payment',
-        short_label: 'D',
-        name: 'Payment',
-        type: 'sub',
-        icon: 'icon-home',
-        children: [
-          {
-            state: 'student',
-            short_label: 'D',
-            name: 'Student',
-            type: 'sub',
-            id: 0,
-            children: [
-              {
-                state: 'studentpayment',
-                name: 'Student Payment',
-                children: [
-                  {
-                    state: 'studPayment',
-                    name: 'Bank Payment'
-                  }
-                ]
-              },
-              // {
-              //   state: 'studentdraft',
-              //   name: 'Student Draft'
-              // },
+    //   //       // {
+    //   //       //   state: 'ecommerce',
+    //   //       //   name: 'Ecommerce'
+    //   //       // },
+    //   //       // {
+    //   //       //   state: 'crm-dashboard',
+    //   //       //   name: 'CRM'
+    //   //       // },
+    //   //       // {
+    //   //       //   state: 'analytics',
+    //   //       //   name: 'Analytics',
+    //   //       //   badge: [
+    //   //       //     {
+    //   //       //       type: 'info',
+    //   //       //       value: 'NEW'
+    //   //       //     }
+    //   //       //   ]
+    //   //       // },
+    //   //       // {
+    //   //       //   state: 'project',
+    //   //       //   name: 'Project'
+    //   //       // }
+    //   //   ]
+    //   // },
+    //   {
+    //     state: 'Payment',
+    //     short_label: 'D',
+    //     name: 'Payment',
+    //     type: 'sub',
+    //     icon: 'icon-home',
+    //     children: [
+    //       {
+    //         state: 'student',
+    //         short_label: 'D',
+    //         name: 'Student',
+    //         type: 'sub',
+    //         id: 0,
+    //         children: [
+    //           {
+    //             state: 'studentpayment',
+    //             name: 'Student Payment',
+    //             children: [
+    //               {
+    //                 state: 'studPayment',
+    //                 name: 'Bank Payment'
+    //               }
+    //             ]
+    //           },
+    //           // {
+    //           //   state: 'studentdraft',
+    //           //   name: 'Student Draft'
+    //           // },
 
-            ]
-          },
-          {
-            state: 'college',
-            short_label: 'D',
-            name: 'College ',
-            type: 'sub',
-            id: 1,
-            children: [
-              {
-                state: 'collegepayment',
-                name: 'College Payment'
-              },
-              // {
-              //   state: 'collegedraft',
-              //   name: 'College Draft'
-              // },
+    //         ]
+    //       },
+    //       {
+    //         state: 'college',
+    //         short_label: 'D',
+    //         name: 'College ',
+    //         type: 'sub',
+    //         id: 1,
+    //         children: [
+    //           {
+    //             state: 'collegepayment',
+    //             name: 'College Payment'
+    //           },
+    //           // {
+    //           //   state: 'collegedraft',
+    //           //   name: 'College Draft'
+    //           // },
 
-            ]
-          },
-          {
-            state: 'anybody',
-            short_label: 'D',
-            name: 'Other ',
-            type: 'sub',
-            id: 2,
-            children: [
-              {
-                state: 'anybodypayment',
-                name: 'Other Payment'
-              },
-              // {
-              //   state: 'anybodydraft',
-              //   name: 'Anybody Draft'
-              // },
+    //         ]
+    //       },
+    //       {
+    //         state: 'anybody',
+    //         short_label: 'D',
+    //         name: 'Other ',
+    //         type: 'sub',
+    //         id: 2,
+    //         children: [
+    //           {
+    //             state: 'anybodypayment',
+    //             name: 'Other Payment'
+    //           },
+    //           // {
+    //           //   state: 'anybodydraft',
+    //           //   name: 'Anybody Draft'
+    //           // },
 
-            ]
-          },
-          // {
-          //   state: 'collegepayment',
-          //   short_label: 'D',
-          //   name: 'College Payment',
-          //   type: 'link',
-          //   // children: [
-          //   //   {
-          //   //     state: 'demo',
-          //   //     name: 'Demo'
-          //   //   },
+    //         ]
+    //       },
+    //       // {
+    //       //   state: 'collegepayment',
+    //       //   short_label: 'D',
+    //       //   name: 'College Payment',
+    //       //   type: 'link',
+    //       //   // children: [
+    //       //   //   {
+    //       //   //     state: 'demo',
+    //       //   //     name: 'Demo'
+    //       //   //   },
 
-          //   // ]
-          // },
-          // {
-          //   state: 'anybodypayment',
-          //   short_label: 'D',
-          //   name: 'Anybody Payment',
-          //   type: 'link',
-          //   // children: [
-          //   //   {
-          //   //     state: 'demo',
-          //   //     name: 'Demo'
-          //   //   },
+    //       //   // ]
+    //       // },
+    //       // {
+    //       //   state: 'anybodypayment',
+    //       //   short_label: 'D',
+    //       //   name: 'Anybody Payment',
+    //       //   type: 'link',
+    //       //   // children: [
+    //       //   //   {
+    //       //   //     state: 'demo',
+    //       //   //     name: 'Demo'
+    //       //   //   },
 
-          //   // ]
-          // },
+    //       //   // ]
+    //       // },
 
 
-        ]
-      },
-      // {
-      //   state: 'exit',
-      //   short_label: 'D',
-      //   name: 'LogOut',
-      //   type: 'link',
-      //   icon: 'icon-home'
-      // },
-      // {
-      //   state: 'navigation',
-      //   short_label: 'N',
-      //   name: 'Navigation',
-      //   type: 'link',
-      //   icon: 'icon-layout-cta-right'
-      // },
-      // {
-      //   state: 'widget',
-      //   short_label: 'W',
-      //   name: 'Widget',
-      //   type: 'sub',
-      //   icon: 'icon-view-grid',
-      //   badge: [
-      //     {
-      //       type: 'danger',
-      //       value: '100+'
-      //     }
-      //   ],
-      //   children: [
-      //     {
-      //       state: 'statistic',
-      //       name: 'Statistic'
-      //     },
-      //     {
-      //       state: 'data',
-      //       name: 'Data'
-      //     },
-      //     {
-      //       state: 'chart',
-      //       name: 'Chart'
-      //     },
-      //     {
-      //       state: 'advanced',
-      //       name: 'Advance'
-      //     }
-      //   ]
-      // }
-    ],
+    //     ]
+    //   },
+    //   // {
+    //   //   state: 'exit',
+    //   //   short_label: 'D',
+    //   //   name: 'LogOut',
+    //   //   type: 'link',
+    //   //   icon: 'icon-home'
+    //   // },
+    //   // {
+    //   //   state: 'navigation',
+    //   //   short_label: 'N',
+    //   //   name: 'Navigation',
+    //   //   type: 'link',
+    //   //   icon: 'icon-layout-cta-right'
+    //   // },
+    //   // {
+    //   //   state: 'widget',
+    //   //   short_label: 'W',
+    //   //   name: 'Widget',
+    //   //   type: 'sub',
+    //   //   icon: 'icon-view-grid',
+    //   //   badge: [
+    //   //     {
+    //   //       type: 'danger',
+    //   //       value: '100+'
+    //   //     }
+    //   //   ],
+    //   //   children: [
+    //   //     {
+    //   //       state: 'statistic',
+    //   //       name: 'Statistic'
+    //   //     },
+    //   //     {
+    //   //       state: 'data',
+    //   //       name: 'Data'
+    //   //     },
+    //   //     {
+    //   //       state: 'chart',
+    //   //       name: 'Chart'
+    //   //     },
+    //   //     {
+    //   //       state: 'advanced',
+    //   //       name: 'Advance'
+    //   //     }
+    //   //   ]
+    //   // }
+    // ],
   },
   //   {
   //     label: 'UI Element',
@@ -864,9 +864,9 @@ const MENUITEMS = [
   //  }
 ];
 
-@Injectable()
-export class MenuItems {
-  getAll(): Menu[] {
-    return MENUITEMS;
-  }
-}
+// @Injectable()
+// export class MenuItems {
+//   getAll(): Menu[] {
+//     return MENUITEMS;
+//   }
+// }

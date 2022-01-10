@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { ReceiptService } from './receipt.service'
-
 import { NgxNumToWordsService, SUPPORTED_LANGUAGE } from 'ngx-num-to-words';
 import jsPDF from 'jspdf';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -95,20 +94,23 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
       // this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
       this.receiptTable['datatable'] = data.particular
-      
+
       this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
     })
   }
 
   printDiv(divName) {
-    this._recepit.updateData(this.applicationID).subscribe((data) => { })
+    this._recepit.updateData(this.applicationID)
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
     var printButton = document.getElementById("printButton");
+    var backbutton = document.getElementById("backbutton");
     printButton.style.visibility = 'hidden';
+    backbutton.style.visibility = 'hidden';
     window.print();
     printButton.style.visibility = 'visible';
+    backbutton.style.visibility = 'visible';
     document.body.innerHTML = originalContents;
   }
 

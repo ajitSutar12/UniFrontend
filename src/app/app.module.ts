@@ -8,7 +8,7 @@ import { AdminComponent } from './layout/admin/admin.component';
 import { AuthComponent } from './layout/auth/auth.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
-import { MenuItems } from './shared/menu-items/menu-items';
+// import { MenuItems } from './shared/menu-items/menu-items';
 import { BreadcrumbsComponent } from './layout/admin/breadcrumbs/breadcrumbs.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentregisterationComponent } from './theme/studentregisteration/studentregisteration.component';
@@ -39,7 +39,7 @@ import { UserAuthInterceptor } from './user-auth.interceptor'
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    
+
     UniversityformsRoutingModule,
     UniversityformsModule,
     PaymentModule,
@@ -51,7 +51,7 @@ import { UserAuthInterceptor } from './user-auth.interceptor'
 
 
   ],
-  providers: [MenuItems,
+  providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UserAuthInterceptor,

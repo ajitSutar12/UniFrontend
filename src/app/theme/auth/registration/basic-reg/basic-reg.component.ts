@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment'
 import { Router } from '@angular/router';
 import { CustomValidators } from './custom-validators';
+import { data } from 'jquery';
 
 interface Basicreginterface {
   Type: boolean
@@ -21,7 +22,6 @@ interface Basicreginterface {
   User_Name: string,
   Create_Password: string,
   Confirm_Password: string,
-
 }
 
 @Component({
@@ -46,16 +46,12 @@ export class BasicRegComponent implements OnInit {
   url = environment.base_url;
 
   collegeCodeList = []
-  selectedCar1: number;
 
   questions = []
   selectQue
   collgeCode: Observable<any>;
-  collegeCodeLoading = false;
-  collegeCodeInput = new Subject<string>();
-  selectedCode: any;
-  minLengthTerm = 2;
-
+  selectedCode: any = null
+  clgCode: boolean = false
   constructor(private fb: FormBuilder, private _basicreg: BasicRegService, private config: NgSelectConfig,
     private http: HttpClient, private router: Router) {
   }
@@ -63,9 +59,11 @@ export class BasicRegComponent implements OnInit {
   ngOnInit() {
     this.formInIt();
     this.createForm();
-    this.loadCollegeCode();
     this._basicreg.getQuestionData().subscribe(data => {
       this.questions = data
+    })
+    this._basicreg.getCollegeList().subscribe(data => {
+      this.collgeCode = data
     })
     document.querySelector('body').setAttribute('themebg-pattern', 'theme1');
   }
@@ -112,53 +110,16 @@ export class BasicRegComponent implements OnInit {
     });
   }
 
-  onInput(event: any): void {
-    this.inputValue = event.target.value;
-  }
-
   //dropdown bind
   trackByFn(item: any) {
     return item.imdbID;
   }
 
-  loadCollegeCode() {
-    this.collgeCode = concat(
-      of([]), // default items
-      this.collegeCodeInput.pipe(
-        filter(res => {
-          return res !== null && res.length >= this.minLengthTerm
-        }),
-        distinctUntilChanged(),
-        debounceTime(800),
-        tap(() => this.collegeCodeLoading = true),
-        switchMap(term => {
-
-          return this.getCollegeCode(term).pipe(
-            catchError(() => of([])), // empty list on error
-            tap(() => this.collegeCodeLoading = false)
-          )
-        })
-      )
-    );
-
+  onInput(event: any): void {
+    this.inputValue = event.target.value;
   }
-
-  getCollegeCode(term: string = null): Observable<any> {
-    return this.http
-      .get<any>(this.url + '/registration/collegecode' + term)
-      .pipe(map(resp => {
-        if (resp.Error) {
-          throwError(resp.Error);
-        } else {
-          return resp;
-        }
-      })
-      );
-  }
-
 
   submit() {
-
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       if (formVal.Type == 'Student') {
@@ -340,7 +301,6 @@ export class BasicRegComponent implements OnInit {
     }
   }
 
-  clgCode: boolean = false
   //toggle select college code
   select() {
     this.clgCode = true
@@ -349,35 +309,29 @@ export class BasicRegComponent implements OnInit {
   selectanybody() {
     this.select_toggle = false;
     this.clgCode = false
+    this.selectedCode = null
   }
   selectstudent() {
     this.select_toggle = false;
     this.clgCode = false
+    this.selectedCode = null
   }
-
   //function to confirm password
   checkPassword() {
     let password1 = ((document.getElementById("Create_Password") as HTMLInputElement).value);
     let password2 = ((document.getElementById("Confirm_Password") as HTMLInputElement).value);
-
     // If password not entered
     if (password1 == '') {
       Swal.fire("Warning!", "Please enter Password !", "warning");
-
     }
-
-
     // If confirm password not entered
     else if (password2 == '') {
       Swal.fire("Warning!", "Please enter confirm password!", "warning");
-
     }
     // alert ("Please enter confirm password");
-
     // If Not same return False.    
     else if (password1 != password2) {
       Swal.fire("Warning!", "Password did not match: Please try again...!", "warning");
     }
   }
-
 }

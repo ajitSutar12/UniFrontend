@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
-import { MenuItems } from '../../shared/menu-items/menu-items';
+// import { MenuItems } from '../../shared/menu-items/menu-items';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 
@@ -172,7 +172,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   };
 
-  constructor(public menuItems: MenuItems, private router: Router) {
+  // constructor(public menuItems: MenuItems, private router: Router) {
+  constructor(private router: Router) {
     this.animateSidebar = '';
     this.navType = 'st2';
     this.themeLayout = 'vertical';
@@ -252,56 +253,69 @@ export class AdminComponent implements OnInit, OnDestroy {
     let result = JSON.parse(data);
     this.userData = result;
 
-    let menuData: string = '';
-    if (menuData == '') {
-      menuData = this.userData.USER_TYPE
-    } else {
-      menuData = menuData + ',' + this.userData.USER_TYPE
-    }
-    let menuItemList = this.menuItems.getAll();
-    this.meunItemList = menuItemList[0].main;
-    var meunItemList = menuItemList[0].main;
+    // let menuData: string = '';
+    // if (menuData == '') {
+    //   menuData = this.userData.USER_TYPE
+    // } else {
+    //   menuData = menuData + ',' + this.userData.USER_TYPE
+    // }
+    // let menuItemList = this.menuItems.getAll();
+    // this.meunItemList = menuItemList[0].main;
+    // var meunItemList = menuItemList[0].main;
     this.Name = this.userData.NAME;
-    this.meunItemList.forEach(function (element, index) {
-      if (element.state == 'Payment') {
-        element.children.forEach(function (ele, i) {
-          if (ele.id == menuData) {
+    // this.meunItemList.forEach(function (element, index) {
+    //   if (element.state == 'Payment') {
+    //     element.children.forEach(function (ele, i) {
+    //       if (ele.id == menuData) {
 
-          } else {
-            delete meunItemList[index].children[i];
+    //       } else {
+    //         delete meunItemList[index].children[i];
 
-          }
-        });
-      }
-    });
-    this.menuItem = menuItemList;
-    console.log(this.menuItem);
+    //       }
+    //     });
+    //   }
+    // });
+    // this.menuItem = menuItemList;
+    // console.log(this.menuItem);
 
 
-    var first = this.menuItem[0].main.findIndex(
-      function (el) {
-        return (el !== null);
-      }
-    );
+    // var first = this.menuItem[0].main.findIndex(
+    //   function (el) {
+    //     return (el !== null);
+    //   }
+    // );
 
-    var arrSor = [];
-    console.log(this.menuItem[0].main[1].children, "this.menuItem[0].main[1].children")
+    // var arrSor = [];
+    // console.log(this.menuItem[0].main[1].children, "this.menuItem[0].main[1].children")
 
-    this.menuItem[0].main.forEach(function (el) {
-      if (el === null) {
-        arrSor.push(el);
-      } else {
-        arrSor.unshift(el);
-      }
-    });
-    this.meunItemList = arrSor.reverse();
-    console.log("this.meunItemList", this.meunItemList)
+    // this.menuItem[0].main.forEach(function (el) {
+    //   if (el === null) {
+    //     arrSor.push(el);
+    //   } else {
+    //     arrSor.unshift(el);
+    //   }
+    // });
+    // this.meunItemList = arrSor.reverse();
+    // console.log("this.meunItemList", this.meunItemList)
 
 
   }
 
   ngOnInit() {
     this.setBackgroundPattern('theme1');
+
+
+    this.verticalNavType = this.verticalNavType === 'expanded' ? 'offcanvas' : 'expanded';
+    this.toggleIcon = this.verticalNavType === 'expanded' ? 'icon-toggle-right' : 'icon-toggle-left';
+    this.animateSidebar = 'pcoded-toggle-animate';
+    this.perfectDisable = '';
+    this.setSidebarPosition();
+
+
+    setTimeout(() => {
+      this.animateSidebar = '';
+    }, 500);
+
   }
 
   onResize(event) {

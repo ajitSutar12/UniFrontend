@@ -165,7 +165,7 @@
                                                     (focus)="selectAllContent($event)"
                                                     (focusout)="decimalAllContent($event)"
                                                     (mouseup)="$event.preventDefault()" (keyup)="changeAmt($event,i)"
-                                                    value="{{ data.AMOUNT.toFixed(2)}}">
+                                                    value="{{ data.AMOUNT != null ?data.AMOUNT.toFixed(2) : 0.00}}">
                                             </td>
                                         </tr>
                                         <tr *ngIf="noDataFound" style="color: #e11313; text-align: center;">
@@ -219,7 +219,7 @@
                     </div>
                     <div class="row" style="margin-top:1%">
                         <div class="col-sm-2" style="max-width: 14%">
-                            <label for="bankname">Payment Bank<sub class="required">* </sub></label>
+                            <label for="bankname">Aggregator Bank<sub class="required">* </sub></label>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group input-group">
@@ -240,7 +240,7 @@
                                 <button class="btn btn-primary ripple light" (click)="pay()" style="margin:3px">Save &
                                     Proceed To
                                     Pay</button>
-                                <button class="btn btn-dark ripple light" [routerLink]="">Back</button>
+                                <button class="btn btn-dark ripple light" [routerLink] = "['/dashboard']">Back</button>
                             </div>
                         </div>
                     </div>

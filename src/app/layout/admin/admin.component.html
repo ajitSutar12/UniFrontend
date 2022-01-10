@@ -17,10 +17,10 @@
             <img src="assets/images/uni_logo.png">
           </a>
 
-          <a class="mobile-menu ripple light" id="mobile-collapse" href="javascript:" (click)="toggleOpened($event)"
+          <!-- <a class="mobile-menu ripple light" id="mobile-collapse" href="javascript:" (click)="toggleOpened($event)"
             [exclude]="'#main_navbar'" (clickOutside)="onClickedOutsideSidebar($event)">
             <i class="icon-menu"></i>
-          </a>
+          </a> -->
 
           <a href="javascript:" class="mobile-options ripple light" (click)="toggleHeaderNavRight()">
             <i class="icon-more"></i>
@@ -42,11 +42,11 @@
 
             <!-- <perfect-scrollbar style="max-width: 600px; max-height: 450px;"> -->
 
-            <li class="ripple light]">
+            <!-- <li class="ripple light]"> -->
               <!-- <perfect-scrollbar style="max-width: 600px; max-height: 450px;"> -->
-              <div class="sidebar_toggle"><a href="javascript:"><i class="icon-menu"></i></a></div>
+              <!-- <div class="sidebar_toggle"><a href="javascript:"><i class="icon-menu"></i></a></div> -->
               <!-- </perfect-scrollbar> -->
-            </li>
+            <!-- </li> -->
             <!-- <li class="header-search">
               <div id="main-search" class="main-search morphsearch-search">
                 <div class="input-group">
@@ -286,26 +286,26 @@
       <!-- ////////////////////////////////////////////////////////////////////////////// -->
 
       <!--  -->
-      <div class="pcoded-wrapper">
+      <!-- <div class="pcoded-wrapper"> -->
         <!-- <nav id="main_navbar" class="pcoded-navbar" (clickOutside)="onClickedOutsideSidebar($event)" [exclude]="'#mobile-collapse'" [attr.navbar-theme]="navBarTheme" [attr.active-item-theme]="activeItemTheme" sub-item-theme="theme2" active-item-style="style0"
                     [attr.pcoded-header-position]="pcodedHeaderPosition" [attr.pcoded-navbar-position]="pcodedSidebarPosition" [style.top]="headerFixedTop" [style.height]="sidebarFixedNavHeight" (mouseleave)="hoverOutsideSidebar()"> -->
-        <nav id="main_navbar" class="pcoded-navbar" (clickOutside)="onClickedOutsideSidebar($event)"
+        <!-- <nav id="main_navbar" class="pcoded-navbar" (clickOutside)="onClickedOutsideSidebar($event)"
           [exclude]="'#mobile-collapse'" [attr.navbar-theme]="navBarTheme" [attr.active-item-theme]="activeItemTheme"
           active-item-style="style0" [attr.pcoded-header-position]="pcodedHeaderPosition"
           [attr.pcoded-navbar-position]="pcodedSidebarPosition" [style.top]="headerFixedTop"
-          [style.height]="sidebarFixedNavHeight" (mouseleave)="hoverOutsideSidebar()">
-          <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config"
+          [style.height]="sidebarFixedNavHeight" (mouseleave)="hoverOutsideSidebar()"> -->
+          <!-- <perfect-scrollbar [style.max-width]="'235px'" [style.max-height]="sidebarFixedHeight" [config]="config"
             [ngClass]="perfectDisable">
             <div class="pcoded-inner-navbar main-menu" appAccordion>
               <div class="">
-                <div class="">
+                <div class=""> -->
                   <!-- <img class="img-menu-user img-radius" src="assets/images/avatar-4.jpg" alt="User-Profile-Image"> -->
-                  <div class="user-details">
-                    <span id="more-details" (click)="toggleOpenedSidebar()">
+                  <!-- <div class="user-details">
+                    <span id="more-details" (click)="toggleOpenedSidebar()"> -->
                       <!-- <i class="fa fa-caret-down m-l-10"></i> -->
-                    </span>
+                    <!-- </span>
                   </div>
-                </div>
+                </div> -->
                 <!-- <div class="main-menu-content">
                                     <ul>
                                         <li [@mobileMenuTop]="isCollapsedSideBar" class="more-details" [ngClass]="isCollapsedSideBar">
@@ -316,7 +316,7 @@
                                         </li>
                                     </ul>
                                 </div> -->
-              </div>
+              <!-- </div> -->
               <!-- <div class="p-15 p-b-0">
                                 <form class="form-material" action="javascript:">
                                     <div class="form-group form-primary">
@@ -327,7 +327,7 @@
                                 </form>
                             </div> -->
               <!-- <perfect-scrollbar style="max-width: 600px; max-height: 600px;"> -->
-              <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
+              <!-- <div *ngFor="let asideItems of menuItems.getAll()" class="d-color">
                 <div class="pcoded-navigation-label" [attr.menu-title-theme]="menuTitleTheme">{{asideItems.label}}
                 </div>
                 <ul class="pcoded-item pcoded-left-item" [attr.item-border]="itemBorder"
@@ -432,25 +432,27 @@
                     </ul>
                   </li>
                 </ul>
-              </div>
+              </div> -->
               <!-- </perfect-scrollbar> -->
-            </div>
-          </perfect-scrollbar>
-        </nav>
-        <div class="pcoded-content">
+            <!-- </div>
+          </perfect-scrollbar> -->
+        <!-- </nav> -->
+        <!-- <div class="pcoded-content"> -->
           <!-- <app-breadcrumbs></app-breadcrumbs> -->
           <div class="pcoded-inner-content">
             <!-- Main-body start -->
             <div class="main-body">
-              <div class="page-wrapper">
-                <router-outlet>
-                  <title></title>
-                  <app-spinner></app-spinner>
-                </router-outlet>
-              </div>
+              <!-- <div class="page-wrapper"> -->
+                <div class="container">
+                  <router-outlet>
+                    <title></title>
+                    <app-spinner></app-spinner>
+                  </router-outlet>
+                </div>
+              <!-- </div> -->
             </div>
           </div>
-        </div>
+        <!-- </div> -->
         <div id="styleSelector" [ngClass]="configOpenRightBar">
           <!-- <div class="selector-toggle">
             <a href="javascript:" placement="left" class="ripple light" ngbTooltip="Live layout customizer" (click)="toggleRightbar()"></a>
@@ -498,7 +500,7 @@
             </li>  
           </ul> -->
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </div>

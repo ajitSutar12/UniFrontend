@@ -138,7 +138,10 @@
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm">
                                         <input type="button" id="printButton" class="btn btn-primary"
-                                            (click)="printDiv('printableArea')" value="Print" />
+                                            (click)="printDiv('printableArea')" value="Print" />&nbsp;
+                                        <input type="button" id="backbutton" class="btn btn-dark ripple light"
+                                            value="Back" [routerLink]="['/dashboard']" />
+
                                         <!-- <input type="button" class="btn btn-primary" id="printbtn"
                                             (click)="printDiv('printableArea')"><label for="printbtn">PRINT</label> -->
                                         <!-- <button class="btn btn-primary"

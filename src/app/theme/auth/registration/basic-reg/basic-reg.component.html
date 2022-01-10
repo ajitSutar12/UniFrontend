@@ -34,12 +34,12 @@
                               <i class="helper"></i>Student<span class="required"> </span>
                             </label>
                           </div>
-                          <!-- <div class="radio radio-inline">
+                          <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="College" formControlName="Type" name="Type" (click)="select()">
                               <i class="helper"></i>College<span class="required"> </span>
                             </label>
-                          </div> -->
+                          </div>
                           <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="Anybody" name="Type" formControlName="Type"
@@ -114,11 +114,9 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <ng-select [items]="collgeCode | async" bindLabel="NAME" bindValue="ID"
-                              [trackByFn]="trackByFn" [minTermLength]="minLengthTerm" [loading]="collegeCodeLoading"
-                              typeToSearchText="Please enter {{minLengthTerm}} or more characters"
-                              formControlName="College_Code" [typeahead]="collegeCodeInput" [(ngModel)]="selectedCode"
-                              placeholder="Select College Code" [required]="clgCode">
+                            <ng-select style="font-size: 12px;" [items]="collgeCode" bindValue="ID" bindLabel="NAME"
+                              formControlName="College_Code" [(ngModel)]="selectedCode" id="College_Code"
+                              placeholder="Select College Name">
                             </ng-select>
                           </span>
                         </div>
@@ -224,13 +222,14 @@
                           <button class="btn btn-dark ripple light" [routerLink]="['/auth/login/simple']">Back</button>
                         </div>
                       </div>
-
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
