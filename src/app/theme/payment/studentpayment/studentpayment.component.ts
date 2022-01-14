@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-studentpayment',
@@ -45,9 +45,30 @@ export class StudentpaymentComponent implements OnInit {
   // Created Form Group
   angForm: FormGroup;
   datemax: string;
+  routerPathID: any;
+
+  showSaveasDraft : boolean = true;
+  showSaveAsProcess: boolean = true;
+  showProccedToPay: boolean = false;
+
+  myDisabledCondition: boolean = true;
+
+
   // constructor(private fb: FormBuilder,) { }
-  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _student: StudentpaymentService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _student: StudentpaymentService, private http: HttpClient,private route: ActivatedRoute
+    ) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
+
+    //get parameter details
+    this.routerPathID= this.route.snapshot.paramMap.get('id');
+    console.log('paramsId', this.routerPathID);
+    if(this.routerPathID > 4){
+      this.showSaveasDraft = false;
+      this.showSaveAsProcess = false;
+      this.showProccedToPay = true;
+
+     
+    }
   }
 
   //dropdown bind
@@ -55,8 +76,14 @@ export class StudentpaymentComponent implements OnInit {
     return item.imdbID;
   }
 
+  selectedPurpose : any;
   getChallanDropdown(event) {
+    debugger
+    if(this.pageloadStatus == 1){
+      return 0;
+    }
     this.selectDepartment = null
+    this.selectPurpose = event;
     if (event == 104) {
       this.hideColumn = true;
       this.isTutionFee = true
@@ -85,23 +112,56 @@ export class StudentpaymentComponent implements OnInit {
 
 
   getDepartmentCode(term: string = null) {
+    debugger
     this.selectChallan = null
+    if(this.pageloadStatus == 1){
+      return 0;
+    }
+    if(this.selectPurpose == 104){
+      this.studentDescriptionDetails = [];
+    }
+    // this.studentDescriptionDetails = 
     this._student.getChallandata(term).subscribe(data => {
       this.challanlist = data
       console.log(this.challanlist)
     })
   }
 
+  pageloadStatus = 0;
   ngAfterViewInit(): void {
-    this._student.getPurposeData().subscribe(data => {
+    this._student.getPurposeData(this.routerPathID).subscribe(data => {
       this.Purpose = data
       this._student.getDepartmentData().subscribe(data => {
         this.Department = data
       })
     })
+    if(this.routerPathID >4){
+      debugger
+      this.pageloadStatus = 1;
+    this._student.getStudentDraftData(this.routerPathID).subscribe(data=>{
+      
+      console.log('data',data);
+      debugger
+      let TotalAmt = 0;
+      console.log(data.main[0].PURPOSE_CODE)
+      this.selectPurpose =  data.main[0].PURPOSE_CODE;
+      this.selectDepartment = data.main[0].DEPT_NAME;
+      this.selectChallan    = data.main[0].SUB_GLACNO;
+      this.studentDescriptionDetails = data.details;
+      this.studentDescriptionDetails.forEach(element => {
+        TotalAmt = TotalAmt + Number(element.AMOUNT)
+      });
+      this.totalAmount = TotalAmt.toFixed(2);
+      this.noDataFound = false;
+
+      this.angForm.patchValue({
+        'Enter_Particular' : data.main[0].REMARK
+      })
+    });
+  }
   }
 
-
+   
   ngOnInit(): void {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log('stud payment', user)
@@ -110,7 +170,7 @@ export class StudentpaymentComponent implements OnInit {
     this._student.getDepartmentData().subscribe(data => {
       this.Department = data
     })
-    this._student.getPurposeData().subscribe(data => {
+    this._student.getPurposeData(this.routerPathID).subscribe(data => {
       this.Purpose = data
       this._student.getBankCodeDetails().subscribe(data => {
         this.bankDetails = data;
@@ -201,7 +261,7 @@ export class StudentpaymentComponent implements OnInit {
       console.log('pay data', dataToSend)
       this._student.postData(dataToSend).subscribe(
         (data) => {
-          Swal.fire("Success!", "Data Added Successfully !", "success");
+          // Swal.fire("Success!", "Data Added Successfully !", "success");
           var userData = JSON.parse(localStorage.getItem('user'));
           var date = moment().format('DD-MM-YYYY');
           // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
@@ -255,7 +315,7 @@ export class StudentpaymentComponent implements OnInit {
   changeAmt(ele, index) {
     let TotalAmt = 0;
     let amount = ele.target.value;
-    this.studentDescriptionDetails[index].AMOUNT = amount;
+    this.studentDescriptionDetails[index].AMOUNT = Number(amount);
     this.studentDescriptionDetails.forEach(element => {
       TotalAmt = TotalAmt + Number(element.AMOUNT)
     });
@@ -264,6 +324,7 @@ export class StudentpaymentComponent implements OnInit {
 
   saveAsDraft() {
     const formVal = this.angForm.value;
+    const user = JSON.parse(localStorage.getItem('user'));
     const dataToSend = {
       'Application_Date': formVal.Application_Date,
       'Received_From': formVal.Received_From,
@@ -278,17 +339,40 @@ export class StudentpaymentComponent implements OnInit {
       'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
       'Particular': formVal.Enter_Particular,
       'bank_code': formVal.bank_code,
-      'fees_code': this?.chalanID == "" ? "" : this?.chalanID
+      'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
+      'user_id': user.USER_ID,
+      'user_name': user.USER_NAME
     }
     this._student.postData(dataToSend).subscribe(
       (data => {
         console.log('save data', data)
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        window.open('http://localhost/Axis_bank?')
+        this.router.navigateByUrl('/dashboard');
       }),
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  updatepay(){
+    console.log(this.studentDescriptionDetails);
+    let CRN = this.studentDescriptionDetails[0].TRAN_NO;
+    this._student.updateStudentDetails(this.studentDescriptionDetails).subscribe(data=>{
+      console.log(data);
+      // Swal.fire("Success!", "Data Added Successfully !", "success");
+          var userData = JSON.parse(localStorage.getItem('user'));
+          var date = moment().format('DD-MM-YYYY');
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+         
+          let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID,"_self");
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+
+          this.router.navigateByUrl('/dashboard');
+    },err=>{
+
+    })
   }
 }

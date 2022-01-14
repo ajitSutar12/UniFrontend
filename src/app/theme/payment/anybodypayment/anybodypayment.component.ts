@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
 import { StudentpaymentService } from '../studentpayment/studentpayment.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 interface AnybodyInterface {
   Application_Date: Date;
@@ -42,8 +43,21 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   angForm: FormGroup;
   datemax: string;
   applicationDate: string;
-  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _anybody: AnybodyService, private _student: StudentpaymentService, private http: HttpClient, private elementRef: ElementRef) {
+  routerPathID: any;
+  showSaveasDraft : boolean = true;
+  showSaveAsProcess: boolean = true;
+  showProccedToPay: boolean = false;
+
+  constructor(private fb: FormBuilder, private router: Router, private config: NgSelectConfig, private _anybody: AnybodyService, private _student: StudentpaymentService, private http: HttpClient, private elementRef: ElementRef,private route: ActivatedRoute) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
+    this.routerPathID= this.route.snapshot.paramMap.get('id');
+    if(this.routerPathID > 4){
+      this.showSaveasDraft = false;
+      this.showSaveAsProcess = false;
+      this.showProccedToPay = true;
+
+     
+    }
   }
 
   ngOnInit(): void {
@@ -85,6 +99,9 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   }
 
   getAnyoneTableDetails(event) {
+    if(this.isPageLoad ==1){
+      return 0;
+    }
     this._anybody.anyoneTableListViaDept(event).subscribe(data => {
       if (data.length == 0) {
         this.noDataFound = true
@@ -130,9 +147,32 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   resetForm() {
     this.createForm();
   }
+  isPageLoad = 0;
 
   ngAfterViewInit() {
     this.elementRef.nativeElement.focus();
+    this.isPageLoad = 1;
+    if(this.routerPathID >0){
+      this._anybody.getStudentDraftData(this.routerPathID).subscribe(data=>{
+        console.log('data',data);
+        debugger
+        let TotalAmt = 0;
+        console.log(data.main[0].PURPOSE_CODE)
+        this.selectPurpose =  data.main[0].PURPOSE_CODE;
+        this.selectDepartment = data.main[0].DEPT_NAME;
+        this.selectChallan    = data.main[0].SUB_GLACNO;
+        this.anyoneDescriptionDetails = data.details;
+        this.anyoneDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
+        this.totalAmount = TotalAmt.toFixed(2);
+        this.noDataFound = false;
+  
+        this.angForm.patchValue({
+          'Enter_Particular' : data.main[0].REMARK
+        })
+      });
+    }
   }
 
 
@@ -171,6 +211,38 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this._anybody.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
+        this.router.navigateByUrl('/dashboard');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  pay() {
+    const formVal = this.angForm.value;
+    let collegeCode = JSON.parse(localStorage.getItem('user'))
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Exam,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department.ID,
+      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
+      'Total_Amount': this.totalAmount,
+      'Enter_Particular': formVal.Enter_Particular,
+      'studentDescriptionDetails': this.anyoneDescriptionDetails,
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code,
+      'fees_code': this.chalanID == "" ? null : this.chalanID,
+      'user_id': collegeCode.USER_ID,
+      'user_name': collegeCode.USER_NAME
+    }
+    this._anybody.postData(dataToSend).subscribe(
+      (data) => {
+        // Swal.fire("Success!", "Data Added Successfully !", "success");
         var userData = JSON.parse(localStorage.getItem('user'));
         var date = moment().format('DD-MM-YYYY');
         let CRN = data;
@@ -184,14 +256,6 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     );
   }
 
-  pay() {
-    this._anybody.pay().subscribe(data => {
-      window.open(data.msg)
-    }, err => {
-      console.log(err);
-    })
-  }
-
   selectAllContent($event) {
     $event.target.select();
   }
@@ -201,6 +265,27 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     let value = Number($event.target.value);
     let data = value.toFixed(2);
     $event.target.value = data;
+  }
+
+  updatepay(){
+    console.log(this.anyoneDescriptionDetails);
+    let CRN = this.anyoneDescriptionDetails[0].TRAN_NO;
+    this._student.updateStudentDetails(this.anyoneDescriptionDetails).subscribe(data=>{
+      console.log(data);
+      // Swal.fire("Success!", "Data Added Successfully !", "success");
+          var userData = JSON.parse(localStorage.getItem('user'));
+          var date = moment().format('DD-MM-YYYY');
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+         
+          let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID,"_self");
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+
+          this.router.navigateByUrl('/dashboard');
+    },err=>{
+
+    })
   }
 
 }

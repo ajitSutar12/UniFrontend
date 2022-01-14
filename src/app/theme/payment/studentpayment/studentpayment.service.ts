@@ -60,8 +60,9 @@ export class StudentpaymentService {
         return this.http.get(this.url + '/payment/challan' + id).pipe(catchError(this.handleError));
     }
 
-    getPurposeData(): Observable<any> {
-        return this.http.get(this.url + '/payment/studpurpose').pipe(catchError(this.handleError));
+    getPurposeData(id: any): Observable<any> {
+        debugger
+        return this.http.get(this.url + '/payment/studpurpose'+id).pipe(catchError(this.handleError));
     }
 
     getDepartmentData(): Observable<any> {
@@ -86,6 +87,13 @@ export class StudentpaymentService {
         return this.http.get(this.url + '/payment/draftList').pipe(catchError(this.handleError));
     }
 
+    getStudentDraftData(id):Observable<any>{
+        return this.http.get(this.url+'/payment/getStudentDraftData'+id).pipe(catchError(this.handleError));
+    }
+
+    updateStudentDetails(data):Observable<any>{
+        return this.http.post(this.url+'/payment/StudentUpdateDetails',data).pipe(catchError(this.handleError));
+    }
 }
 
 

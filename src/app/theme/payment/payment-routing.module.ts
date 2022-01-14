@@ -26,7 +26,7 @@ const routes: Routes = [
 
         children: [
           {
-            path: 'studentpayment',
+            path: 'studentpayment/:id',
             loadChildren: () => import('./studentpayment/studentpayment.module').then(m => m.StudentpaymentModule)
           },
           {
@@ -64,7 +64,7 @@ const routes: Routes = [
         },
         children: [
           {
-            path: 'collegepayment',
+            path: 'collegepayment/:id',
             data: {
               title: 'College',
 
@@ -92,7 +92,7 @@ const routes: Routes = [
         },
         children: [
           {
-            path: 'anybodypayment',
+            path: 'anybodypayment/:id',
             data: {
               title: 'Other Payment',
 

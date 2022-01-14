@@ -48,7 +48,8 @@ export class BasicRegComponent implements OnInit {
   collegeCodeList = []
 
   questions = []
-  selectQue
+  selectQue = null
+
   collgeCode: Observable<any>;
   selectedCode: any = null
   clgCode: boolean = false

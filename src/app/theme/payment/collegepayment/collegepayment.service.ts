@@ -48,5 +48,13 @@ export class CollegepaymentService {
     getBankCodeDetails(): Observable<any> {
         return this.http.get(this.url + '/payment/bankList').pipe(catchError(this.handleError));
     }
+
+    getStudentDraftData(id):Observable<any>{
+        return this.http.get(this.url+'/payment/getStudentDraftData'+id).pipe(catchError(this.handleError));
+    }
+
+    updateStudentDetails(data):Observable<any>{
+        return this.http.post(this.url+'/payment/StudentUpdateDetails',data).pipe(catchError(this.handleError));
+    }
 }
 

@@ -79,15 +79,15 @@
                                 <table class="table table-bordered compact">
                                     <thead>
                                         <tr>
-                                            <th scope="col" style="width: 10%;">Budget Code</th>
-                                            <th scope="col" style="width: 35%;">Budget Head</th>
-                                            <th scope="col" style="width: 10%;">Amount</th>
+                                            <th scope="col" style="width: 10%; text-transform: capitalize;">Budget Code</th>
+                                            <th scope="col" style="width: 35%; text-transform: capitalize;">Budget Head</th>
+                                            <th scope="col" style="width: 10%; text-align: right; text-transform: capitalize;">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let data of anyoneDescriptionDetails;let i = index">
                                             <th scope="row" style="word-wrap: break-word">{{data.BUDGET_CODE}}</th>
-                                            <td>{{data.GL_NAME}}</td>
+                                            <td>{{data?.GL_NAME != null ? data.GL_NAME : data.PARTICULARS}}</td>
                                             <td> <input type="text" name="amount" style="text-align: right;width:75%"
                                                     placeholder="Enter Amount " id="amount" pattern="^[0-9]+$"
                                                     title="Input allowed only  A-Z a-z (Space)"
@@ -109,7 +109,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-2" style="max-width: 14%">
-                            <label for="Enter_Particular">Particular</label>
+                            <label for="Enter_Particular">Particulars</label>
                         </div>
                         <div class="col-sm-5">
                             <div class="form-group input-group">
@@ -153,7 +153,7 @@
                         <div class="col-sm-3">
                             <div class="form-group input-group">
                                 <ng-select [(ngModel)]="selectedBank" formControlName="bank_code" id="bankname"
-                                    placeholder="Select Bank Name">
+                                    placeholder="Select Bank Name" style="width: 240%;">
                                     <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
                                         {{bank.NAME}}</ng-option>
                                 </ng-select>
@@ -166,10 +166,15 @@
                                 <!-- <button class="btn btn-primary  ripple light " style="margin-right:3px"
                                     (click)="saveAsDraft()">Save As
                                     Draft</button> -->
-                                <button class="btn btn-primary ripple light" (click)="saveAsDraft()"
-                                    style="margin:3px">Save &
+                                    <button class="btn btn-primary  ripple light " style="margin-right:3px"
+                                    (click)="saveAsDraft()" *ngIf="showSaveasDraft">Save As
+                                    Draft</button>
+                                <button class="btn btn-primary ripple light" (click)="pay()" *ngIf="showSaveAsProcess" style="margin:3px">Save &
                                     Proceed To
                                     Pay</button>
+                                    <button class="btn btn-primary ripple light" (click)="updatepay()" *ngIf="showProccedToPay" style="margin:3px">Save &
+                                        Proceed To
+                                        Pay</button>
                                 <button class="btn btn-dark ripple light"  [routerLink] = "['/dashboard']">Back</button>
                             </div>
                         </div>

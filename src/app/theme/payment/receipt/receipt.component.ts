@@ -32,6 +32,7 @@ export class ReceiptComponent implements OnInit {
     receivedFrom: '',   //PAID_BY
     // depositInAC: "A/c - 1 UCO Bank Shivaji University",
     depositInAC: "",
+    UTR_NO: "",
     // modeOfInstall: 'By Cash',
     modeOfInstall: '',
     // depositRecNo: 1234,
@@ -59,7 +60,7 @@ export class ReceiptComponent implements OnInit {
     contactNo: '',
   }
 
-  applicationID
+  applicationID: any = 0
 
   constructor(private fb: FormBuilder, private router: Router, private _recepit: ReceiptService,
     private ngxNumToWordsService: NgxNumToWordsService
@@ -86,6 +87,7 @@ export class ReceiptComponent implements OnInit {
       this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
       // this.receiptTable['deptName'] = data.main[0].DEPT_NAME
       this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
+      this.receiptTable['UTR_NO'] = data.main[0].EXT_REFNO
       this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
       this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
       // this.receiptTable['examination'] = data.main[0].EXAM_NAME

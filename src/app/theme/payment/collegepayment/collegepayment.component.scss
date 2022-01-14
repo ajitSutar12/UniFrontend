@@ -59,3 +59,8 @@
   .col-sm{
     margin-bottom: 5px !important;
   }
+  .form-control:disabled, .form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+    color: black !important;
+}

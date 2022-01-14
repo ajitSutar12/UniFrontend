@@ -12,33 +12,15 @@ export class DashboardComponent implements OnInit {
   success = new Array();
   unsccess = new Array();
   notPrinted = new Array();
-  showStudentButton: boolean=false;
-  showCollegeButton: boolean=false;
-  showAnyButton: boolean=false;
-  constructor(private router: Router, private _dashboard: DashboardService) { }
+  showStudentButton: boolean = false;
+  showCollegeButton: boolean = false;
+  showAnyButton: boolean = false;
+  userType: any;
   applicationId: number = 0
-  ngOnInit(): void {
+  constructor(private router: Router, private _dashboard: DashboardService) {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
-    console.log(user.USER_TYPE);
-    if(user.USER_TYPE == 0){
-      this.showStudentButton=true;
-      this.showCollegeButton=false;
-      this.showAnyButton=false;
-    }
-    if(user.USER_TYPE == 1){
-      this.showStudentButton=false;
-      this.showCollegeButton=true;
-      this.showAnyButton=false;
-    }
-    if(user.USER_TYPE == 2){
-      this.showStudentButton=false;
-      this.showCollegeButton=false;
-      this.showAnyButton=true;
-    }
-
     this._dashboard.getsuccessful(user.USER_ID).subscribe(data => {
-      console.log(data);
+      console.log('DASHBOARD',data);
       this.dashboardDetails = data;
       this.dashboardDetails.forEach(element => {
         if (element.STATUS_CODE == 0) {
@@ -46,7 +28,8 @@ export class DashboardComponent implements OnInit {
           let appId = element.TRAN_NO.toString()
           element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.success.push(element);
-        } else if (element.STATUS_CODE == 21) {
+        } else if (element.STATUS_CODE == 21 || element.STATUS_CODE == 31) {
+          console.log(element)
           element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
           element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
@@ -60,6 +43,30 @@ export class DashboardComponent implements OnInit {
         }
       });
     })
+  }
+
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    console.log(user.USER_TYPE);
+    this.userType = user.USER_TYPE;
+    if (user.USER_TYPE == 0) {
+      this.showCollegeButton = false;
+      this.showAnyButton = false;
+      this.showStudentButton = true;
+    }
+    if (user.USER_TYPE == 1) {
+      this.showStudentButton = false;
+      this.showCollegeButton = true;
+      this.showAnyButton = false;
+    }
+    if (user.USER_TYPE == 2) {
+      this.showStudentButton = false;
+      this.showCollegeButton = false;
+      this.showAnyButton = true;
+    }
+
+
     this.dtOptions = {
       pagingType: 'full_numbers'
     };
@@ -70,6 +77,6 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  
+
 
 }

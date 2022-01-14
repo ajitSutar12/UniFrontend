@@ -53,5 +53,9 @@ export class AnybodyService {
         console.log('anyone service', id)
         return this.http.get(this.url + '/payment/TableOfAnyone' + id).pipe(catchError(this.handleError));
     }
+
+    getStudentDraftData(id:any): Observable<any>{
+        return this.http.get(this.url+'/payment/getStudentDraftData'+id).pipe(catchError(this.handleError));
+    }
 }
 

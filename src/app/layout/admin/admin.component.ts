@@ -262,7 +262,13 @@ export class AdminComponent implements OnInit, OnDestroy {
     // let menuItemList = this.menuItems.getAll();
     // this.meunItemList = menuItemList[0].main;
     // var meunItemList = menuItemList[0].main;
-    this.Name = this.userData.NAME;
+    console.log('user data', result)
+    if (this.userData.USER_TYPE == 1) {
+      this.Name = this.userData.USER_ID
+    }
+    else {
+      this.Name = this.userData.NAME;
+    }
     // this.meunItemList.forEach(function (element, index) {
     //   if (element.state == 'Payment') {
     //     element.children.forEach(function (ele, i) {

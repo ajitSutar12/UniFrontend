@@ -1,8 +1,22 @@
 <div class="row">
   <div class="col-md-12" style="padding-bottom: 10px;">
-    <a [routerLink] = "['/Payment/student/studentpayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showStudentButton">New Payment</a>
-    <a [routerLink] = "['/Payment/college/collegepayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showCollegeButton">New Payment</a>
-    <a [routerLink] = "['/Payment/anybody/anybodypayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showAnyButton">New Payment</a>
+    <!-- <a [routerLink] = "['/Payment/student/studentpayment']" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showStudentButton">New Payment</a> -->
+    <a [routerLink] = "['/Payment/college/collegepayment',0]" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showCollegeButton">New Payment</a>
+    <a [routerLink] = "['/Payment/anybody/anybodypayment',0]" class="btn btn-primary btn-sm" style="float: right;"  *ngIf="showAnyButton">New Payment</a>
+  </div>
+</div>
+<div class="row text-center" style="padding:2%" *ngIf="showStudentButton">
+  <div class="col-md-2">
+    <a [routerLink] = "['/Payment/student/studentpayment',1]" class="btn btn-primary btn-sm"><i class="fas fa-user-graduate" style="font-size: 17px;"></i> Collage Student</a>
+  </div>
+  <div class="col-md-2">
+    <a [routerLink] = "['/Payment/student/studentpayment',2]" class="btn btn-primary btn-sm"><i class="fas fa-user-graduate" style="font-size: 17px;"></i> Campus Student</a>
+  </div>
+  <div class="col-md-2">
+    <a [routerLink] = "['/Payment/student/studentpayment',3]" class="btn btn-primary btn-sm"><i class="fas fa-user-graduate" style="font-size: 17px;"></i> Distance Student</a>
+  </div>
+  <div class="col-md-2">
+    <a [routerLink] = "['/Payment/student/studentpayment',4]" class="btn btn-primary btn-sm"><i class="fas fa-user-graduate" style="font-size: 17px;"></i> SFC Student  </a>
   </div>
 </div>
 <div class="row">
@@ -64,14 +78,18 @@
                     <th>Application ID</th>
                     <th>Application Date</th>
                     <th>Amount</th>
+                    <th>Remark</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of unsccess; let i = index">
+                  <tr *ngFor="let item of unsccess; let i = index" >
                     <td>{{i+1}}</td>
-                    <td>{{item.applicationId}}</td>
+                    <td *ngIf="item.STATUS_CODE == 21">{{item.applicationId}}</td>
+                    <td *ngIf="item.STATUS_CODE == 31"><a [routerLink] = "userType == 0 ?['/Payment/student/studentpayment',item.TRAN_NO] :userType == 1 ?['/Payment/college/collegepayment',item.TRAN_NO] : ['/Payment/anybody/anybodypayment',item.TRAN_NO] " style="text-decoration: underline;color:blue">{{item.applicationId}}</a></td>
+
                     <td>{{item.trandate}}</td>
                     <td>{{item.TRAN_AMT}}</td>
+                    <td><span class="badge badge-pill item.STATUS_CODE == 21? badge-danger: badge-info">{{item.STATUS_CODE == 21? 'Failed': 'Draft'}}</span></td>
                   </tr>
                 </tbody>
               </table>

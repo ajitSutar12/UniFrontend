@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 import { CollegepaymentService } from './collegepayment.service'
 import { environment } from '../../../../environments/environment'
 import * as moment from 'moment';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
 interface AnybodyInterface {
   Application_Date: Date;
   Received_From: String;
@@ -41,9 +42,20 @@ export class CollegepaymentComponent implements OnInit {
   //application date variables
   datemax: string;
   applicationDate: string;
+  routerPathID: any;
+  showSaveasDraft : boolean = true;
+  showSaveAsProcess: boolean = true;
+  showProccedToPay: boolean = false;
 
-  constructor(private fb: FormBuilder, private _college: CollegepaymentService, private router: Router,) {
+
+  constructor(private fb: FormBuilder, private _college: CollegepaymentService, private router: Router,private route: ActivatedRoute) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
+    this.routerPathID= this.route.snapshot.paramMap.get('id');
+    if(this.routerPathID > 4){
+      this.showSaveasDraft = false;
+      this.showSaveAsProcess = false;
+      this.showProccedToPay = true;
+    }
   }
 
   ngOnInit(): void {
@@ -57,6 +69,8 @@ export class CollegepaymentComponent implements OnInit {
       this.bankDetails = data;
       this.selectedBank = data[0].ID
     })
+
+    
   }
 
   //disabledate on keyup
@@ -88,6 +102,9 @@ export class CollegepaymentComponent implements OnInit {
   //load budget table based on purpose code
   getCollegeTableDetails(event) {
     let TotalAmt = 0
+    if(this.isPageLoad ==1){
+      return 0;
+    }
     this._college.collegeTableListViaDept(event).subscribe(data => {
       if (data.length == 0) {
         this.noDataFound = true
@@ -104,7 +121,31 @@ export class CollegepaymentComponent implements OnInit {
       }
     })
   }
-
+  isPageLoad = 0;
+  ngAfterViewInit() {
+    if(this.routerPathID >0){
+      debugger
+      this.isPageLoad = 1;
+      this._college.getStudentDraftData(this.routerPathID).subscribe(data=>{
+        console.log('data',data);
+        debugger
+        let TotalAmt = 0;
+        this.selectPurpose =  data.main[0].PURPOSE_CODE;
+        this.selectDepartment = data.main[0].DEPT_NAME;
+        // this.selectChallan    = data.main[0].SUB_GLACNO;
+        this.studentDescriptionDetails = data.details;
+        this.studentDescriptionDetails.forEach(element => {
+          TotalAmt = TotalAmt + Number(element.AMOUNT)
+        });
+        this.totalAmount = TotalAmt.toFixed(2);
+        this.noDataFound = false;
+  
+        this.angForm.patchValue({
+          'Enter_Particular' : data.main[0].REMARK
+        })
+      });
+    }
+  }
   ///when change amount this time call below function
   changeAmt(ele, index) {
     let TotalAmt = 0;
@@ -113,7 +154,7 @@ export class CollegepaymentComponent implements OnInit {
     this.studentDescriptionDetails.forEach(element => {
       TotalAmt = TotalAmt + Number(element.AMOUNT)
     });
-    this.totalAmount = TotalAmt
+    this.totalAmount = TotalAmt.toFixed(2)
   }
 
   selectAllContent($event) {
@@ -128,6 +169,44 @@ export class CollegepaymentComponent implements OnInit {
   }
 
   //method for save and draft 
+  pay() {
+    const formVal = this.angForm.value;
+    let collegeCode = JSON.parse(localStorage.getItem('user'))
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal.Select_Department?.ID == "" ? null : formVal.Select_Department?.ID,
+      'Challan_Structure': formVal.Challan_Structure?.ID == "" ? null : formVal.Challan_Structure?.ID,
+      'Total_Amount': this.totalAmount,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? null : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? null : this.selectChallan?.NAME,
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code,
+      'fees_code': this.chalanID == "" ? null : this.chalanID,
+      'College_Code': collegeCode.COLLEGE_CODE,
+      'user_id': collegeCode.USER_ID,
+      'user_name': collegeCode.USER_NAME
+    }
+    this._college.postData(dataToSend).subscribe(
+      (data) => {
+        // Swal.fire("Success!", "Data Added Successfully !", "success");
+        var userData = JSON.parse(localStorage.getItem('user'));
+        var date = moment().format('DD-MM-YYYY');
+        let CRN = data;
+        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+        this.router.navigateByUrl('/dashboard');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   saveAsDraft() {
     const formVal = this.angForm.value;
     let collegeCode = JSON.parse(localStorage.getItem('user'))
@@ -152,12 +231,6 @@ export class CollegepaymentComponent implements OnInit {
     this._college.postData(dataToSend).subscribe(
       (data) => {
         Swal.fire("Success!", "Data Added Successfully !", "success");
-        var userData = JSON.parse(localStorage.getItem('user'));
-        var date = moment().format('DD-MM-YYYY');
-        let CRN = data;
-        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {
@@ -194,5 +267,27 @@ export class CollegepaymentComponent implements OnInit {
   // Reset Function
   resetForm() {
     this.createForm();
+  }
+
+  //update collage details
+  updatepay(){    
+    console.log(this.studentDescriptionDetails);
+    let CRN = this.studentDescriptionDetails[0].TRAN_NO;
+    this._college.updateStudentDetails(this.studentDescriptionDetails).subscribe(data=>{
+      console.log(data);
+      // Swal.fire("Success!", "Data Added Successfully !", "success");
+          var userData = JSON.parse(localStorage.getItem('user'));
+          var date = moment().format('DD-MM-YYYY');
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+         
+          let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID,"_self");
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+
+          this.router.navigateByUrl('/dashboard');
+    },err=>{
+
+    })
   }
 }
