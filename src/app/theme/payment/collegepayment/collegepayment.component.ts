@@ -43,15 +43,15 @@ export class CollegepaymentComponent implements OnInit {
   datemax: string;
   applicationDate: string;
   routerPathID: any;
-  showSaveasDraft : boolean = true;
+  showSaveasDraft: boolean = true;
   showSaveAsProcess: boolean = true;
   showProccedToPay: boolean = false;
 
 
-  constructor(private fb: FormBuilder, private _college: CollegepaymentService, private router: Router,private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private _college: CollegepaymentService, private router: Router, private route: ActivatedRoute) {
     this.datemax = new Date().getFullYear() + '-' + ("0" + (new Date().getMonth() + 1)).slice(-2) + '-' + ("0" + new Date().getDate()).slice(-2);
-    this.routerPathID= this.route.snapshot.paramMap.get('id');
-    if(this.routerPathID > 4){
+    this.routerPathID = this.route.snapshot.paramMap.get('id');
+    if (this.routerPathID > 4) {
       this.showSaveasDraft = false;
       this.showSaveAsProcess = false;
       this.showProccedToPay = true;
@@ -70,12 +70,11 @@ export class CollegepaymentComponent implements OnInit {
       this.selectedBank = data[0].ID
     })
 
-    
+
   }
 
   //disabledate on keyup
   disabledate(data: any) {
-    console.log(data);
     if (data != "") {
       if (data > this.datemax) {
         Swal.fire("Invalid Input", "Please insert valid date ", "warning");
@@ -85,10 +84,10 @@ export class CollegepaymentComponent implements OnInit {
   }
 
   createForm() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const userData = JSON.parse(localStorage.getItem('user'));
     this.angForm = this.fb.group({
       Application_Date: ['', [Validators.required]],
-      Received_From: [user.NAME, [Validators.required]],
+      Received_From: [userData.NAME, [Validators.required]],
       Examination: [null],
       Select_Department: ['',],
       Challan_Structure: ['',],
@@ -102,8 +101,8 @@ export class CollegepaymentComponent implements OnInit {
   //load budget table based on purpose code
   getCollegeTableDetails(event) {
     let TotalAmt = 0
-    if(this.isPageLoad ==1){
-      return 0;
+    if (this.isPageLoad == 1) {
+      // return 0;
     }
     this._college.collegeTableListViaDept(event).subscribe(data => {
       if (data.length == 0) {
@@ -123,14 +122,11 @@ export class CollegepaymentComponent implements OnInit {
   }
   isPageLoad = 0;
   ngAfterViewInit() {
-    if(this.routerPathID >0){
-      debugger
+    if (this.routerPathID > 0) {
       this.isPageLoad = 1;
-      this._college.getStudentDraftData(this.routerPathID).subscribe(data=>{
-        console.log('data',data);
-        debugger
+      this._college.getStudentDraftData(this.routerPathID).subscribe(data => {
         let TotalAmt = 0;
-        this.selectPurpose =  data.main[0].PURPOSE_CODE;
+        this.selectPurpose = data.main[0].PURPOSE_CODE;
         this.selectDepartment = data.main[0].DEPT_NAME;
         // this.selectChallan    = data.main[0].SUB_GLACNO;
         this.studentDescriptionDetails = data.details;
@@ -139,9 +135,9 @@ export class CollegepaymentComponent implements OnInit {
         });
         this.totalAmount = TotalAmt.toFixed(2);
         this.noDataFound = false;
-  
+
         this.angForm.patchValue({
-          'Enter_Particular' : data.main[0].REMARK
+          'Enter_Particular': data.main[0].REMARK
         })
       });
     }
@@ -162,7 +158,7 @@ export class CollegepaymentComponent implements OnInit {
   }
 
   decimalAllContent($event) {
-    debugger
+
     let value = Number($event.target.value);
     let data = value.toFixed(2);
     $event.target.value = data;
@@ -196,9 +192,14 @@ export class CollegepaymentComponent implements OnInit {
         var userData = JSON.parse(localStorage.getItem('user'));
         var date = moment().format('DD-MM-YYYY');
         let CRN = data;
+        let userName = userData.USER_ID + '/' + userData.NAME
+        let uname = userName.substring(0, 74)
         // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+
+        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {
@@ -270,23 +271,21 @@ export class CollegepaymentComponent implements OnInit {
   }
 
   //update collage details
-  updatepay(){    
-    console.log(this.studentDescriptionDetails);
+  updatepay() {
     let CRN = this.studentDescriptionDetails[0].TRAN_NO;
-    this._college.updateStudentDetails(this.studentDescriptionDetails).subscribe(data=>{
-      console.log(data);
+    this._college.updateStudentDetails(this.studentDescriptionDetails).subscribe(data => {
       // Swal.fire("Success!", "Data Added Successfully !", "success");
-          var userData = JSON.parse(localStorage.getItem('user'));
-          var date = moment().format('DD-MM-YYYY');
-          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-         
-          let ppi = CRN + '|' + CRN + '|' + userData.NAME + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+      var userData = JSON.parse(localStorage.getItem('user'));
+      let userName = userData.USER_ID + '/' + userData.NAME
+      let uname = userName.substring(0, 74)
+      var date = moment().format('DD-MM-YYYY');
+      // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+      // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
-          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID,"_self");
-          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
-
-          this.router.navigateByUrl('/dashboard');
-    },err=>{
+      let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+      window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+      this.router.navigateByUrl('/dashboard');
+    }, err => {
 
     })
   }

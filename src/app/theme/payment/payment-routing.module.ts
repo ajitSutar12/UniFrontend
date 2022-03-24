@@ -6,7 +6,8 @@ import { StudentpaymentComponent } from './studentpayment/studentpayment.compone
 import { StudentdraftComponent } from './studentdraft/studentdraft.component'
 import { CollegedraftComponent } from './collegedraft/collegedraft.component'
 import { AnybodydraftComponent } from './anybodydraft/anybodydraft.component';
-import { ReceiptComponent } from './receipt/receipt.component'
+import { ReceiptComponent } from './receipt/receipt.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 const routes: Routes = [
 
   {
@@ -15,8 +16,23 @@ const routes: Routes = [
       title: 'Payment',
       status: false
     },
-
     children: [
+      {
+        path: 'feedback',
+        data: {
+          title: 'feedback',
+          status: false
+        },
+        component: FeedbackComponent
+      },
+      {
+        path: 'receipt',
+        data: {
+          title: 'Receipt',
+          status: false
+        },
+        component: ReceiptComponent
+      },
       {
         path: 'student',
         data: {
@@ -110,24 +126,11 @@ const routes: Routes = [
 
         ]
 
-      },
-      {
-        path: 'Receipt',
-        data: {
-          title: 'receipt',
-          status: false
-        },
-        component: ReceiptComponent
       }
 
 
-
-
-
     ],
-
-
-  }
+  },
 
 ];
 

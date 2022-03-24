@@ -231,78 +231,15 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.setMenuAttributes(this.windowWidth);
     this.setHeaderAttributes(this.windowWidth);
 
-    // dark theme
-    /*this.setLayoutType('dark');*/
-
-    // light-dark
-    /*this.setLayoutType('dark');
-    this.setNavBarTheme('themelight1');*/
-
-    // dark-light theme
-    /*this.setNavBarTheme('theme1');*/
-
-    // box layout
-    /*this.setHeaderPosition();
-    this.setSidebarPosition();
-    this.setVerticalLayout();*/
-
-    // sidebar img
-    /*this.setLayoutType('img');*/
-
     let data: any = localStorage.getItem('user');
     let result = JSON.parse(data);
     this.userData = result;
-
-    // let menuData: string = '';
-    // if (menuData == '') {
-    //   menuData = this.userData.USER_TYPE
-    // } else {
-    //   menuData = menuData + ',' + this.userData.USER_TYPE
-    // }
-    // let menuItemList = this.menuItems.getAll();
-    // this.meunItemList = menuItemList[0].main;
-    // var meunItemList = menuItemList[0].main;
-    console.log('user data', result)
     if (this.userData.USER_TYPE == 1) {
       this.Name = this.userData.USER_ID
     }
     else {
       this.Name = this.userData.NAME;
     }
-    // this.meunItemList.forEach(function (element, index) {
-    //   if (element.state == 'Payment') {
-    //     element.children.forEach(function (ele, i) {
-    //       if (ele.id == menuData) {
-
-    //       } else {
-    //         delete meunItemList[index].children[i];
-
-    //       }
-    //     });
-    //   }
-    // });
-    // this.menuItem = menuItemList;
-    // console.log(this.menuItem);
-
-
-    // var first = this.menuItem[0].main.findIndex(
-    //   function (el) {
-    //     return (el !== null);
-    //   }
-    // );
-
-    // var arrSor = [];
-    // console.log(this.menuItem[0].main[1].children, "this.menuItem[0].main[1].children")
-
-    // this.menuItem[0].main.forEach(function (el) {
-    //   if (el === null) {
-    //     arrSor.push(el);
-    //   } else {
-    //     arrSor.unshift(el);
-    //   }
-    // });
-    // this.meunItemList = arrSor.reverse();
-    // console.log("this.meunItemList", this.meunItemList)
 
 
   }
@@ -351,15 +288,19 @@ export class AdminComponent implements OnInit, OnDestroy {
   setMenuAttributes(windowWidth) {
     if (windowWidth >= 768 && windowWidth <= 992) {
       this.pcodedDeviceType = 'tablet';
-      this.verticalNavType = 'offcanvas';
-      this.verticalEffect = 'overlay';
+      // this.verticalNavType = 'offcanvas';
+      this.verticalNavType = 'expanded';
+      // this.verticalEffect = 'overlay';
+      this.verticalEffect = 'shrink';
       this.toggleIcon = 'icon-toggle-left';
       this.headerFixedTop = 'auto';
       this.headerFixedMargin = '0';
     } else if (windowWidth < 768) {
       this.pcodedDeviceType = 'phone';
-      this.verticalNavType = 'offcanvas';
-      this.verticalEffect = 'overlay';
+      // this.verticalNavType = 'offcanvas';
+      this.verticalNavType = 'expanded';
+      // this.verticalEffect = 'overlay';
+      this.verticalEffect = 'shrink';
       this.toggleIcon = 'icon-toggle-left';
       this.headerFixedTop = 'auto';
       this.headerFixedMargin = '0';
@@ -657,6 +598,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
   logoutSession() {
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
     this.router.navigateByUrl('/auth/login/simple')
   }
 }

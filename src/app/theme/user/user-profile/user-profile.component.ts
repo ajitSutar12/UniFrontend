@@ -56,7 +56,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     let data: any = localStorage.getItem('user');
-    console.log(data, "data")
     let result = JSON.parse(data);
     this.userData = result;
     this.Name = this.userData.NAME
@@ -160,6 +159,12 @@ export class UserProfileComponent implements OnInit {
   updateProfile(value) {
     if (value == 1) {
       this.updateTrue = true
+      var userData = JSON.parse(localStorage.getItem('user'));
+      this.angForm.patchValue({
+        'Full_Name': userData.NAME,
+        'Mobile_No': userData.CELL_NO,
+        'Email_Address': userData.EMAIL_ID,
+      })
     }
     else {
       this.updateTrue = false

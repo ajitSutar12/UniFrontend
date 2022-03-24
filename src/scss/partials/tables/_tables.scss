@@ -378,6 +378,13 @@ div.DTS div.dataTables_length {
     display: none
 }
 
+[type="search"] {
+    outline-offset: -2px;
+    -webkit-appearance: none;
+    height: 20px;
+  }
+  
+
 
 /**====== Data-table css end ======**/
 

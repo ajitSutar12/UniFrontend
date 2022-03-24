@@ -5,7 +5,8 @@ input[type="text"]:focus {
     outline: none;
 }
 .ng-select.ng-select-single .ng-select-container {
-    height: 40px;
+    // height: 40px;
+    height: 25px;
 }
 
 input[type="date"]:focus {
@@ -37,17 +38,17 @@ input[type="checkbox"]:focus {
     }
 }
 
-// minimize alert height 
+// minimize alert height
 .alert {
     font-size: 15px;
     margin-bottom: 1rem;
     // height: 39px;
     padding: 8px;
-    padding-left:10px;
+    padding-left: 10px;
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 ;
+    box-shadow: 0 4px 8px 0;
     margin-bottom: 13px;
 }
 textarea.form-control {
@@ -55,7 +56,6 @@ textarea.form-control {
 }
 
 .text-center {
-   
     color: black;
 }
 
@@ -67,7 +67,6 @@ textarea.form-control {
     -webkit-box-shadow: 0px -4px 5px 0px rgba(0, 0, 0, 0.2);
     -moz-box-shadow: 0px -4px 5px 0px rgba(0, 0, 0, 0.2);
     box-shadow: 0px -4px 5px 0px rgba(0, 0, 0, 0.2);
-  
 }
 
 .ng-dropdown-panel.ng-select-bottom {
@@ -84,14 +83,73 @@ textarea.form-control {
 .card .card-header h5 {
     margin-bottom: 0;
     color: #37474f;
-    font-size: 14px !important;
+    font-size: 12.5px !important;
     font-weight: 900 !important;
     display: inline-block;
     margin-right: 10px;
     line-height: 1.4;
     position: relative;
+    padding-left: 9px;
 }
-.table.compact td, .table.compact th {
+.table.compact td,
+.table.compact th {
     padding: 0.45rem;
     white-space: break-spaces !important;
+}
+
+.card .card-header {
+    // background-color: #8d1b54;
+    border-bottom: none;
+    padding: 2px;
+    position: relative;
+    background-image: -webkit-linear-gradient(
+        top,
+        #dae7f6,
+        #cddef3 45%,
+        #abc7ec 46%,
+        #abc7ec 50%,
+        #b8cfee 51%,
+        #cbddf3
+    );
+    align-items: center;
+}
+
+.table.dataTable[class*="table-"] thead th {
+    background-image: -webkit-linear-gradient(
+        top,
+        #dae7f6,
+        #cddef3 45%,
+        #abc7ec 46%,
+        #abc7ec 50%,
+        #b8cfee 51%,
+        #cbddf3
+    ) !important;
+    color: black;
+    text-transform: capitalize;
+}
+
+.table td,
+.table th {
+    // padding: 0.25rem 0.75rem !important;
+    padding: 2px !important;
+}
+
+.ng-select .ng-select-container {
+    color: #333;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    min-height: 26px;
+    max-height: 27px;
+    align-items: center;
+    font-size: 12px;
+}
+
+//Zebra-striping /
+.table-striped {
+    tbody tr:nth-of-type(even) {
+        // background-color: transparentize($primary-color,0.97);
+        // background-color: #f8eef3;
+        background-color: #dae7f6;
+    }
 }

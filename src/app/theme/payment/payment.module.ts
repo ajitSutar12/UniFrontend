@@ -20,14 +20,18 @@ import { ProceedToPayModule } from './proceed-to-pay/proceed-to-pay.module'
 import { ReceiptModule } from './receipt/receipt.module'
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserAuthInterceptor } from 'src/app/user-auth.interceptor';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
-  declarations: [StudentComponent, CollegeComponent, AnybodyComponent, StudentdraftComponent, CollegedraftComponent, AnybodydraftComponent, ProceedToPayComponent],
+  declarations: [StudentComponent, CollegeComponent, AnybodyComponent, StudentdraftComponent, CollegedraftComponent, AnybodydraftComponent, ProceedToPayComponent, FeedbackComponent],
   imports: [
     CommonModule,
     PaymentRoutingModule,
     DataTablesModule,
     StudentpaymentModule,
     FormsModule,
+    NgSelectModule,
     ReactiveFormsModule,
     CollegepaymentModule,
     AnybodypaymentModule,

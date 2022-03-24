@@ -17,3 +17,18 @@ select{
       opacity: 1;
       color: black !important;
   }
+
+  .table[class*="table-"] thead th {
+    background-image: -webkit-linear-gradient(
+      top,
+      #dae7f6,
+      #cddef3 45%,
+      #abc7ec 46%,
+      #abc7ec 50%,
+      #b8cfee 51%,
+      #cbddf3
+    ) !important;
+    color: black;
+    text-transform: capitalize;
+  }
+  

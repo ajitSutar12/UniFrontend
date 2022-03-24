@@ -28,10 +28,9 @@ export class AnybodyService {
     //Call to payment method
     pay(): Observable<any> {
         let data = this.http.get('http://localhost:4000/getpath').pipe(catchError(this.handleError));
-        console.log(data)
         return data;
     }
-    
+
     // For append data
     getFormData(id: any): Observable<any> {
         return this.http.get(this.url + '/customer-id/' + id).pipe(catchError(this.handleError));
@@ -50,12 +49,11 @@ export class AnybodyService {
     }
 
     anyoneTableListViaDept(id: any): Observable<any> {
-        console.log('anyone service', id)
         return this.http.get(this.url + '/payment/TableOfAnyone' + id).pipe(catchError(this.handleError));
     }
 
-    getStudentDraftData(id:any): Observable<any>{
-        return this.http.get(this.url+'/payment/getStudentDraftData'+id).pipe(catchError(this.handleError));
+    getStudentDraftData(id: any): Observable<any> {
+        return this.http.get(this.url + '/payment/getStudentDraftData' + id).pipe(catchError(this.handleError));
     }
 }
 

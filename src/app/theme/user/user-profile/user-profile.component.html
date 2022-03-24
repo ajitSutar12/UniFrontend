@@ -15,7 +15,7 @@
                             <div class="card-block">
                                 <h6 class="m-b-20 p-b-5 b-b-default f-w-600"><button [routerLink]="['/dashboard']"
                                         class="btn btn-primary btn-sm" title="Back to Dashboard"><i
-                                            class="fa fa-arrow-left"></i></button>My Profile</h6>
+                                            class="fa fa-arrow-left"></i></button> My Profile</h6>
                                 <div class="row">
                                     <div class="col-sm-3" style="text-align: center;">
                                         <p class="m-b-10 f-w-600">Name</p>
@@ -74,6 +74,102 @@
     </div>
     <div class="app-modal-body">
         <form action="javascript:" [formGroup]="angForm">
+
+            <!-- <div class="row">
+                <div class="col-sm-2" style="max-width: 14%">
+                    <label for="purpose">Purpose<sub class="required">* </sub></label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group input-group">
+                        <span class="border-lable-flt">
+                            <ng-select style="font-size: 12px;" [items]="Purpose" bindValue="ID" [disabled]="true"
+                                bindLabel="NAME" formControlName="purpose" [(ngModel)]="selectPurpose" id="purpose"
+                                placeholder="Select Purpose" (ngModelChange)="getChallanDropdown($event)">
+                            </ng-select>
+                        </span>
+                    </div>
+                    <div class="form-group form-primary form-static-label"
+                        *ngIf="angForm.controls['purpose'].invalid && (angForm.controls['purpose'].dirty || angForm.controls['purpose'].touched)"
+                        class="alert alert-danger mt-2">
+                        <div *ngIf="angForm.controls['purpose'].errors?.required">
+                            This is required field
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row">
+                <div class="col-sm" style="padding-right: 5px;">
+                    <label for="Full_Name">Full Name<sub class="required">* </sub></label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group input-group">
+                        <span class="border-lable-flt">
+                            <input type="text" name="FullNaformControlNameme" class="form-control" placeholder=" "
+                                id="Full_Name" pattern="^[A-Za-z\s]+$" formControlName="Full_Name"
+                                [required]="updateTrue">
+                        </span>
+                    </div>
+                    <div class="form-group form-primary form-static-label"
+                        *ngIf="angForm.controls['Full_Name'].invalid && (angForm.controls['Full_Name'].dirty || angForm.controls['Full_Name'].touched)"
+                        class="alert alert-danger">
+                        <div
+                            *ngIf="angForm.controls['Full_Name'].errors?.pattern || angForm.controls['Full_Name'].errors?.required">
+                            This field is required and Input allowed only A-Z a-z
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <label for="Mobile_No">Mobile Number<sub class="required">* </sub></label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group input-group">
+                        <span class="border-lable-flt">
+                            <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
+                                (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
+                                pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No"
+                                [required]="updateTrue">
+                        </span>
+                    </div>
+                    <div class="form-group form-primary form-static-label"
+                        *ngIf="angForm.controls['Mobile_No'].invalid && (angForm.controls['Mobile_No'].dirty || angForm.controls['Mobile_No'].touched)"
+                        class="alert alert-danger">
+                        <div
+                            *ngIf="angForm.controls['Mobile_No'].errors?.pattern || angForm.controls['Mobile_No'].errors?.maxlength || angForm.controls['Mobile_No'].errors?.minlength || angForm.controls['Mobile_No'].errors?.required">
+                            Input allowed only 0-9 and It starts by either for 7 or 8 or 9,
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm">
+                    <label for="Email_Address">Email<sub class="required">* </sub></label>
+                </div>
+                <div class="col-sm-8">
+                    <div class="form-group input-group">
+                        <span class="border-lable-flt">
+                            <input type="text" name="Email_Address"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$" class="form-control"
+                                placeholder=" " minlength="11" id="Email_Address" formControlName="Email_Address"
+                                [required]="updateTrue">
+                        </span>
+                    </div>
+                    <div class="form-group form-primary form-static-label"
+                        *ngIf="angForm.controls['Email_Address'].invalid && (angForm.controls['Email_Address'].dirty || angForm.controls['Email_Address'].touched)"
+                        class="alert alert-danger">
+                        <div
+                            *ngIf="angForm.controls['Email_Address'].errors?.pattern || angForm.controls['Email_Address'].errors?.maxlength || angForm.controls['Email_Address'].errors?.minlength || angForm.controls['Email_Address'].errors?.required">
+                            Please Enter Valid Email Address
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 
             <div class="row">
                 <div class="col-sm-8 profile">
                     <div class="form-group input-group">
@@ -101,7 +197,6 @@
                             <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
                                 pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No"
                                 [required]="updateTrue">
-                            <label for="Mobile_No">Mobile Number<sub class="required">* </sub></label>
                         </span>
                     </div>
                     <div class="form-group form-primary form-static-label"
@@ -133,7 +228,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="row" style="float: right; padding: 7px;">
                 <div class="col-sm">
                     <button class="btn btn-primary  ripple light " style="margin-right:5px" (click)="update()">Update

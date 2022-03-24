@@ -1,11 +1,12 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BasicRegComponent } from './basic-reg/basic-reg.component';
+import { InstructionComponent } from '../registration/instruction/instruction.component';
 
 const routes: Routes = [
   {
     path: '',
-    component : BasicRegComponent,
+    component: BasicRegComponent,
     data: {
       title: 'Registration',
       status: false
@@ -14,6 +15,11 @@ const routes: Routes = [
       {
         path: 'simple',
         loadChildren: () => import('./basic-reg/basic-reg.module').then(m => m.BasicRegModule)
+      },
+      {
+        path: 'instruction',
+        loadChildren: () => import('./instruction/instruction.module').then(m => m.InstructionModule)
+        // component : InstructionComponent
       },
       {
         path: 'header-footer',

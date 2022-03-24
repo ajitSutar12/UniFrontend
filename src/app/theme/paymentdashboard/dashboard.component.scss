@@ -1,5 +1,15 @@
-.table thead th {
+// .table thead th {
+//   background: #e2e3f9 !important;
+//   text-transform: none !important;
+// }
 
-    background: #e2e3f9 !important;
-    text-transform: none !important;
+.center {
+  text-align: center;
+}
+
+@media only screen and (max-width: 480px) {
+  .btn {
+    width: 10rem;
+    margin-bottom: 3px;
   }
+}

@@ -270,7 +270,8 @@ strong {
                 content: "";
                 background-color: $primary-color;
                 position: absolute;
-                left: -12px;
+                // left: -12px;
+                left: -4px;
                 top: 0;
                 width: 4px;
                 height: 20px;
@@ -278,7 +279,7 @@ strong {
         }
     }
     .card-block {
-        padding: 20px;
+        padding: 10px 15px;
         table {
             tr {
                 padding-bottom: 20px;

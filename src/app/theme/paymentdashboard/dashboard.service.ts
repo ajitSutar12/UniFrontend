@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
-import { environment } from '../../../environments/environment' 
+import { environment } from '../../../environments/environment'
 @Injectable()
 export class DashboardService {
     // Variable for handleError
@@ -14,17 +14,12 @@ export class DashboardService {
 
     constructor(private http: HttpClient) { }
     getsuccessful(userid): Observable<any> {
-        console.log('userid',userid);
-        return this.http.get(this.url + '/payment/success'+userid).pipe(catchError(this.handleError));
+        return this.http.get(this.url + '/payment/success' + userid).pipe(catchError(this.handleError));
     }
-
-    // getsuccessful(usercode: any): Observable<any> {
-    //     return this.http.get(this.url + 'payment/success' + usercode).pipe(catchError(this.handleError));
-    // }
-    getunsuccessful(usercode: any): Observable<any> {
-        return this.http.get(this.url + 'payment/unsuccess' + usercode).pipe(catchError(this.handleError));
+    getunsuccessful(userid): Observable<any> {
+        return this.http.get(this.url + '/payment/unsuccess' + userid).pipe(catchError(this.handleError));
     }
-    getsuccessfulnotprint(usercode: any): Observable<any> {
-        return this.http.get(this.url + 'payment/Notprinted' + usercode).pipe(catchError(this.handleError));
+    getsuccessfulnotprint(userid): Observable<any> {
+        return this.http.get(this.url + '/payment/Notprinted' + userid).pipe(catchError(this.handleError));
     }
 }

@@ -34,12 +34,12 @@
                               <i class="helper"></i>Student<span class="required"> </span>
                             </label>
                           </div>
-                          <div class="radio radio-inline">
+                          <!-- <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="College" formControlName="Type" name="Type" (click)="select()">
                               <i class="helper"></i>College<span class="required"> </span>
                             </label>
-                          </div>
+                          </div> -->
                           <div class="radio radio-inline">
                             <label>
                               <input type="radio" value="Anybody" name="Type" formControlName="Type"
@@ -94,7 +94,7 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="Email_Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.com$"
+                            <input type="text" name="Email_Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
                               class="form-control" placeholder=" " minlength="11" id="Email_Address"
                               formControlName="Email_Address" required>
                             <label for="Email_Address">Email<sub class="required">* </sub></label>
@@ -219,7 +219,7 @@
                         <div class="col-sm-12 right">
                           <button class="btn btn-primary  ripple light " style="margin-right:5px"
                             (click)="submit()">Submit</button>
-                          <button class="btn btn-dark ripple light" [routerLink]="['/auth/login/simple']">Back</button>
+                          <button class="btn btn-primary ripple light" [routerLink]="['/auth/login/simple']">Back</button>
                         </div>
                       </div>
                     </div>

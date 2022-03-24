@@ -41,7 +41,6 @@ export class CollegepaymentService {
     }
 
     collegeTableListViaDept(id: any): Observable<any> {
-        console.log('college service', id)
         return this.http.get(this.url + '/payment/ListCollegePurpose' + id).pipe(catchError(this.handleError));
     }
 

@@ -17,8 +17,7 @@ export class ReceiptService {
     getReceiptData(id: any): Observable<any> {
         return this.http.get(this.url + '/payment/getPrintData' + id).pipe(catchError(this.handleError));
     }
-
     updateData(data: any): Observable<any> {
-        return this.http.get(this.url + '/payment/receiptupdate' + data);
+        return this.http.get(this.url + '/payment/receiptupdate' + data).pipe(catchError(this.handleError));
     }
 }

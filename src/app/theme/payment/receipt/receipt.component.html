@@ -9,11 +9,12 @@
                 <div class="card-block">
                     <div id="printableArea" #printableArea>
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-6" style="margin-left: 50px;">
                                 <table border="0">
                                     <tr>
-                                        <td style="width: 30%;"><img src="/assets/images/Unilogo.png"></td>
-                                        <td class="head"><b>SHIVAJI UNIVERSITY, KOLHAPUR</b><br><b>BANK RECEIPT</b>
+                                        <td style="width: 30%;"><img src="assets/images/Unilogo.png"></td>
+                                        <td class="head"><b>SHIVAJI UNIVERSITY, KOLHAPUR</b><br><b>BANK RECEIPT(By Net
+                                                Banking)</b>
                                         </td>
                                     </tr>
                                 </table>
@@ -30,12 +31,24 @@
                                     </tr>
                                 </table>
                                 <table>
+                                    <tr *ngIf="studUser">
+                                        <td style="width: 25%;"><b>PRN No.</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.userId}}</td>
+                                    </tr>
+                                    <tr *ngIf="clgUser">
+                                        <td style="width: 25%;"><b>College Code</b></td>
+                                        <td style="width: 1%;">:</td>
+                                        <td style="width: 74%;">{{receiptTable.userId}}</td>
+                                    </tr>
+                                </table>
+                                <table>
                                     <tr>
                                         <td style="width: 25%;"><b>Received From</b></td>
                                         <td style="width: 1%;">:</td>
-                                        <td style="width: 74%;">{{receiptTable.receivedFrom}}</td>
+                                        <td style="width: 74%; white-space: normal;">{{receiptTable.receivedFrom}}</td>
                                     </tr>
-                                    <tr>
+                                    <tr *ngIf="isDept">
                                         <td style="width: 25%;"><b>Department</b></td>
                                         <td style="width: 1%;">:</td>
                                         <td style="width: 74%;">{{receiptTable.deptName}}</td>
@@ -48,7 +61,7 @@
                                     <tr>
                                         <td><b>Deposit In A/c</b></td>
                                         <td>:</td>
-                                        <td>{{receiptTable.depositInAC}}</td>
+                                        <td style="white-space: normal;">{{receiptTable.depositInAC}}</td>
                                     </tr>
                                     <tr>
                                         <td><b>Transaction No.</b></td>
@@ -97,36 +110,60 @@
                                 </table>
 
                                 <table>
-                                    <tr style="border-top: 3px solid; border-bottom: 3px solid;">
-                                        <td style="width: 10%;text-align:right;"><b>Sr.No.</b></td>
-                                        <td style="width: 40%;"><b>Particular</b></td>
-                                        <td style="width: 25%;text-align:right;"><b>Budget</b></td>
-                                        <td style="width: 25%;text-align:right;"><b>Amount</b></td>
+                                    <!-- <tr style="border-top: 3px solid; border-bottom: 3px solid;"> -->
+                                    <tr style="border-top: 1px solid; border-bottom: 1px solid;">
+                                        <td style="width: 5%;text-align:right;"><b>Sr.No.</b></td>
+                                        <td style="width: 60%;"><b>Particular</b></td>
+                                        <td style="width: 15%;text-align:right; padding: 0px;"><b>Budget</b></td>
+                                        <td style="width: 20%;text-align:right;"><b>Amount</b></td>
                                     </tr>
                                     <tr *ngFor="let data of receiptTable.datatable; let i = index">
-                                        <td style="width: 10%;text-align:right;">{{i+1}}</td>
-                                        <td style="width: 40%;">{{data.PARTICULARS==null?data.BUDGET_HEAD:
+                                        <td style="width: 5%;text-align:right;">{{i+1}}</td>
+                                        <td style="width: 60%; white-space: inherit;">
+                                            {{data.PARTICULARS==null?data.BUDGET_HEAD:
                                             data.PARTICULARS}}</td>
-                                        <td style="width: 25%;text-align:right;">{{data.BUDGET_CODE}}</td>
-                                        <td style="width: 25%;text-align:right;">{{data.AMOUNT}}</td>
+                                        <td style="width: 15%;text-align:right; padding: 0px;">{{data.BUDGET_CODE}}</td>
+                                        <td style="width: 20%;text-align:right;">{{data.AMOUNT}}</td>
                                     </tr>
                                     <tr>
                                         <td style="width: 10%;text-align:right;"></td>
                                         <td style="width: 40%;"></td>
                                         <td style="width: 25%;text-align:right;">Total (Rs.)</td>
                                         <td
-                                            style="width: 25%;text-align:right;border-top: 3px solid; border-bottom: 3px solid;">
+                                            style="width: 25%;text-align:right;border-top: 1px solid; border-bottom: 1px solid;">
                                             {{receiptTable.totalAmount}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="4">Rupees {{receiptTable.LetterAmount}} ONLY</td>
                                     </tr>
-                                    <tr>
+                                    <!-- <tr>
                                         <td colspan="4" style="text-align:right;">KRMADALE</td>
+                                    </tr> -->
+                                    <tr>
+                                        <td colspan="4" style="text-align:right; font-size: 12px;"><i>(Computer
+                                                Generated Receipt And Therefore Does Not Require Signature )</i></td>
+                                        <!-- <td colspan="4" style="text-align:right; font-size: 12px;"><i>(Computer
+                                                Generated
+                                                Receipt No Signature Required)</i></td> -->
+                                    </tr>
+                                    <!-- <tr>
+                                        <td colspan="2" style="text-align:left;"><b></b></td>
+                                        <td colspan="2" style="text-align:right;"><b>Authorised Signatory</b></td>
+                                    </tr> -->
+                                    <tr>
+                                        <td colspan="2" style="text-align:left;"><b></b></td>
+                                        <td colspan="2" style="text-align:right; font-size: 12px;">
+                                            <b>{{receiptTable.date}}</b>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" style="text-align:left;"><b>Office Copy</b></td>
-                                        <td colspan="2" style="text-align:right;"><b>Authorised Signatory</b></td>
+                                        <td colspan="2" style="text-align:left;"><b></b></td>
+                                        <td colspan="2" style="text-align:right;"><b>Finance Department</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="text-align:left;"><b></b></td>
+                                        <td colspan="2" style="text-align:right;"><b>Shivaji University, Kolhapur</b>
+                                        </td>
                                     </tr>
                                     <!-- <tr>
                                         <td colspan="4">CONTACT NO - {{receiptTable.contactNo}}</td>
@@ -138,14 +175,14 @@
                                     </tr> -->
                                 </table>
                             </div>
-                            <div class="col-6">
+                            <div class="col">
                                 <div class="row">
                                     <div class="col-sm-2"></div>
                                     <div class="col-sm">
                                         <input type="button" id="printButton" class="btn btn-primary"
                                             (click)="printDiv('printableArea')" value="Print" />&nbsp;
-                                        <input type="button" id="backbutton" class="btn btn-dark ripple light"
-                                            value="Back" [routerLink]="['/dashboard']" />
+                                        <input type="button" id="backbutton" class="btn btn-primary" value="Back"
+                                            [routerLink]="['/dashboard']" />
 
                                         <!-- <input type="button" class="btn btn-primary" id="printbtn"
                                             (click)="printDiv('printableArea')"><label for="printbtn">PRINT</label> -->

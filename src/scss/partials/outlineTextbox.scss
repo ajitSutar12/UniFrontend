@@ -3,24 +3,41 @@
     position: relative;
 }
 
-.border-lable-flt label,
-.border-lable-flt>span {
+// .border-lable-flt label,
+// .border-lable-flt>span {
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//     cursor: text;
+//     background: white;
+//     // font-size: 75%;
+//     // font-size: 95%;
+//     font-size: 14px;
+//     opacity: 1;
+//     -webkit-transition: all .2s;
+//     transition: all .2s;
+//     top: -.99em;
+//     left: 0.75rem;
+//     z-index: 3;
+//     line-height: 2;
+//     padding: 0 1px;
+// }
+
+.border-lable-flt label, .border-lable-flt > span {
     position: absolute;
     left: 0;
-    top: 0;
     cursor: text;
-    background: white;
-    // font-size: 75%;
-    // font-size: 95%;
-    font-size: 14px;
+    font-size: 13px;
     opacity: 1;
-    -webkit-transition: all .2s;
-    transition: all .2s;
-    top: -.99em;
+    transition: all 0.2s;
     left: 0.75rem;
     z-index: 3;
-    line-height: 2;
     padding: 0 1px;
+    padding: 0;
+    margin: 0;
+    background: white;
+    line-height: normal;
+    top: -0.69em;
 }
 
 .border-lable-flt label::after,
@@ -71,7 +88,8 @@
 // }
 .input-group .border-lable-flt .form-control {
     border-radius: 0.25rem;
-    height: 37px;
+    // height: 37px;
+    height: 29px;
 }
 
 
