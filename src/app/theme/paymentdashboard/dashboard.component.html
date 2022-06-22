@@ -111,6 +111,7 @@
                 <tbody>
                   <tr *ngFor="let item of unsccess; let i = index">
                     <td>{{i+1}}</td>
+                    <td *ngIf="item.STATUS_CODE == 32">{{item.applicationId}}</td>
                     <td *ngIf="item.STATUS_CODE == 21">{{item.applicationId}}</td>
                     <td *ngIf="item.STATUS_CODE == 31"><a
                         [routerLink]="userType == 0 ?['/Payment/student/studentpayment',item.TRAN_NO] :userType == 1 ?['/Payment/college/collegepayment',item.TRAN_NO] : ['/Payment/anybody/anybodypayment',item.TRAN_NO] "
@@ -119,7 +120,7 @@
                     <td>{{item.TRAN_AMT}}</td>
                     <td><span
                         class="badge badge-pill item.STATUS_CODE == 21? badge-danger: badge-info">{{item.STATUS_CODE ==
-                        21? 'Failed': 'Draft'}}</span></td>
+                        21? 'Failed': (item.STATUS_CODE == 32 ?'Challan Generated':'Draft')}}</span></td>
                   </tr>
                 </tbody>
               </table>

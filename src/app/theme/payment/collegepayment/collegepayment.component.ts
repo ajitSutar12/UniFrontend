@@ -67,7 +67,12 @@ export class CollegepaymentComponent implements OnInit {
     //Bank details master
     this._college.getBankCodeDetails().subscribe(data => {
       this.bankDetails = data;
-      this.selectedBank = data[0].ID
+      if (this.routerPathID > 0) {
+        this.selectedBank = this.bankCode
+      }
+      else {
+        this.selectedBank = data[0].ID
+      }
     })
 
 
@@ -96,6 +101,8 @@ export class CollegepaymentComponent implements OnInit {
       purpose: ['', [Validators.required]],
       bank_code: ['']
     });
+    this.angForm.controls['Received_From'].enable()
+    this.angForm.controls['purpose'].enable()
   }
 
   //load budget table based on purpose code
@@ -103,23 +110,26 @@ export class CollegepaymentComponent implements OnInit {
     let TotalAmt = 0
     if (this.isPageLoad == 1) {
       // return 0;
+    } if (this.routerPathID == 0) {
+
+      this._college.collegeTableListViaDept(event).subscribe(data => {
+        if (data.length == 0) {
+          this.noDataFound = true
+          this.studentDescriptionDetails = []
+          this.totalAmount = 0
+        }
+        else {
+          this.noDataFound = false
+          this.studentDescriptionDetails = data;
+          this.studentDescriptionDetails.forEach(element => {
+            TotalAmt = TotalAmt + Number(element.AMOUNT)
+          });
+          this.totalAmount = TotalAmt;
+        }
+      })
     }
-    this._college.collegeTableListViaDept(event).subscribe(data => {
-      if (data.length == 0) {
-        this.noDataFound = true
-        this.studentDescriptionDetails = []
-        this.totalAmount = 0
-      }
-      else {
-        this.noDataFound = false
-        this.studentDescriptionDetails = data;
-        this.studentDescriptionDetails.forEach(element => {
-          TotalAmt = TotalAmt + Number(element.AMOUNT)
-        });
-        this.totalAmount = TotalAmt;
-      }
-    })
   }
+  bankCode
   isPageLoad = 0;
   ngAfterViewInit() {
     if (this.routerPathID > 0) {
@@ -139,7 +149,11 @@ export class CollegepaymentComponent implements OnInit {
         this.angForm.patchValue({
           'Enter_Particular': data.main[0].REMARK
         })
+        this.selectedBank = data.main[0].BANK_CODE
+        this.bankCode = data.main[0].BANK_CODE
       });
+      this.angForm.controls['Received_From'].disable()
+      this.angForm.controls['purpose'].disable()
     }
   }
   ///when change amount this time call below function
@@ -190,16 +204,42 @@ export class CollegepaymentComponent implements OnInit {
       (data) => {
         // Swal.fire("Success!", "Data Added Successfully !", "success");
         var userData = JSON.parse(localStorage.getItem('user'));
-        var date = moment().format('DD-MM-YYYY');
-        let CRN = data;
         let userName = userData.USER_ID + '/' + userData.NAME
         let uname = userName.substring(0, 74)
-        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+        var date = moment().format('DD-MM-YYYY');
+        let CRN = data;
 
-        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+        if (dataToSend.bank_code == '103') {
+          let obj = {
+            tranNo: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          //Dispatch an event
+          var evt = new CustomEvent("billdesk", { detail: obj });
+          window.dispatchEvent(evt);
+        }
+        else if (dataToSend.bank_code == '102') {
+          let obj = {
+            crn: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          this._college.boipaymentGetway(obj).subscribe(data => {
+            window.open(data.msg);
+          })
+        }
+        else {
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
+          let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+        }
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {
@@ -279,11 +319,36 @@ export class CollegepaymentComponent implements OnInit {
       let userName = userData.USER_ID + '/' + userData.NAME
       let uname = userName.substring(0, 74)
       var date = moment().format('DD-MM-YYYY');
-      // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-      // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+      if (data.main[0].BANK_CODE == '103') {
+        let obj = {
+          tranNo: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        //Dispatch an event
+        var evt = new CustomEvent("billdesk", { detail: obj });
+        window.dispatchEvent(evt);
+      }
+      else if (data.main[0].BANK_CODE == '102') {
+        let obj = {
+          crn: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        this._college.boipaymentGetway(obj).subscribe(data => {
+          window.open(data.msg);
+        })
+      } else {
+        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
-      let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-      window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+      }
       this.router.navigateByUrl('/dashboard');
     }, err => {
 

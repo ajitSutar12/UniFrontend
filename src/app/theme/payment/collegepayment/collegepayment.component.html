@@ -17,7 +17,7 @@
                                     <input type="date" name="Application_Date" class="form-control" placeholder=" "
                                         max="{{datemax | date:'yyyy-MM-dd'}}" #date (focusout)="disabledate(date.value)"
                                         id="Application_Date" [(ngModel)]="applicationDate"
-                                        formControlName="Application_Date">
+                                        formControlName="Application_Date" disabled>
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
@@ -36,7 +36,7 @@
                                 <span class="border-lable-flt">
                                     <input type="text" name="Received_From" class="form-control"
                                         placeholder="Enter Received From " id="Received_From" pattern="^[A-Za-z\./ -]+$"
-                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From">
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From" disabled>
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
@@ -76,7 +76,7 @@
                     <div class="row">
                         <div class="col-sm">
                             <div style="overflow-x: auto;">
-                                <table   class="table table-striped table-bordered table-hover compact">
+                                <table class="table table-striped table-bordered table-hover compact">
                                     <thead>
                                         <tr>
                                             <th scope="col" style="width: 10%; text-transform: capitalize;">Budget Code
@@ -98,7 +98,7 @@
                                                     (focus)="selectAllContent($event)"
                                                     (focusout)="decimalAllContent($event)"
                                                     (mouseup)="$event.preventDefault()" (focusout)="changeAmt($event,i)"
-                                                    value="{{ data.AMOUNT != null ?data.AMOUNT.toFixed(2) : 0.00}}">
+                                                    value="{{ data.AMOUNT != null ?data.AMOUNT : 0.00}}">
                                             </td>
                                         </tr>
                                         <tr *ngIf="noDataFound" style="color: #e11313; text-align: center;">

@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.unsccess.push(element)
           }
         }
-        else if (element.STATUS_CODE == 31) {
+        else if (element.STATUS_CODE == 31 || element.STATUS_CODE == 32) {
           element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
           element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)

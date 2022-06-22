@@ -69,7 +69,12 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     // Bank details master
     this._student.getBankCodeDetails().subscribe(data => {
       this.bankDetails = data;
-      this.selectedBank = data[0].ID
+      if (this.routerPathID > 0) {
+        this.selectedBank = this.bankCode
+      }
+      else {
+        this.selectedBank = data[0].ID
+      }
     })
   }
 
@@ -96,28 +101,37 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
       purpose: ['', [Validators.required]],
       bank_code: ['']
     });
+    this.angForm.controls['Received_From'].enable()
+    this.angForm.controls['purpose'].enable()
   }
 
+
   getAnyoneTableDetails(event) {
-    if (this.isPageLoad == 1) {
-      // return 0;
+
+    // if (this.isPageLoad == 1) {
+    //   // return 0;
+    // }
+
+    if (this.routerPathID == 0) {
+
+      this._anybody.anyoneTableListViaDept(event).subscribe(data => {
+
+        if (data.length == 0) {
+          this.noDataFound = true
+          this.anyoneDescriptionDetails = []
+          this.totalAmount = 0
+        }
+        else {
+          this.noDataFound = false
+          this.anyoneDescriptionDetails = data;
+          let TotalAmt = 0;
+          this.anyoneDescriptionDetails.forEach(element => {
+            TotalAmt = TotalAmt + Number(element.AMOUNT)
+          });
+          this.totalAmount = TotalAmt
+        }
+      })
     }
-    this._anybody.anyoneTableListViaDept(event).subscribe(data => {
-      if (data.length == 0) {
-        this.noDataFound = true
-        this.anyoneDescriptionDetails = []
-        this.totalAmount = 0
-      }
-      else {
-        this.noDataFound = false
-        this.anyoneDescriptionDetails = data;
-        let TotalAmt = 0;
-        this.anyoneDescriptionDetails.forEach(element => {
-          TotalAmt = TotalAmt + Number(element.AMOUNT)
-        });
-        this.totalAmount = TotalAmt
-      }
-    })
   }
 
   submit() {
@@ -148,12 +162,13 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
     this.createForm();
   }
   isPageLoad = 0;
-
+  bankCode
   ngAfterViewInit() {
     this.elementRef.nativeElement.focus();
     if (this.routerPathID > 0) {
       this.isPageLoad = 1;
       this._anybody.getStudentDraftData(this.routerPathID).subscribe(data => {
+
         let TotalAmt = 0;
         this.selectPurpose = data.main[0].PURPOSE_CODE;
         this.selectDepartment = data.main[0].DEPT_NAME;
@@ -165,9 +180,14 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
         this.totalAmount = TotalAmt.toFixed(2);
         this.noDataFound = false;
         this.angForm.patchValue({
-          'Enter_Particular': data.main[0].REMARK
+          'Enter_Particular': data.main[0].REMARK,
+          'bank_code': data.main[0].BANK_CODE
         })
+        this.selectedBank = data.main[0].BANK_CODE
+        this.bankCode = data.main[0].BANK_CODE
       });
+      this.angForm.controls['Received_From'].disable()
+      this.angForm.controls['purpose'].disable()
     }
   }
 
@@ -244,11 +264,38 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
         let uname = userName.substring(0, 74)
         var date = moment().format('DD-MM-YYYY');
         let CRN = data;
-        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+        if (dataToSend.bank_code == '103') {
+          let obj = {
+            tranNo: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          //Dispatch an event
+          var evt = new CustomEvent("billdesk", { detail: obj });
+          window.dispatchEvent(evt);
+        }
+        else if (dataToSend.bank_code == '102') {
+          let obj = {
+            crn: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          this._anybody.boipaymentGetway(obj).subscribe(data => {
+            window.open(data.msg);
+          })
+        }
+        else {
 
-        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+          let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+        }
 
 
         this.router.navigateByUrl('/dashboard');
@@ -277,11 +324,38 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
       let userName = userData.USER_ID + '/' + userData.NAME
       let uname = userName.substring(0, 74)
       var date = moment().format('DD-MM-YYYY');
-      // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-      // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+      if (data.main[0].BANK_CODE == '103') {
+        let obj = {
+          tranNo: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        //Dispatch an event
+        var evt = new CustomEvent("billdesk", { detail: obj });
+        window.dispatchEvent(evt);
+      }
+      else if (data.main[0].BANK_CODE == '102') {
+        let obj = {
+          crn: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        this._anybody.boipaymentGetway(obj).subscribe(data => {
+          window.open(data.msg);
+        })
+      }
+      else {
 
-      let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-      window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+
+        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+      }
       this.router.navigateByUrl('/dashboard');
     }, err => {
 

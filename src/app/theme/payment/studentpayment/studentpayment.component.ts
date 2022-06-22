@@ -75,11 +75,40 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   selectedPurpose: any;
-  getChallanDropdown(event) {
-    debugger
-    if (this.pageloadStatus == 1) {
-      // return 0;
+  getChallanDropdown1(event) {
+    if (event == 104) {
+      this.getChallanDropdown(event);
     }
+    else {
+      if (this.routerPathID > 4) {
+
+      }
+      else {
+        let TotalAmt = 0;
+        this.hideColumn = false;
+        this._student.StudentTableListViaDept(event).subscribe(data => {
+
+          if (data.length == 0) {
+            this.noDataFound = true
+            this.studentDescriptionDetails = []
+            this.totalAmount = 0
+          }
+          else {
+            this.noDataFound = false
+            this.studentDescriptionDetails = data;
+            this.studentDescriptionDetails.forEach(element => {
+              TotalAmt = TotalAmt + Number(element.AMOUNT)
+            });
+            this.totalAmount = TotalAmt.toFixed(2)
+          }
+        })
+        this.isTutionFee = false
+        this.showDept = false;
+      }
+    }
+
+  }
+  getChallanDropdown(event) {
     this.selectDepartment = null
     this.selectPurpose = event;
     if (event == 104) {
@@ -91,6 +120,7 @@ export class StudentpaymentComponent implements OnInit {
       let TotalAmt = 0;
       this.hideColumn = false;
       this._student.StudentTableListViaDept(event).subscribe(data => {
+
         if (data.length == 0) {
           this.noDataFound = true
           this.studentDescriptionDetails = []
@@ -113,7 +143,6 @@ export class StudentpaymentComponent implements OnInit {
 
   getDepartmentCode(term: string = null) {
     this.selectChallan = null
-    debugger
     if (this.pageloadStatus == 1) {
       // return 0;
     }
@@ -126,6 +155,7 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pageloadStatus = 0;
+  bankCode
   ngAfterViewInit(): void {
     this._student.getPurposeData(this.routerPathID).subscribe(data => {
       this.Purpose = data
@@ -134,14 +164,16 @@ export class StudentpaymentComponent implements OnInit {
       })
     })
     if (this.routerPathID > 4) {
-      debugger
+
       this._student.getStudentDraftData(this.routerPathID).subscribe(data => {
-        debugger
+
         this.pageloadStatus = 1;
         let TotalAmt = 0;
         this.selectPurpose = data.main[0].PURPOSE_CODE;
-        this.selectDepartment = data.main[0].DEPT_NAME;
+        this.selectDepartment = data.main[0].DEPT_CODE;
+        // this.selectDepartment = data.main[0].DEPT_NAME;
         this.selectChallan = data.main[0].SUB_GLACNO;
+        this.selectedBank = data.main[0].BANK_CODE
         this.studentDescriptionDetails = data.details;
         this.studentDescriptionDetails.forEach(element => {
           TotalAmt = TotalAmt + Number(element.AMOUNT)
@@ -150,9 +182,14 @@ export class StudentpaymentComponent implements OnInit {
         this.noDataFound = false;
 
         this.angForm.patchValue({
-          'Enter_Particular': data.main[0].REMARK
+          'Enter_Particular': data.main[0].REMARK,
+          'bank_code': data.main[0].BANK_CODE
         })
+        this.selectedBank = data.main[0].BANK_CODE
+        this.bankCode = data.main[0].BANK_CODE
       });
+      this.angForm.controls['Received_From'].disable()
+      this.angForm.controls['purpose'].disable()
     }
   }
 
@@ -169,7 +206,12 @@ export class StudentpaymentComponent implements OnInit {
       this.Purpose = data
       this._student.getBankCodeDetails().subscribe(data => {
         this.bankDetails = data;
-        this.selectedBank = data[0].ID
+        if (this.routerPathID > 4) {
+          this.selectedBank = this.bankCode
+        }
+        else {
+          this.selectedBank = data[0].ID
+        }
       })
     })
   }
@@ -198,6 +240,8 @@ export class StudentpaymentComponent implements OnInit {
       purpose: ['', [Validators.required]],
       bank_code: ['']
     });
+    this.angForm.controls['Received_From'].enable()
+    this.angForm.controls['purpose'].enable()
   }
 
   submit() {
@@ -261,12 +305,41 @@ export class StudentpaymentComponent implements OnInit {
           let uname = userName.substring(0, 74)
           var date = moment().format('DD-MM-YYYY');
           let CRN = data;
-          let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-          window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
-          // let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-          // window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
+          if (dataToSend.bank_code == '103') {
+            let obj = {
+              tranNo: CRN,
+              amt: this.totalAmount,
+              name: userData.NAME,
+              mobile: userData.CELL_NO,
+              email: userData.EMAIL_ID
+            }
+            //Dispatch an event
+            var evt = new CustomEvent("billdesk", { detail: obj });
+            window.dispatchEvent(evt);
+          }
+          else if (dataToSend.bank_code == '104') {
+            let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
+          }
+          else if (dataToSend.bank_code == '102') {
+            let obj = {
+              crn: CRN,
+              amt: this.totalAmount,
+              name: userData.NAME,
+              mobile: userData.CELL_NO,
+              email: userData.EMAIL_ID
+            }
+            this._student.boipaymentGetway(obj).subscribe(data => {
+              window.open(data.msg);
+            })
+          } else {
+            // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+            // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+
+            let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+            window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+          }
           this.router.navigateByUrl('/dashboard');
         },
         (error) => {
@@ -287,10 +360,11 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   getStudentTableDetails(ele) {
-    debugger
+
     this.chalanID = ele
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
+
       if (data.length == 0) {
         this.noDataFound = true
         this.studentDescriptionDetails = []
@@ -351,18 +425,49 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   updatepay() {
+
     let CRN = this.studentDescriptionDetails[0].TRAN_NO;
     this._student.updateStudentDetails(this.studentDescriptionDetails).subscribe(data => {
+
       // Swal.fire("Success!", "Data Added Successfully !", "success");
       var userData = JSON.parse(localStorage.getItem('user'));
       let userName = userData.USER_ID + '/' + userData.NAME
       let uname = userName.substring(0, 74)
       var date = moment().format('DD-MM-YYYY');
-      // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-      // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+      if (data.main[0].BANK_CODE == '103') {
+        let obj = {
+          tranNo: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        //Dispatch an event
+        var evt = new CustomEvent("billdesk", { detail: obj });
+        window.dispatchEvent(evt);
+      }
+      else if (data.main[0].BANK_CODE == '104') {
+        let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
+      }
+      else if (data.main[0].BANK_CODE == '102') {
+        let obj = {
+          crn: CRN,
+          amt: this.totalAmount,
+          name: userData.NAME,
+          mobile: userData.CELL_NO,
+          email: userData.EMAIL_ID
+        }
+        this._student.boipaymentGetway(obj).subscribe(data => {
+          window.open(data.msg);
+        })
+      }
+      else {
+        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
-      let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-      window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+      }
 
       this.router.navigateByUrl('/dashboard');
     }, err => {

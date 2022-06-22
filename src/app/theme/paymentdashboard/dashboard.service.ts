@@ -22,4 +22,21 @@ export class DashboardService {
     getsuccessfulnotprint(userid): Observable<any> {
         return this.http.get(this.url + '/payment/Notprinted' + userid).pipe(catchError(this.handleError));
     }
+
+    utility(data): Observable<any> {
+        return this.http.post<any>(this.url + '/registration/Utility', data).pipe(catchError(this.handleError));
+    }
+
+    updateMIS(data): Observable<any> {
+        return this.http.put<any>(this.url + '/payment/updateMIS', data).pipe(catchError(this.handleError));
+    }
+
+    // updateMIS(data: any): Observable<any> {
+    //     return this.http.put(this.url + '/payment/updateMIS', data).pipe(map((res) => res),
+    //         catchError((error) => {
+    //             Swal.fire('Please Input Proper Data!');
+    //             return throwError(error);
+    //         })
+    //     )
+    // }
 }

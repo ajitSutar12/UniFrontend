@@ -48,12 +48,20 @@ export class CollegepaymentService {
         return this.http.get(this.url + '/payment/bankList').pipe(catchError(this.handleError));
     }
 
-    getStudentDraftData(id):Observable<any>{
-        return this.http.get(this.url+'/payment/getStudentDraftData'+id).pipe(catchError(this.handleError));
+    getStudentDraftData(id): Observable<any> {
+        return this.http.get(this.url + '/payment/getStudentDraftData' + id).pipe(catchError(this.handleError));
     }
 
-    updateStudentDetails(data):Observable<any>{
-        return this.http.post(this.url+'/payment/StudentUpdateDetails',data).pipe(catchError(this.handleError));
+    updateStudentDetails(data): Observable<any> {
+        return this.http.post(this.url + '/payment/StudentUpdateDetails', data).pipe(catchError(this.handleError));
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////--------Bank Of India PaymentGetWay-----------////////////////////////////////
+    boipaymentGetway(data): Observable<any> {
+        return this.http.post('http://210.212.190.40:89/getpath',data).pipe(catchError(this.handleError));
+        // return this.http.post('http://localhost:5000/getpath', data).pipe(catchError(this.handleError));
     }
 }
 

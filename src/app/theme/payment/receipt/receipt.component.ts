@@ -9,13 +9,13 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
 import * as moment from 'moment';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-receipt',
   templateUrl: './receipt.component.html',
   styleUrls: ['./receipt.component.scss']
 })
 export class ReceiptComponent implements OnInit {
-
   // Created Form Group
   angForm: FormGroup;
 
@@ -88,36 +88,42 @@ export class ReceiptComponent implements OnInit {
     userType == 0 ? this.studUser = true : this.studUser = false
     userType == 1 ? this.clgUser = true : this.clgUser = false
 
+
     this._recepit.getReceiptData(this.applicationID).subscribe(data => {
-      this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
-      data.main[0].TRAN_NO += ''
-      let receno = data.main[0].TRAN_NO.substring(data.main[0].TRAN_NO.length - 7)
-      receno = receno.replace(/^0+/, '')
-      this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
-      // this.receiptTable['deptName'] = data.main[0].DEPT_NAME
-      this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
-      this.receiptTable['UTR_NO'] = data.main[0].EXT_REFNO
-      this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
-      this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
-      // this.receiptTable['examination'] = data.main[0].EXAM_NAME
-      this.receiptTable['deptName'] = data.main[0].Dept_Name == "" ? this.isDept = false : data.main[0].Dept_Name
-      this.receiptTable['userId'] = data.main[0].userId
-      this.receiptTable['Purpose_Name'] = data.main[0].Purpose_Name
-      this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
-      // this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
-      // this.receiptTable['datatable'] = data.particular
+      if (data != '404') {
+        this.numberInWords = this.ngxNumToWordsService.inWords(data.main[0].TRAN_AMT, this.lang)
+        data.main[0].TRAN_NO += ''
+        let receno = data.main[0].TRAN_NO.substring(data.main[0].TRAN_NO.length - 7)
+        receno = receno.replace(/^0+/, '')
+        this.receiptTable['recieptNo'] = receno.replace(/^0+/, '')
+        // this.receiptTable['deptName'] = data.main[0].DEPT_NAME
+        this.receiptTable['receivedFrom'] = data.main[0].PAID_BY
+        this.receiptTable['UTR_NO'] = data.main[0].EXT_REFNO
+        this.receiptTable['totalAmount'] = data.main[0].TRAN_AMT
+        this.receiptTable['receiptDate'] = data.main[0].TRAN_DATE.substring(6, 8) + "/" + data.main[0].TRAN_DATE.substring(4, 6) + "/" + data.main[0].TRAN_DATE.substring(0, 4)
+        // this.receiptTable['examination'] = data.main[0].EXAM_NAME
+        this.receiptTable['deptName'] = data.main[0].Dept_Name == "" ? this.isDept = false : data.main[0].Dept_Name
+        this.receiptTable['userId'] = data.main[0].userId
+        this.receiptTable['Purpose_Name'] = data.main[0].Purpose_Name
+        this.receiptTable['depositInAC'] = data.main[0].Deposit_ACNAME
+        // this.receiptTable['monthYear'] = data.main[0].EXAM_MONTH + " " + data.main[0].EXAM_YEAR
+        // this.receiptTable['datatable'] = data.particular
 
-      this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
+        this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()
 
-      data.particular.forEach(element => {
-        if (element.AMOUNT != 0 && element.AMOUNT != null) {
-          let srno = 1
-          this.receiptTable['datatable'].push(element)
-        }
-      });
-
+        data.particular.forEach(element => {
+          if (element.AMOUNT != 0 && element.AMOUNT != null) {
+            let srno = 1
+            this.receiptTable['datatable'].push(element)
+          }
+        });
+        this.receiptTable['date'] = moment().format("YYYY-DD-MM hh:mm A")
+      }
+      else {
+        Swal.fire("Info!", "Record Not Found!", "info");
+        this.backtodashboard()
+      }
     })
-    this.receiptTable['date'] = moment().format("YYYY-DD-MM hh:mm A")
   }
 
   printDiv(divName) {
@@ -135,7 +141,19 @@ export class ReceiptComponent implements OnInit {
     window.print();
     printButton.style.visibility = 'visible';
     backbutton.style.visibility = 'visible';
+    window.close()
+    window.onafterprint = window.close;
     document.body.innerHTML = originalContents;
+  }
+
+  backtodashboard() {
+    var userData = JSON.parse(localStorage.getItem('user'));
+    let userType = userData.USER_TYPE
+    if (userType != 4) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/dashboard/generateReceipt']);
+    }
   }
 
   title = 'htmltopdf';

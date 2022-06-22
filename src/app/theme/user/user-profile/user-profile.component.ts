@@ -225,7 +225,15 @@ export class UserProfileComponent implements OnInit {
   }
 
 
-
+  back() {
+    var userData = JSON.parse(localStorage.getItem('user'));
+    let userType = userData.USER_TYPE
+    if (userType != 4) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/dashboard/Utility']);
+    }
+  }
 
 
 

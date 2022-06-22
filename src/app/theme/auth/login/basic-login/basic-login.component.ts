@@ -27,22 +27,24 @@ export class BasicLoginComponent implements OnInit {
       "username": this.username,
       "password": this.password
     }
+      this._authService.login(obj).subscribe(data => {
+        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+        if (data.user.USER_TYPE != 4) {
+          this.router.navigate(['/dashboard']);
+        }else{
+          this.router.navigate(['/dashboard/Utility']);
 
-    this._authService.login(obj).subscribe(data => {
-      localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      if (data.user) {
-        this.router.navigate(['/dashboard']);
-      }
-    }, err => {
-      Swal.fire({
-        title: '',
-        text: "Please Check Your Username And Password",
-        icon: 'error',
-        confirmButtonColor: '#229954',
-        confirmButtonText: 'OK'
+        }
+      }, err => {
+        Swal.fire({
+          title: '',
+          text: "Please Check Your Username And Password",
+          icon: 'error',
+          confirmButtonColor: '#229954',
+          confirmButtonText: 'OK'
+        })
       })
-    })
   }
 
   showHidePassword() {

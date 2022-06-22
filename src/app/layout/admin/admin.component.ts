@@ -237,6 +237,9 @@ export class AdminComponent implements OnInit, OnDestroy {
     if (this.userData.USER_TYPE == 1) {
       this.Name = this.userData.USER_ID
     }
+    else if(this.userData.USER_TYPE == 4){
+      this.Name = 'Admin';
+    }
     else {
       this.Name = this.userData.NAME;
     }
