@@ -226,11 +226,14 @@
                         <div class="col-sm-3">
                             <div class="form-group input-group">
                                 <ng-select [(ngModel)]="selectedBank" bindValue="ID" bindLabel="NAME"
-                                    formControlName="bank_code" id="bankname" placeholder="Select Bank Name"
-                                    style="width: 240%;">
+                                    formControlName="bank_code" id="bankname" placeholder="Select Bank"
+                                    style="width: 240%;" (change)="getBank()">
                                     <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
                                         {{bank.NAME}}</ng-option>
                                 </ng-select>
+                            </div>
+                            <div *ngIf="IsShowBOImsg" style="color: red; ">
+                                {{BOIMsg}}
                             </div>
                         </div>
                     </div>

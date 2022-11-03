@@ -96,9 +96,12 @@ export class StudentpaymentComponent implements OnInit {
           else {
             this.noDataFound = false
             this.studentDescriptionDetails = data;
-            this.studentDescriptionDetails.forEach(element => {
+            // this.studentDescriptionDetails.forEach(element => {
+            //   TotalAmt = TotalAmt + Number(element.AMOUNT)
+            // });
+            for (let element of this.studentDescriptionDetails) {
               TotalAmt = TotalAmt + Number(element.AMOUNT)
-            });
+            }
             this.totalAmount = TotalAmt.toFixed(2)
           }
         })
@@ -166,7 +169,7 @@ export class StudentpaymentComponent implements OnInit {
     if (this.routerPathID > 4) {
 
       this._student.getStudentDraftData(this.routerPathID).subscribe(data => {
-
+        debugger
         this.pageloadStatus = 1;
         let TotalAmt = 0;
         this.selectPurpose = data.main[0].PURPOSE_CODE;
@@ -190,6 +193,8 @@ export class StudentpaymentComponent implements OnInit {
       });
       this.angForm.controls['Received_From'].disable()
       this.angForm.controls['purpose'].disable()
+      this.angForm.controls['Select_Department'].disable()
+      this.angForm.controls['Challan_Structure'].disable()
     }
   }
 
@@ -210,7 +215,8 @@ export class StudentpaymentComponent implements OnInit {
           this.selectedBank = this.bankCode
         }
         else {
-          this.selectedBank = data[0].ID
+          this.selectedBank = null
+          // this.selectedBank = data[0].ID
         }
       })
     })
@@ -238,10 +244,12 @@ export class StudentpaymentComponent implements OnInit {
       Total_Amount: [''],
       Enter_Particular: ['', [Validators.pattern]],
       purpose: ['', [Validators.required]],
-      bank_code: ['']
+      bank_code: ['', [Validators.required]]
     });
     this.angForm.controls['Received_From'].enable()
     this.angForm.controls['purpose'].enable()
+    this.angForm.controls['Select_Department'].enable()
+    this.angForm.controls['Challan_Structure'].enable()
   }
 
   submit() {
@@ -276,27 +284,34 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   pay() {
-    if (this.angForm.valid) {
-      const formVal = this.angForm.value;
-      const user = JSON.parse(localStorage.getItem('user'));
-      const dataToSend = {
-        'Application_Date': formVal.Application_Date,
-        'Received_From': formVal.Received_From,
-        'Exam': formVal.Examination,
-        'purpose': formVal.purpose,
-        'Select_Department': formVal?.Select_Department?.ID,
-        'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
-        'Total_Amount': this.totalAmount,
-        'Enter_Particular': formVal.Enter_Particular,
-        'studentDescriptionDetails': this.studentDescriptionDetails,
-        'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
-        'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
-        'Particular': formVal.Enter_Particular,
-        'bank_code': formVal.bank_code,
-        'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
-        'user_id': user.USER_ID,
-        'user_name': user.USER_NAME
-      }
+    // if (this.angForm.valid) {
+    const formVal = this.angForm.value;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const dataToSend = {
+      'Application_Date': formVal.Application_Date,
+      'Received_From': formVal.Received_From,
+      'Exam': formVal.Examination,
+      'purpose': formVal.purpose,
+      'Select_Department': formVal?.Select_Department?.ID,
+      'Challan_Structure': formVal?.Challan_Structure.ID == "" ? "" : formVal?.Challan_Structure.ID,
+      'Total_Amount': this.totalAmount,
+      'Enter_Particular': formVal.Enter_Particular,
+      'studentDescriptionDetails': this.studentDescriptionDetails,
+      'Dept_NAME': this.selectDepartment?.NAME == "" ? "" : this.selectDepartment?.NAME,
+      'Challan_NAME': this.selectChallan?.NAME == "" ? "" : this.selectChallan?.NAME,
+      'Particular': formVal.Enter_Particular,
+      'bank_code': formVal.bank_code,
+      'fees_code': this?.chalanID == "" ? "" : this?.chalanID,
+      'user_id': user.USER_ID,
+      'user_name': user.USER_NAME
+    }
+    if (Number(this.totalAmount) <= 0) {
+      Swal.fire("Info!", "Please Input Proper Amount !", "info");
+    }
+    else if (this.selectedBank == null) {
+      Swal.fire("Info!", "Please Select Bank !", "info");
+    }
+    else {
       this._student.postData(dataToSend).subscribe(
         (data) => {
           // Swal.fire("Success!", "Data Added Successfully !", "success");
@@ -337,7 +352,7 @@ export class StudentpaymentComponent implements OnInit {
             // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
             // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
-            let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + formVal.Enter_Particular + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+            let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + 116 + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
             window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
           }
           this.router.navigateByUrl('/dashboard');
@@ -347,6 +362,7 @@ export class StudentpaymentComponent implements OnInit {
         }
       );
     }
+    // }
   }
 
   selectAllContent($event) {
@@ -360,11 +376,9 @@ export class StudentpaymentComponent implements OnInit {
   }
 
   getStudentTableDetails(ele) {
-
     this.chalanID = ele
     let TotalAmt = 0;
     this._student.StudentTableList(ele).subscribe(data => {
-
       if (data.length == 0) {
         this.noDataFound = true
         this.studentDescriptionDetails = []
@@ -413,65 +427,100 @@ export class StudentpaymentComponent implements OnInit {
       'user_id': user.USER_ID,
       'user_name': user.USER_NAME
     }
-    this._student.postData(dataToSend).subscribe(
-      (data => {
-        Swal.fire("Success!", "Data Added Successfully !", "success");
-        this.router.navigateByUrl('/dashboard');
-      }),
-      (error) => {
-        console.log(error);
-      }
-    );
+    if (Number(this.totalAmount) <= 0) {
+      Swal.fire("Info!", "Please Input Proper Amount !", "info");
+    }
+    else if (this.selectedBank == null) {
+      Swal.fire("Info!", "Please Select Bank !", "info");
+    }
+    else {
+      this._student.postData(dataToSend).subscribe(
+        (data) => {
+          if (data > 0) {
+            Swal.fire("Success!", "Data Added Successfully !", "success");
+            this.router.navigateByUrl('/dashboard');
+          }
+          else {
+            Swal.fire('Error!', data.message, 'error');
+            this.router.navigateByUrl('/dashboard');
+          }
+        })
+    }
   }
 
   updatepay() {
-
-    let CRN = this.studentDescriptionDetails[0].TRAN_NO;
-    this._student.updateStudentDetails(this.studentDescriptionDetails).subscribe(data => {
-
-      // Swal.fire("Success!", "Data Added Successfully !", "success");
-      var userData = JSON.parse(localStorage.getItem('user'));
-      let userName = userData.USER_ID + '/' + userData.NAME
-      let uname = userName.substring(0, 74)
-      var date = moment().format('DD-MM-YYYY');
-      if (data.main[0].BANK_CODE == '103') {
-        let obj = {
-          tranNo: CRN,
-          amt: this.totalAmount,
-          name: userData.NAME,
-          mobile: userData.CELL_NO,
-          email: userData.EMAIL_ID
+    if (Number(this.totalAmount) <= 0) {
+      Swal.fire("Info!", "Please Input Proper Amount !", "info");
+    }
+    else if (this.selectedBank == null) {
+      Swal.fire("Info!", "Please Select Bank !", "info");
+    }
+    else {
+      let CRN = this.studentDescriptionDetails[0].TRAN_NO;
+      let objOnline = {
+        tran_no: CRN,
+        amount: this.totalAmount,
+        particular: this.angForm.controls['Enter_Particular'].value,
+        tableArr: this.studentDescriptionDetails
+      }
+      this._student.updateStudentDetails(objOnline).subscribe(data => {
+        // Swal.fire("Success!", "Data Added Successfully !", "success");
+        var userData = JSON.parse(localStorage.getItem('user'));
+        let userName = userData.USER_ID + '/' + userData.NAME
+        let uname = userName.substring(0, 74)
+        var date = moment().format('DD-MM-YYYY');
+        if (data.main[0].BANK_CODE == '103') {
+          let obj = {
+            tranNo: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          //Dispatch an event
+          var evt = new CustomEvent("billdesk", { detail: obj });
+          window.dispatchEvent(evt);
         }
-        //Dispatch an event
-        var evt = new CustomEvent("billdesk", { detail: obj });
-        window.dispatchEvent(evt);
-      }
-      else if (data.main[0].BANK_CODE == '104') {
-        let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
-      }
-      else if (data.main[0].BANK_CODE == '102') {
-        let obj = {
-          crn: CRN,
-          amt: this.totalAmount,
-          name: userData.NAME,
-          mobile: userData.CELL_NO,
-          email: userData.EMAIL_ID
+        else if (data.main[0].BANK_CODE == '104') {
+          let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
         }
-        this._student.boipaymentGetway(obj).subscribe(data => {
-          window.open(data.msg);
-        })
-      }
-      else {
-        // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
-        // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
+        else if (data.main[0].BANK_CODE == '102') {
+          let obj = {
+            crn: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          this._student.boipaymentGetway(obj).subscribe(data => {
+            window.open(data.msg);
+          })
+        }
+        else {
+          // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
+          // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
-        let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-        window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
-      }
+          let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
+          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+        }
 
-      this.router.navigateByUrl('/dashboard');
-    }, err => {
+        this.router.navigateByUrl('/dashboard');
+      }, err => {
 
-    })
+      })
+    }
+
+  }
+  BOIMsg
+  IsShowBOImsg = false
+  getBank() {
+    if (this.selectedBank == 102) {
+      this.IsShowBOImsg = true
+      this.BOIMsg = 'Note: Transaction fee is applicable for BOI payment gateway'
+    }
+    else {
+      this.IsShowBOImsg = false
+      this.BOIMsg = ''
+    }
   }
 }

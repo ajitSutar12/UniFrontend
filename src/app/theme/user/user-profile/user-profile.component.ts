@@ -5,6 +5,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from "@angular/forms"
 import { UserProfileService } from './user-profile.service'
 import Swal from "sweetalert2";
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment'
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -25,7 +26,7 @@ import { Router } from '@angular/router';
   ]
 })
 export class UserProfileComponent implements OnInit {
-
+  url = environment.base_url;
   // Created Form Group
   angForm: FormGroup;
 
@@ -52,22 +53,26 @@ export class UserProfileComponent implements OnInit {
   Number: any
   Name: any
   public userData: any;
-  constructor(public httpClient: HttpClient, private fb: FormBuilder, private _user: UserProfileService, private router: Router) { }
+  constructor(public httpClient: HttpClient, private fb: FormBuilder, private _user: UserProfileService, private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
     let data: any = localStorage.getItem('user');
     let result = JSON.parse(data);
     this.userData = result;
-    this.Name = this.userData.NAME
-    this.Email = this.userData.EMAIL_ID
-    this.Number = this.userData.CELL_NO
-    if (this.userData.USER_TYPE == 0) {
-      this.Category = "Student"
-    } else if (this.userData.USER_TYPE == 1) {
-      this.Category = "College"
-    } else if (this.userData.USER_TYPE == 2) {
-      this.Category = "Other"
-    }
+
+    this.http.post(this.url + '/registration/getUserData', this.userData).subscribe((data) => {
+      this.Name = data[0]['NAME'];
+      this.Email = data[0]['EMAIL_ID'];
+      this.Number = data[0]['CELL_NO']
+      if (data[0]['USER_TYPE'] == 0) {
+        this.Category = "Student"
+      } else if (data[0]['USER_TYPE'] == 1) {
+        this.Category = "College"
+      } else if (data[0]['USER_TYPE'] == 2) {
+        this.Category = "Other"
+      }
+    })
+
     this.createForm();
     setTimeout(() => {
       this.editorContent = 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising ';
@@ -159,11 +164,10 @@ export class UserProfileComponent implements OnInit {
   updateProfile(value) {
     if (value == 1) {
       this.updateTrue = true
-      var userData = JSON.parse(localStorage.getItem('user'));
       this.angForm.patchValue({
-        'Full_Name': userData.NAME,
-        'Mobile_No': userData.CELL_NO,
-        'Email_Address': userData.EMAIL_ID,
+        'Full_Name': this.Name,
+        'Mobile_No': this.Number,
+        'Email_Address': this.Email,
       })
     }
     else {
@@ -183,6 +187,7 @@ export class UserProfileComponent implements OnInit {
       this._user.updateData(dataToSend).subscribe(
         (data) => {
           Swal.fire("Success!", "Data Updated Successfully !", "success");
+          this.ngOnInit()
           this.router.navigate(['/dashboard'])
         },
         (error) => {

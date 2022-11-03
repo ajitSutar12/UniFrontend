@@ -101,8 +101,16 @@
             // data: { string: 'BDSKUATY|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
 
             //production
-            data: { string: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
+            data: { string: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bomshivuni|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
             success: function (result) {
+                $.ajax({
+                    url : 'http://210.212.190.40:88/payment/updateBankStatus',
+                    type : 'post',
+                    data : {tran_no : obj.tranNo},
+                    success : function(result){
+                        
+                    }
+                })
                 bdPayment.initialize({
                     // callbackUrl: 'http://localhost/billdesk/billdeskresponse.php',
                     // callbackUrl: 'https://210.212.190.40/billdesk/billdeskresponse.php',
@@ -111,7 +119,7 @@
                     // msg: 'BDSKUATY|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA|' + result,
 
                     //production
-                    msg: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA|' + result,
+                    msg: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bomshivuni|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA|' + result,
                     options: {
                         enableChildWindowPosting: true,
                         enablePaymentRetry: true,
