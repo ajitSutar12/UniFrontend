@@ -232,6 +232,42 @@ export class CollegepaymentComponent implements OnInit {
             var evt = new CustomEvent("billdesk", { detail: obj });
             window.dispatchEvent(evt);
           }
+          //easebuzz
+          else if (dataToSend.bank_code == '104') {
+            let data = {
+              txnid: CRN + '',
+              amount: this.totalAmount,
+              name: userData.NAME,
+              email: userData.EMAIL_ID,
+              phone: userData.CELL_NO,
+              productinfo: 'Macbook',
+              surl: this.url + '/payment/easebuzz',
+              furl: this.url + '/payment/easebuzz',
+              udf1: '',
+              udf2: '',
+              udf3: '',
+              udf4: '',
+              udf5: '',
+              address1: '',
+              address2: '',
+              city: '',
+              state: '',
+              country: '',
+              zipcode: '',
+              sub_merchant_id: '',
+              unique_id: CRN,
+              split_payments: '',
+              customer_authentication_id: '',
+              udf6: '',
+              udf7: '',
+              udf8: '',
+              udf9: '',
+              udf10: ''
+            }
+            this._college.easebuzz(data).subscribe(data1 => {
+              window.open(data1.url);
+            })
+          }
           else if (dataToSend.bank_code == '102') {
             let obj = {
               crn: CRN,
@@ -358,6 +394,7 @@ export class CollegepaymentComponent implements OnInit {
         let userName = userData.USER_ID + '/' + userData.NAME
         let uname = userName.substring(0, 74)
         var date = moment().format('DD-MM-YYYY');
+        //billdesk BOM
         if (data.main[0].BANK_CODE == '103') {
           let obj = {
             tranNo: CRN,
@@ -370,6 +407,43 @@ export class CollegepaymentComponent implements OnInit {
           var evt = new CustomEvent("billdesk", { detail: obj });
           window.dispatchEvent(evt);
         }
+        //easebuzz
+        else if (data.main[0].BANK_CODE == '104') {
+          let data = {
+            txnid: CRN + '',
+            amount: this.totalAmount,
+            name: userData.NAME,
+            email: userData.EMAIL_ID,
+            phone: userData.CELL_NO,
+            productinfo: 'Macbook',
+            surl: this.url + '/payment/easebuzz',
+            furl: this.url + '/payment/easebuzz',
+            udf1: '',
+            udf2: '',
+            udf3: '',
+            udf4: '',
+            udf5: '',
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            country: '',
+            zipcode: '',
+            sub_merchant_id: '',
+            unique_id: CRN,
+            split_payments: '',
+            customer_authentication_id: '',
+            udf6: '',
+            udf7: '',
+            udf8: '',
+            udf9: '',
+            udf10: ''
+          }
+          this._college.easebuzz(data).subscribe(data1 => {
+            window.open(data1.url);
+          })
+        }
+        //subpaisa BOI
         else if (data.main[0].BANK_CODE == '102') {
           let obj = {
             crn: CRN,
@@ -381,7 +455,9 @@ export class CollegepaymentComponent implements OnInit {
           this._college.boipaymentGetway(obj).subscribe(data => {
             window.open(data.msg);
           })
-        } else {
+        }
+        //axis 
+        else {
           // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
           // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 

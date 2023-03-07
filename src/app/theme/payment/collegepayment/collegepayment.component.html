@@ -36,7 +36,8 @@
                                 <span class="border-lable-flt">
                                     <input type="text" name="Received_From" class="form-control"
                                         placeholder="Enter Received From " id="Received_From" pattern="^[A-Za-z\./ -]+$"
-                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From" disabled>
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From"
+                                        disabled>
                                 </span>
                             </div>
                             <div class="form-group form-primary form-static-label"
@@ -157,7 +158,7 @@
                         <div class="col-sm-3">
                             <div class="form-group input-group">
                                 <ng-select [(ngModel)]="selectedBank" formControlName="bank_code" id="bankname"
-                                    placeholder="Select Bank Name" style="width: 240%;">
+                                    placeholder="Select Bank Name" style="width: 240%;" (change)="getBank()">
                                     <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
                                         {{bank.NAME}}</ng-option>
                                 </ng-select>

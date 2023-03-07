@@ -78,7 +78,7 @@ export class BasicRegComponent implements OnInit {
       College_Code: ["",],
       User_Name: ["", [Validators.required, Validators.pattern]],
       Create_Password: ["", [Validators.required, Validators.pattern]],
-      Confirm_Password: ["", [Validators.required, Validators.pattern]],
+      Confirm_Password: ["", [Validators.required, Validators.pattern, Validators.minLength, Validators.maxLength]],
       PASSREQQUE: [" ", [Validators.required]],
       PASSREQANS: ["", [Validators.pattern, Validators.required]],
 

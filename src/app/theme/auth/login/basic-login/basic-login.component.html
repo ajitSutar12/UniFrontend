@@ -39,7 +39,7 @@
                                                 title="Please Enter Mobile Number"> -->
                                             <input type="text" name="User_Name" pattern="^[A-Za-z\s .]+$"
                                                 title="Please Enter User Name" [(ngModel)]="username"
-                                                class="form-control" maxlength="10" minlength="3" id="User_Name"
+                                                class="form-control" maxlength="16" minlength="3" id="User_Name"
                                                 required>
                                             <span class="form-bar"></span>
                                             <label class="float-label">User Name</label>
@@ -48,7 +48,7 @@
                                         <div class="form-group form-primary form-static-label">
                                             <input [type]="passType" name="password" [(ngModel)]="password"
                                                 class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                                minlength="8" maxlength="12"
+                                                minlength="8" maxlength="16"
                                                 title="Must contain at least one number, one uppercase, lowercase latter and at least 8 characters"
                                                 style="width: 90%;">
                                             <span toggle="#password-field"

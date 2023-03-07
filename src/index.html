@@ -85,6 +85,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 
+<!-- BANK OF MAHARASHATRA -->
 <!-- UAT -->
 <!-- <script src="https://services.billdesk.com/checkout-widget/src/app.bundle.js"></script> -->
 
@@ -104,11 +105,11 @@
             data: { string: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bomshivuni|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
             success: function (result) {
                 $.ajax({
-                    url : 'http://210.212.190.40:88/payment/updateBankStatus',
-                    type : 'post',
-                    data : {tran_no : obj.tranNo},
-                    success : function(result){
-                        
+                    url: 'http://210.212.190.40:88/payment/updateBankStatus',
+                    type: 'post',
+                    data: { tran_no: obj.tranNo },
+                    success: function (result) {
+
                     }
                 })
                 bdPayment.initialize({
@@ -130,5 +131,42 @@
         })
     }
 </script>
+
+<!-- IDBI script -->
+<!-- <script type="text/javascript">
+    function hideSpinner() {
+        document.getElementById('spinner').style.display = 'none';
+    }
+
+    function showSpinner() {
+        document.getElementById('spinner').style.display = 'block';
+    }
+
+    var flow_config = {
+        merchantId: 'UATIDBSHV2',
+        bdOrderId: "",
+        returnUrl: "",
+        authToken: "",
+        childWindow: false
+    };
+    var config = {
+        merchantLogo: "",
+        flowConfig: flow_config,
+        flowType: "payments"
+    };
+
+    function loadXMLDoc() {
+        showSpinner();
+        document.getElementById("result").innerHTML = "";
+        var xmlhttp = new XMLHttpRequest();
+        var jsonObj = "";
+
+        {
+
+            window.loadBillDeskSdk(config);
+
+        };
+    }
+</script> -->
 
 </html>

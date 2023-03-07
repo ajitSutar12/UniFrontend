@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from "angular-datatables";
 import { UtilityRoutingModule } from './utility-routing.module'
 import { UtilityComponent } from './utility.component';
+import { SharedModule } from '../../../shared/shared.module'
 @NgModule({
   declarations: [UtilityComponent],
   imports: [
@@ -11,7 +12,8 @@ import { UtilityComponent } from './utility.component';
     DataTablesModule,
     FormsModule,
     ReactiveFormsModule,
-    UtilityRoutingModule
+    UtilityRoutingModule,
+    SharedModule
   ],
   providers: []
 })

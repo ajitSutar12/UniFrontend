@@ -19,7 +19,8 @@ export class UtilitydashboardComponent implements OnInit {
   arrayBuffer: any;
   filelist: any;
   buttonShow: boolean = true;
-  showUploadImg: boolean = false;
+  showImg = true
+  showUploadImg: boolean = true;
   fileUpload: any = null
   @ViewChild("myNameElem") myNameElem: ElementRef;
   constructor(private _service: DashboardService, private http: HttpClient, private router: Router) { }
@@ -54,7 +55,7 @@ export class UtilitydashboardComponent implements OnInit {
       for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
       var bstr = arr.join("");
       var workbook = XLSX.read(bstr, { type: "binary" });
-      var first_sheet_name = workbook.SheetNames[0];
+      var first_sheet_name = workbook.SheetNames[3];
       var worksheet = workbook.Sheets[first_sheet_name];
       // console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });

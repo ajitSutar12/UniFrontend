@@ -94,9 +94,10 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="Email_Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$"
-                              class="form-control" placeholder=" " minlength="11" id="Email_Address"
-                              formControlName="Email_Address" required>
+                            <input type="text" name="Email_Address"
+                              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$" class="form-control"
+                              placeholder=" " minlength="11" id="Email_Address" formControlName="Email_Address"
+                              required>
                             <label for="Email_Address">Email<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -126,7 +127,7 @@
                       <div class="col-sm-12">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="text" name="User_Name" class="form-control" placeholder=" " maxlength="10"
+                            <input type="text" name="User_Name" class="form-control" placeholder=" " maxlength="16"
                               minlength="3" id="User_Name" formControlName="User_Name" required>
                             <label for="User_Name">User Name<sub class="required">* </sub></label>
                           </span>
@@ -147,9 +148,10 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="password" name="Create_Password"
-                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$" minlength="4"
+                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,16}$" minlength="4"
                               class="form-control" [NgPasswordValidator]="options" (keyup)="onInput($event)"
-                              placeholder=" " id="Create_Password" formControlName="Create_Password" required>
+                              maxlength="16" placeholder=" " id="Create_Password" formControlName="Create_Password"
+                              required>
                             <label for="Create_Password"> Create Password<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -159,9 +161,8 @@
                       <div class="col-sm-12 ">
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
-                            <input type="password" name="Confirm_Password"
-                              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$"
-                              class="form-control" placeholder=" " id="Confirm_Password" (focusout)="checkPassword() "
+                            <input type="password" name="Confirm_Password" maxlength="16" class="form-control"
+                              placeholder=" " id="Confirm_Password" (focusout)="checkPassword() "
                               formControlName="Confirm_Password" required>
                             <label for="Confirm_Password">Confirm Password<sub class="required">* </sub></label>
                           </span>
@@ -200,7 +201,7 @@
                         <div class="form-group input-group">
                           <span class="border-lable-flt">
                             <input type="text" name="PASSREQANS" class="form-control" placeholder=" " id="PASSREQANS"
-                              pattern="^[A-Za-z\s]+$" formControlName="PASSREQANS" required>
+                              pattern="^[A-Za-z0-9\s]+$" formControlName="PASSREQANS" required>
                             <label for="PASSREQANS">Password recovery Anwser<sub class="required">* </sub></label>
                           </span>
                         </div>
@@ -209,7 +210,7 @@
                           class="alert alert-danger">
                           <div
                             *ngIf="angForm.controls['PASSREQANS'].errors?.pattern || angForm.controls['PASSREQANS'].errors?.required">
-                            This field is required and Input allowed only A-Z
+                            This field is required and Input allowed only A-Z and 0-9
                           </div>
                         </div>
                       </div>
@@ -219,7 +220,8 @@
                         <div class="col-sm-12 right">
                           <button class="btn btn-primary  ripple light " style="margin-right:5px"
                             (click)="submit()">Submit</button>
-                          <button class="btn btn-primary ripple light" [routerLink]="['/auth/login/simple']">Back</button>
+                          <button class="btn btn-primary ripple light"
+                            [routerLink]="['/auth/login/simple']">Back</button>
                         </div>
                       </div>
                     </div>

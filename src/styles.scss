@@ -1,9 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
+
 input[type="text"]:focus {
     border: 2px solid rgb(26, 160, 194);
     outline: none;
 }
+
 .ng-select.ng-select-single .ng-select-container {
     // height: 40px;
     height: 25px;
@@ -28,10 +30,12 @@ input[type="checkbox"]:focus {
     border: 2px solid rgb(26, 160, 194);
     outline: none;
 }
+
 .material-icons {
     display: inline-flex;
     vertical-align: middle;
 }
+
 @media (max-device-width: 360px) {
     #Amount {
         width: 50% !important;
@@ -58,6 +62,7 @@ input[type="checkbox"]:focus {
     box-shadow: 0 4px 8px 0;
     margin-bottom: 13px;
 }
+
 textarea.form-control {
     height: 60px;
 }
@@ -98,6 +103,7 @@ textarea.form-control {
     position: relative;
     padding-left: 9px;
 }
+
 .table.compact td,
 .table.compact th {
     padding: 0.45rem;
@@ -109,28 +115,24 @@ textarea.form-control {
     border-bottom: none;
     padding: 2px;
     position: relative;
-    background-image: -webkit-linear-gradient(
-        top,
-        #dae7f6,
-        #cddef3 45%,
-        #abc7ec 46%,
-        #abc7ec 50%,
-        #b8cfee 51%,
-        #cbddf3
-    );
+    background-image: -webkit-linear-gradient(top,
+            #dae7f6,
+            #cddef3 45%,
+            #abc7ec 46%,
+            #abc7ec 50%,
+            #b8cfee 51%,
+            #cbddf3);
     align-items: center;
 }
 
 .table.dataTable[class*="table-"] thead th {
-    background-image: -webkit-linear-gradient(
-        top,
-        #dae7f6,
-        #cddef3 45%,
-        #abc7ec 46%,
-        #abc7ec 50%,
-        #b8cfee 51%,
-        #cbddf3
-    ) !important;
+    background-image: -webkit-linear-gradient(top,
+            #dae7f6,
+            #cddef3 45%,
+            #abc7ec 46%,
+            #abc7ec 50%,
+            #b8cfee 51%,
+            #cbddf3) !important;
     color: black;
     text-transform: capitalize;
 }
@@ -159,4 +161,19 @@ textarea.form-control {
         // background-color: #f8eef3;
         background-color: #dae7f6;
     }
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+    // color: #333;
+    // background-color: #e0e6ef;
+    color: #fdf9f9;
+    background-color: #88b1ed;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+    // background-color: #e2e5e7;
+    // background-color: #448afa2b;
+    color: #333;
+    background-color: #44629b30;
 }

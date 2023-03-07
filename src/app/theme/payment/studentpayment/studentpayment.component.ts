@@ -320,8 +320,6 @@ export class StudentpaymentComponent implements OnInit {
           let uname = userName.substring(0, 74)
           var date = moment().format('DD-MM-YYYY');
           let CRN = data;
-
-
           if (dataToSend.bank_code == '103') {
             let obj = {
               tranNo: CRN,
@@ -334,7 +332,7 @@ export class StudentpaymentComponent implements OnInit {
             var evt = new CustomEvent("billdesk", { detail: obj });
             window.dispatchEvent(evt);
           }
-          else if (dataToSend.bank_code == '104') {
+          else if (dataToSend.bank_code == '105') {
             let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
           }
           else if (dataToSend.bank_code == '102') {
@@ -348,7 +346,44 @@ export class StudentpaymentComponent implements OnInit {
             this._student.boipaymentGetway(obj).subscribe(data => {
               window.open(data.msg);
             })
-          } else {
+          }
+          //easebuzz
+          else if (dataToSend.bank_code == '104') {
+            let data = {
+              txnid: CRN + '',
+              amount: this.totalAmount,
+              name: userData.NAME,
+              email: userData.EMAIL_ID,
+              phone: userData.CELL_NO,
+              productinfo: 'Macbook',
+              surl: this.url + '/payment/easebuzz',
+              furl: this.url + '/payment/easebuzz',
+              udf1: '',
+              udf2: '',
+              udf3: '',
+              udf4: '',
+              udf5: '',
+              address1: '',
+              address2: '',
+              city: '',
+              state: '',
+              country: '',
+              zipcode: '',
+              sub_merchant_id: '',
+              unique_id: CRN,
+              split_payments: '',
+              customer_authentication_id: '',
+              udf6: '',
+              udf7: '',
+              udf8: '',
+              udf9: '',
+              udf10: ''
+            }
+            this._student.easebuzz(data).subscribe(data1 => {
+              window.open(data1.url);
+            })
+          }
+          else {
             // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
             // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
@@ -481,7 +516,7 @@ export class StudentpaymentComponent implements OnInit {
           var evt = new CustomEvent("billdesk", { detail: obj });
           window.dispatchEvent(evt);
         }
-        else if (data.main[0].BANK_CODE == '104') {
+        else if (data.main[0].BANK_CODE == '105') {
           let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
         }
         else if (data.main[0].BANK_CODE == '102') {
@@ -494,6 +529,42 @@ export class StudentpaymentComponent implements OnInit {
           }
           this._student.boipaymentGetway(obj).subscribe(data => {
             window.open(data.msg);
+          })
+        }
+        //easebuzz
+        else if (data.main[0].BANK_CODE == '104') {
+          let data = {
+            txnid: CRN + '',
+            amount: this.totalAmount,
+            name: userData.NAME,
+            email: userData.EMAIL_ID,
+            phone: userData.CELL_NO,
+            productinfo: 'Macbook',
+            surl: this.url + '/payment/easebuzz',
+            furl: this.url + '/payment/easebuzz',
+            udf1: '',
+            udf2: '',
+            udf3: '',
+            udf4: '',
+            udf5: '',
+            address1: '',
+            address2: '',
+            city: '',
+            state: '',
+            country: '',
+            zipcode: '',
+            sub_merchant_id: '',
+            unique_id: CRN,
+            split_payments: '',
+            customer_authentication_id: '',
+            udf6: '',
+            udf7: '',
+            udf8: '',
+            udf9: '',
+            udf10: ''
+          }
+          this._student.easebuzz(data).subscribe(data1 => {
+            window.open(data1.url);
           })
         }
         else {
