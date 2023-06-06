@@ -4,7 +4,7 @@ import { NgSelectConfig } from '@ng-select/ng-select';
 import Swal from 'sweetalert2';
 import { StudentpaymentService } from './studentpayment.service'
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import * as moment from 'moment';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -169,7 +169,6 @@ export class StudentpaymentComponent implements OnInit {
     if (this.routerPathID > 4) {
 
       this._student.getStudentDraftData(this.routerPathID).subscribe(data => {
-        debugger
         this.pageloadStatus = 1;
         let TotalAmt = 0;
         this.selectPurpose = data.main[0].PURPOSE_CODE;
@@ -320,6 +319,7 @@ export class StudentpaymentComponent implements OnInit {
           let uname = userName.substring(0, 74)
           var date = moment().format('DD-MM-YYYY');
           let CRN = data;
+          //BOM
           if (dataToSend.bank_code == '103') {
             let obj = {
               tranNo: CRN,
@@ -332,9 +332,28 @@ export class StudentpaymentComponent implements OnInit {
             var evt = new CustomEvent("billdesk", { detail: obj });
             window.dispatchEvent(evt);
           }
+          //IDBI
           else if (dataToSend.bank_code == '105') {
+            let obj = {
+              tranNo: CRN,
+              amt: this.totalAmount,
+              name: userData.NAME,
+              mobile: userData.CELL_NO,
+              email: userData.EMAIL_ID
+            }
+            //Dispatch an event
+            // var evt = new CustomEvent("IDBI", { detail: obj });
+            // window.dispatchEvent(evt);
+            // this.http.get<any>('http://localhost/php-jws-master/examples/hmac.php?obj=' + CRN).subscribe(data => {
+            //   console.log(data, 'get mthod php')
+            // })
+            window.open('http://localhost/php-jws-master/examples/hmac.php?obj=' + CRN)
+          }
+          //SBI
+          else if (dataToSend.bank_code == '106') {
             let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
           }
+          //BOI
           else if (dataToSend.bank_code == '102') {
             let obj = {
               crn: CRN,
@@ -351,11 +370,11 @@ export class StudentpaymentComponent implements OnInit {
           else if (dataToSend.bank_code == '104') {
             let data = {
               txnid: CRN + '',
-              amount: this.totalAmount,
+              amount: Number(this.totalAmount).toFixed(2),
               name: userData.NAME,
               email: userData.EMAIL_ID,
               phone: userData.CELL_NO,
-              productinfo: 'Macbook',
+              productinfo: 'FeeColleection',
               surl: this.url + '/payment/easebuzz',
               furl: this.url + '/payment/easebuzz',
               udf1: '',
@@ -369,20 +388,22 @@ export class StudentpaymentComponent implements OnInit {
               state: '',
               country: '',
               zipcode: '',
-              sub_merchant_id: '',
-              unique_id: CRN,
-              split_payments: '',
-              customer_authentication_id: '',
+              // sub_merchant_id: '',
+              // unique_id: CRN,
+              // split_payments: '',
+              // customer_authentication_id: '',
               udf6: '',
               udf7: '',
               udf8: '',
               udf9: '',
               udf10: ''
             }
+            console.log(data)
             this._student.easebuzz(data).subscribe(data1 => {
               window.open(data1.url);
             })
           }
+          //AXIS
           else {
             // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
             // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
@@ -504,7 +525,8 @@ export class StudentpaymentComponent implements OnInit {
         let userName = userData.USER_ID + '/' + userData.NAME
         let uname = userName.substring(0, 74)
         var date = moment().format('DD-MM-YYYY');
-        if (data.main[0].BANK_CODE == '103') {
+        //BOM
+        if (this.selectedBank == '103') {
           let obj = {
             tranNo: CRN,
             amt: this.totalAmount,
@@ -516,10 +538,42 @@ export class StudentpaymentComponent implements OnInit {
           var evt = new CustomEvent("billdesk", { detail: obj });
           window.dispatchEvent(evt);
         }
-        else if (data.main[0].BANK_CODE == '105') {
+        //IDBI
+        else if (this.selectedBank == '105') {
+          let obj = {
+            tranNo: CRN,
+            amt: this.totalAmount,
+            name: userData.NAME,
+            mobile: userData.CELL_NO,
+            email: userData.EMAIL_ID
+          }
+          //Dispatch an event
+          // var evt = new CustomEvent("IDBI", { detail: obj });
+          // window.dispatchEvent(evt);
+          this.http.get('http://localhost/php-jws-master/examples/hmac.php?orderid=' + CRN, { responseType: 'text' }).subscribe(resp => {
+            console.log(resp);
+            let headers = new HttpHeaders({
+              'content-Type': 'application/jose',
+              'bd-timestamp': moment().format('YYYYMMDDHHMMSS'),
+              'accept': 'application/jose',
+              'bd-traceid': CRN
+
+            });
+            console.log(headers, 'header')
+            let options = { headers: headers };
+            this.http.post('https://pguat.billdesk.io/payments/ve1_2/orders/create', resp, options).subscribe(rep => {
+              console.log(rep, 'rep')
+              var evt = new CustomEvent("IDBI", { detail: obj });
+              window.dispatchEvent(evt);
+            });
+          });
+        }
+        //SBI
+        else if (this.selectedBank == '106') {
           let SBI = window.open('http://localhost/SBI/SBIEPAY_ENC_DEC.php?tranno=' + CRN + '&amount=' + this.totalAmount, "_self");
         }
-        else if (data.main[0].BANK_CODE == '102') {
+        //BOI
+        else if (this.selectedBank == '102') {
           let obj = {
             crn: CRN,
             amt: this.totalAmount,
@@ -532,14 +586,14 @@ export class StudentpaymentComponent implements OnInit {
           })
         }
         //easebuzz
-        else if (data.main[0].BANK_CODE == '104') {
+        else if (this.selectedBank == '104') {
           let data = {
             txnid: CRN + '',
-            amount: this.totalAmount,
+            amount: Number(this.totalAmount).toFixed(2),
             name: userData.NAME,
             email: userData.EMAIL_ID,
             phone: userData.CELL_NO,
-            productinfo: 'Macbook',
+            productinfo: 'FeeColleection',
             surl: this.url + '/payment/easebuzz',
             furl: this.url + '/payment/easebuzz',
             udf1: '',
@@ -553,20 +607,22 @@ export class StudentpaymentComponent implements OnInit {
             state: '',
             country: '',
             zipcode: '',
-            sub_merchant_id: '',
-            unique_id: CRN,
-            split_payments: '',
-            customer_authentication_id: '',
+            // sub_merchant_id: '',
+            // unique_id: CRN,
+            // split_payments: '',
+            // customer_authentication_id: '',
             udf6: '',
             udf7: '',
             udf8: '',
             udf9: '',
             udf10: ''
           }
+          console.log(data)
           this._student.easebuzz(data).subscribe(data1 => {
             window.open(data1.url);
           })
         }
+        //AXIS
         else {
           // let ppi = userData.NAME + '|' + date + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + this.totalAmount;
           // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);

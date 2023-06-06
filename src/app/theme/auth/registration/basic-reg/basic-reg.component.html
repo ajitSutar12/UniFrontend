@@ -136,7 +136,7 @@
                           *ngIf="angForm.controls['User_Name'].invalid && (angForm.controls['User_Name'].dirty || angForm.controls['User_Name'].touched)"
                           class="alert alert-danger">
                           <div
-                            *ngIf="angForm.controls['User_Name'].errors?.pattern || angForm.controls['User_Name'].errors?.maxlength || angForm.controls['User_Name'].errors?.minlength || angForm.controls['User_Name'].errors?.required">
+                            *ngIf="angForm.controls['User_Name'].errors?.maxlength || angForm.controls['User_Name'].errors?.minlength || angForm.controls['User_Name'].errors?.required">
                             Please Enter Valid User Name
                             <!-- Length of Username must be 12 -->
                           </div>

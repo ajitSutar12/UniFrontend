@@ -30,6 +30,9 @@ export class DashboardService {
     updateMIS(data): Observable<any> {
         return this.http.put<any>(this.url + '/payment/updateMIS', data).pipe(catchError(this.handleError));
     }
+    invoiceList(): Observable<any> {
+        return this.http.get<any>(this.url + '/payment/invoiceList').pipe(catchError(this.handleError));
+    }
 
     // updateMIS(data: any): Observable<any> {
     //     return this.http.put(this.url + '/payment/updateMIS', data).pipe(map((res) => res),

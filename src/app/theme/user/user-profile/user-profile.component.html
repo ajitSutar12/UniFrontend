@@ -106,16 +106,14 @@
                     <div class="form-group input-group">
                         <span class="border-lable-flt">
                             <input type="text" name="FullNaformControlNameme" class="form-control" placeholder=" "
-                                id="Full_Name" pattern="^[A-Za-z\s]+$" formControlName="Full_Name"
-                                [required]="updateTrue">
+                                id="Full_Name" formControlName="Full_Name" [required]="updateTrue">
                         </span>
                     </div>
                     <div class="form-group form-primary form-static-label"
                         *ngIf="angForm.controls['Full_Name'].invalid && (angForm.controls['Full_Name'].dirty || angForm.controls['Full_Name'].touched)"
                         class="alert alert-danger">
-                        <div
-                            *ngIf="angForm.controls['Full_Name'].errors?.pattern || angForm.controls['Full_Name'].errors?.required">
-                            This field is required and Input allowed only A-Z a-z
+                        <div *ngIf="angForm.controls['Full_Name'].errors?.required">
+                            This field is required
                         </div>
                     </div>
                 </div>
@@ -129,7 +127,7 @@
                         <span class="border-lable-flt">
                             <input type="text" name="Mobile_No" class="form-control" placeholder=" " id="Mobile_No"
                                 (keypress)="($event.charCode >= 48 && $event.charCode < 58)"
-                                pattern="[7-9 0]{1}[0-9]{9}" maxlength="10" minlength="10" formControlName="Mobile_No"
+                                 maxlength="10" minlength="10" formControlName="Mobile_No"
                                 [required]="updateTrue">
                         </span>
                     </div>
@@ -137,8 +135,8 @@
                         *ngIf="angForm.controls['Mobile_No'].invalid && (angForm.controls['Mobile_No'].dirty || angForm.controls['Mobile_No'].touched)"
                         class="alert alert-danger">
                         <div
-                            *ngIf="angForm.controls['Mobile_No'].errors?.pattern || angForm.controls['Mobile_No'].errors?.maxlength || angForm.controls['Mobile_No'].errors?.minlength || angForm.controls['Mobile_No'].errors?.required">
-                            Input allowed only 0-9 and It starts by either for 7 or 8 or 9,
+                            *ngIf=" angForm.controls['Mobile_No'].errors?.maxlength || angForm.controls['Mobile_No'].errors?.minlength || angForm.controls['Mobile_No'].errors?.required">
+                            Input allowed only 0-9 
                         </div>
                     </div>
                 </div>

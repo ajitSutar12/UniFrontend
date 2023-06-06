@@ -20,7 +20,7 @@ export class UtilitydashboardComponent implements OnInit {
   filelist: any;
   buttonShow: boolean = true;
   showImg = true
-  showUploadImg: boolean = true;
+  showUploadImg: boolean = false;
   fileUpload: any = null
   @ViewChild("myNameElem") myNameElem: ElementRef;
   constructor(private _service: DashboardService, private http: HttpClient, private router: Router) { }

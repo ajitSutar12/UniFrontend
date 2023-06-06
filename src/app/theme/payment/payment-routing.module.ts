@@ -8,6 +8,7 @@ import { CollegedraftComponent } from './collegedraft/collegedraft.component'
 import { AnybodydraftComponent } from './anybodydraft/anybodydraft.component';
 import { ReceiptComponent } from './receipt/receipt.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { AnybodyComponent } from './anybody/anybody.component';
 const routes: Routes = [
 
   {
@@ -114,6 +115,14 @@ const routes: Routes = [
 
             },
             component: AnybodypaymentComponent
+          },
+          {
+            path: 'anybodypayment/invoice/:id',
+            data: {
+              title: 'Other Invoice Payment',
+
+            },
+            component: AnybodyComponent
           },
           {
             path: 'anybodydraft',

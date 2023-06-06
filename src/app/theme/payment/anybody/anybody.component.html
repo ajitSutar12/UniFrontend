@@ -1,1 +1,167 @@
-<p>anybody works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header" style="background-color: #e2e3f9;">
+                <h5>Invoice Payment Challan</h5>
+                <h6 style="float: right;"> Fields marked with (<sub class="required">*</sub>) are mandatory</h6>
+            </div>
+            <div class="card-block">
+                <form action="javascript:" [formGroup]="angForm" novalidate>
+                    <div class="row">
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Application_Date">Application Date</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="date" name="Application_Date" class="form-control" placeholder=" "
+                                        max="{{datemax | date:'yyyy-MM-dd'}}" #date (focusout)="disabledate(date.value)"
+                                        id="Application_Date" [(ngModel)]="applicationDate"
+                                        formControlName="Application_Date" disabled>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Application_Date'].invalid && (angForm.controls['Application_Date'].dirty || angForm.controls['Application_Date'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="angForm.controls['Application_Date'].errors?.required">
+                                    This is required field
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Received_From">Received From<sub class="required">* </sub></label>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Received_From" class="form-control"
+                                        placeholder="Enter Received From " id="Received_From" pattern="^[A-Za-z\./ -]+$"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Received_From">
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Received_From'].invalid && (angForm.controls['Received_From'].dirty || angForm.controls['Received_From'].touched)"
+                                class="alert alert-danger">
+                                <div
+                                    *ngIf="angForm.controls['Received_From'].errors?.required  || angForm.controls['Received_From'].errors?.pattern">
+                                    This is required field
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div style="overflow-x: auto;">
+                                <table class="table table-striped table-bordered table-hover compact">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 10%; text-transform: capitalize;">Budget Code
+                                            </th>
+                                            <th scope="col" style="width: 35%; text-transform: capitalize;">Budget Head
+                                            </th>
+                                            <th scope="col"
+                                                style="width: 10%; text-align: right; text-transform: capitalize;">
+                                                Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of anyoneDescriptionDetails;let i = index">
+                                            <th scope="row" style="word-wrap: break-word">{{data.BUDGET_CODE}}</th>
+                                            <td>{{data?.GL_NAME != null ? data.GL_NAME : data.PARTICULARS}}</td>
+                                            <td>
+                                                <input type="text" name="amount" style="text-align: right;width:75%"
+                                                    placeholder="Enter Amount " id="amount" pattern="^[0-9]+$"
+                                                    title="Input allowed only  A-Z a-z (Space)" class="amountDisable"
+                                                    disabled value="{{ data.AMOUNT != null ?data.AMOUNT : 0.00}}">
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="noDataFound" style="color: #e11313; text-align: center;">
+                                            <td colspan="3">
+                                                Data Not Found
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Enter_Particular">Particulars</label>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <textarea type="text" name="Enter_Particular" class="form-control" placeholder=" "
+                                        style="height: 40px;" pattern="^[A-Za-z0-9\./ -]+$" [(ngModel)]="ngParticular"
+                                        title="Input allowed only  A-Z a-z 0-9  - / . (Space)" id="Enter_Particular"
+                                        maxlength="4000" formControlName="Enter_Particular"></textarea>
+                                </span>
+                            </div>
+                            <div class="form-group form-primary form-static-label"
+                                *ngIf="angForm.controls['Enter_Particular'].invalid && (angForm.controls['Enter_Particular'].dirty || angForm.controls['Enter_Particular'].touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="angForm.controls['Enter_Particular'].errors?.pattern">
+                                    Input allowed only A-Z a-z 0-9 - / . (Space)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="Total_Amount">Total Amount<sub class="required">* </sub> <i
+                                    class="fa fa-rupee"></i></label>
+                        </div>
+                        <div class="col-sm-2" style="float: right;">
+                            <div class="form-group input-group">
+                                <span class="border-lable-flt">
+                                    <input type="text" name="Total_Amount" class="form-control" placeholder=" "
+                                        style="text-align: right;font-size: 21px;" id="Total_Amount"
+                                        pattern="^[A-Za-z\./ -]+$" [value]="totalAmount"
+                                        title="Input allowed only  A-Z a-z (Space)" formControlName="Total_Amount"
+                                        disabled>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:1%">
+                        <div class="col-sm-2" style="max-width: 14%">
+                            <label for="bankname">Aggregator Bank<sub class="required">* </sub></label>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group input-group">
+                                <ng-select [(ngModel)]="selectedBank" formControlName="bank_code" id="bankname"
+                                    placeholder="Select Bank Name" style="width: 240%;" (change)="getBank()">
+                                    <ng-option *ngFor="let bank of bankDetails" [value]="bank.ID">
+                                        {{bank.NAME}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <!-- <div *ngIf="IsShowBOImsg" style="color: red; ">
+                                {{BOIMsg}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div *ngIf="IsShowBOImsg" style="color: red; font-weight: 600;">
+                                <label>Note:</label><br>
+                                <label>1) Transaction fee is applicable for BOI payment gateway</label><br>
+                                <label>2) For NEFT/Cash payments, a receipt will generate after 24 hours</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-12">
+                            <div style="float: right;">
+                                <button class="btn btn-primary ripple light" (click)="updatepay()"
+                                    *ngIf="showProccedToPay" style="margin:3px"> Proceed To Pay</button>
+                                <button class="btn btn-primary ripple light" [routerLink]="['/dashboard']">Back</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,7 +76,7 @@ export class BasicRegComponent implements OnInit {
       Mobile_No: ["", [Validators.required]],
       Email_Address: ["", [Validators.required]],
       College_Code: ["",],
-      User_Name: ["", [Validators.required, Validators.pattern]],
+      User_Name: ["", [Validators.required]],
       Create_Password: ["", [Validators.required, Validators.pattern]],
       Confirm_Password: ["", [Validators.required, Validators.pattern, Validators.minLength, Validators.maxLength]],
       PASSREQQUE: [" ", [Validators.required]],
@@ -156,6 +156,9 @@ export class BasicRegComponent implements OnInit {
       );
       //To clear form
       this.resetForm();
+    }
+    else {
+      Swal.fire("Warning!", "Please fill proper data!", "warning");
     }
   }
   // Reset Function

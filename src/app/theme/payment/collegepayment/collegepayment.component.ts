@@ -236,11 +236,11 @@ export class CollegepaymentComponent implements OnInit {
           else if (dataToSend.bank_code == '104') {
             let data = {
               txnid: CRN + '',
-              amount: this.totalAmount,
+              amount: Number(this.totalAmount).toFixed(2),
               name: userData.NAME,
               email: userData.EMAIL_ID,
               phone: userData.CELL_NO,
-              productinfo: 'Macbook',
+              productinfo: 'FeeColleection',
               surl: this.url + '/payment/easebuzz',
               furl: this.url + '/payment/easebuzz',
               udf1: '',
@@ -254,16 +254,17 @@ export class CollegepaymentComponent implements OnInit {
               state: '',
               country: '',
               zipcode: '',
-              sub_merchant_id: '',
-              unique_id: CRN,
-              split_payments: '',
-              customer_authentication_id: '',
+              // sub_merchant_id: '',
+              // unique_id: CRN,
+              // split_payments: '',
+              // customer_authentication_id: '',
               udf6: '',
               udf7: '',
               udf8: '',
               udf9: '',
               udf10: ''
             }
+            console.log(data, 'data')
             this._college.easebuzz(data).subscribe(data1 => {
               window.open(data1.url);
             })
@@ -395,7 +396,7 @@ export class CollegepaymentComponent implements OnInit {
         let uname = userName.substring(0, 74)
         var date = moment().format('DD-MM-YYYY');
         //billdesk BOM
-        if (data.main[0].BANK_CODE == '103') {
+        if (this.selectedBank == '103') {
           let obj = {
             tranNo: CRN,
             amt: this.totalAmount,
@@ -408,14 +409,14 @@ export class CollegepaymentComponent implements OnInit {
           window.dispatchEvent(evt);
         }
         //easebuzz
-        else if (data.main[0].BANK_CODE == '104') {
+        else if (this.selectedBank == '104') {
           let data = {
             txnid: CRN + '',
-            amount: this.totalAmount,
+            amount: Number(this.totalAmount).toFixed(2),
             name: userData.NAME,
             email: userData.EMAIL_ID,
             phone: userData.CELL_NO,
-            productinfo: 'Macbook',
+            productinfo: 'FeeColleection',
             surl: this.url + '/payment/easebuzz',
             furl: this.url + '/payment/easebuzz',
             udf1: '',
@@ -429,22 +430,23 @@ export class CollegepaymentComponent implements OnInit {
             state: '',
             country: '',
             zipcode: '',
-            sub_merchant_id: '',
-            unique_id: CRN,
-            split_payments: '',
-            customer_authentication_id: '',
+            // sub_merchant_id: '',
+            // unique_id: CRN,
+            // split_payments: '',
+            // customer_authentication_id: '',
             udf6: '',
             udf7: '',
             udf8: '',
             udf9: '',
             udf10: ''
           }
+          console.log(data, 'data')
           this._college.easebuzz(data).subscribe(data1 => {
             window.open(data1.url);
           })
         }
         //subpaisa BOI
-        else if (data.main[0].BANK_CODE == '102') {
+        else if (this.selectedBank == '102') {
           let obj = {
             crn: CRN,
             amt: this.totalAmount,

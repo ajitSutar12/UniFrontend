@@ -65,8 +65,12 @@ export class AnybodyService {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////--------Easebuzz PaymentGetWay-----------////////////////////////////////
     easebuzz(data): Observable<any> {
-        return this.http.post('http://localhost:3000/initiate_payment', data).pipe(catchError(this.handleError));
-        // return this.http.post('http://210.212.190.40:90/initiate_payment', data).pipe(catchError(this.handleError));
+        // return this.http.post('http://localhost:3000/initiate_payment', data).pipe(catchError(this.handleError));
+        return this.http.post('http://210.212.190.40:81/initiate_payment', data).pipe(catchError(this.handleError));
+    }
+
+    getInvoiceDetails(id: any): Observable<any> {
+        return this.http.get(this.url + '/payment/getInvoiceDetail' + id).pipe(catchError(this.handleError));
     }
 }
 

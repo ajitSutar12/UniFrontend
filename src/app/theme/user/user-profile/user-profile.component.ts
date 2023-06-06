@@ -155,8 +155,8 @@ export class UserProfileComponent implements OnInit {
 
   createForm() {
     this.angForm = this.fb.group({
-      Full_Name: ["", [Validators.pattern]],
-      Mobile_No: ["", [Validators.pattern]],
+      Full_Name: [""],
+      Mobile_No: [""],
       Email_Address: ["", [Validators.pattern]],
     })
   }
@@ -176,6 +176,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
   update() {
+    debugger
     if (this.angForm.valid) {
       const formVal = this.angForm.value;
       const dataToSend = {
@@ -186,7 +187,7 @@ export class UserProfileComponent implements OnInit {
       }
       this._user.updateData(dataToSend).subscribe(
         (data) => {
-          Swal.fire("Success!", "Data Updated Successfully !", "success");
+          Swal.fire("Success!", "Profile Updated Successfully !", "success");
           this.ngOnInit()
           this.router.navigate(['/dashboard'])
         },

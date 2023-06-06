@@ -76,10 +76,16 @@
 </body>
 <!-- billdesk integration -->
 <script type="text/javascript">
-    //Listen for the event
+    //Listen for the event BOM
     window.addEventListener("billdesk", function (evt) {
         SubmitPay(evt.detail);
+        console.log('billdesk', evt.detail);
     }, false);
+    //Listen for the event IDBI
+    window.addEventListener("IDBI", function (evt) {
+        console.log('IDBI', evt.detail);
+    }, false);
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
@@ -96,7 +102,7 @@
     function SubmitPay(obj) {
         $.ajax({
             // url: 'http://localhost/billdesk/HmacSHA256.php',
-            url: 'http://210.212.190.40/billdesk/HmacSHA256.php',
+            url: 'http://210.212.190.40/billdesk/HmacSHA256.php', //production
             method: 'post',
             //UAT 
             // data: { string: 'BDSKUATY|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
@@ -104,8 +110,9 @@
             //production
             data: { string: 'BOMSHIVUNI|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bomshivuni|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
             success: function (result) {
+                //production
                 $.ajax({
-                    url: 'http://210.212.190.40:88/payment/updateBankStatus',
+                    url: 'http://210.212.190.40:88/payment/updateBankStatus',  //production
                     type: 'post',
                     data: { tran_no: obj.tranNo },
                     success: function (result) {
@@ -114,9 +121,8 @@
                 })
                 bdPayment.initialize({
                     // callbackUrl: 'http://localhost/billdesk/billdeskresponse.php',
-                    // callbackUrl: 'https://210.212.190.40/billdesk/billdeskresponse.php',
-                    callbackUrl: 'https://paysuk.unishivaji.ac.in/billdesk/billdeskresponse.php',
-                    //UAT
+                    callbackUrl: 'https://paysuk.unishivaji.ac.in/billdesk/billdeskresponse.php',  //production
+                    // UAT
                     // msg: 'BDSKUATY|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA|' + result,
 
                     //production
@@ -133,7 +139,18 @@
 </script>
 
 <!-- IDBI script -->
-<!-- <script type="text/javascript">
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+    integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
+    </script>
+
+<script type="module" src="https://uat.billdesk.com/jssdk/v1/dist/billdesksdk/billdesksdk.esm.js"></script>
+<script nomodule src="https://uat.billdesk.com/jssdk/v1/dist/billdesksdk.js"></script>
+<!-- <link href="https://uat.billdesk.com/jssdk/v1/dist/billdesksdk/billdesksdk.css" rel="stylesheet"> -->
+<script type="text/javascript">
     function hideSpinner() {
         document.getElementById('spinner').style.display = 'none';
     }
@@ -167,6 +184,6 @@
 
         };
     }
-</script> -->
+</script>
 
 </html>

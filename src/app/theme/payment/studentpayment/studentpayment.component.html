@@ -232,8 +232,17 @@
                                         {{bank.NAME}}</ng-option>
                                 </ng-select>
                             </div>
-                            <div *ngIf="IsShowBOImsg" style="color: red; ">
+                            <!-- <div *ngIf="IsShowBOImsg" style="color: red; ">
                                 {{BOIMsg}}
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <div *ngIf="IsShowBOImsg" style="color: red; font-weight: 600;">
+                                <label>Note:</label><br>
+                                <label>1) Transaction fee is applicable for BOI payment gateway</label><br>
+                                <label>2) For NEFT/Cash payments, a receipt will generate after 24 hours</label>
                             </div>
                         </div>
                     </div>

@@ -189,7 +189,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
         this.selectedBank = data.main[0].BANK_CODE
         this.bankCode = data.main[0].BANK_CODE
       });
-      this.angForm.controls['Received_From'].disable()
+      this.angForm.controls['Received_From'].enable()
       this.angForm.controls['purpose'].disable()
       this.angForm.controls['Select_Department'].disable()
       this.angForm.controls['Challan_Structure'].disable()
@@ -305,11 +305,11 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
           else if (dataToSend.bank_code == '104') {
             let data = {
               txnid: CRN + '',
-              amount: this.totalAmount,
+              amount: Number(this.totalAmount).toFixed(2),
               name: userData.NAME,
               email: userData.EMAIL_ID,
               phone: userData.CELL_NO,
-              productinfo: 'Macbook',
+              productinfo: 'FeeColleection',
               surl: this.url + '/payment/easebuzz',
               furl: this.url + '/payment/easebuzz',
               udf1: '',
@@ -323,16 +323,17 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
               state: '',
               country: '',
               zipcode: '',
-              sub_merchant_id: '',
-              unique_id: CRN,
-              split_payments: '',
-              customer_authentication_id: '',
+              // sub_merchant_id: '',
+              // unique_id: CRN,
+              // split_payments: '',
+              // customer_authentication_id: '',
               udf6: '',
               udf7: '',
               udf8: '',
               udf9: '',
               udf10: ''
             }
+            console.log(data)
             this._anybody.easebuzz(data).subscribe(data1 => {
               window.open(data1.url);
             })
@@ -399,7 +400,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
         let userName = userData.USER_ID + '/' + userData.NAME
         let uname = userName.substring(0, 74)
         var date = moment().format('DD-MM-YYYY');
-        if (data.main[0].BANK_CODE == '103') {
+        if (this.selectedBank == '103') {
           let obj = {
             tranNo: CRN,
             amt: this.totalAmount,
@@ -411,14 +412,14 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
           var evt = new CustomEvent("billdesk", { detail: obj });
           window.dispatchEvent(evt);
         }
-        else if (data.main[0].BANK_CODE == '104') {
+        else if (this.selectedBank == '104') {
           let data = {
             txnid: CRN + '',
-            amount: this.totalAmount,
+            amount: Number(this.totalAmount).toFixed(2),
             name: userData.NAME,
             email: userData.EMAIL_ID,
             phone: userData.CELL_NO,
-            productinfo: 'Macbook',
+            productinfo: 'FeeColleection',
             surl: this.url + '/payment/easebuzz',
             furl: this.url + '/payment/easebuzz',
             udf1: '',
@@ -432,21 +433,22 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
             state: '',
             country: '',
             zipcode: '',
-            sub_merchant_id: '',
-            unique_id: CRN,
-            split_payments: '',
-            customer_authentication_id: '',
+            // sub_merchant_id: '',
+            // unique_id: CRN,
+            // split_payments: '',
+            // customer_authentication_id: '',
             udf6: '',
             udf7: '',
             udf8: '',
             udf9: '',
             udf10: ''
           }
+          console.log(data)
           this._anybody.easebuzz(data).subscribe(data1 => {
             window.open(data1.url);
           })
         }
-        else if (data.main[0].BANK_CODE == '102') {
+        else if (this.selectedBank == '102') {
           let obj = {
             crn: CRN,
             amt: this.totalAmount,
@@ -476,7 +478,8 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
   getBank() {
     if (this.selectedBank == 102) {
       this.IsShowBOImsg = true
-      this.BOIMsg = 'Note: Transaction fee is applicable for BOI payment gateway'
+      this.BOIMsg = `Note: 1) Transaction fee is applicable for BOI payment gateway
+                           2) For NEFT/Cash payments, a receipt will generate after 24 hours.`
     }
     else {
       this.IsShowBOImsg = false

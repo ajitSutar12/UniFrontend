@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 import { DashboardService } from './dashboard.service';
-
-import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
-
 import 'rxjs/add/operator/map';
 import * as moment from 'moment';
 @Component({
@@ -15,13 +12,17 @@ import * as moment from 'moment';
 export class DashboardComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
+  dtTrigger1: Subject<any> = new Subject<any>();
   dashboardDetails: any;
   success = new Array();
   unsccess = new Array();
   notPrinted = new Array();
+  invoiceList = new Array();
+  showUnsuccessful: boolean = true;
   showStudentButton: boolean = false;
   showCollegeButton: boolean = false;
   showAnyButton: boolean = false;
+  showPendingInvoice: boolean = false;
   userType: any;
   applicationId: number = 0
   constructor(private router: Router, private _dashboard: DashboardService) {
@@ -46,15 +47,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.showCollegeButton = false;
       this.showAnyButton = true;
     }
-
-
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 5,
       dom: 'ftip'
     };
-
-
     this._dashboard.getsuccessful(user.USER_ID).subscribe(data => {
       this.dashboardDetails = data;
       this.dashboardDetails.forEach(element => {
@@ -88,6 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
       this.dtTrigger.next();
     })
+
   }
 
   gotoPrint(value) {
@@ -96,8 +94,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+    // this.dtTrigger1.unsubscribe();
   }
-
-
-
+  showInvoiceList() {
+    this._dashboard.invoiceList().subscribe(data1 => {
+      if (this.showUnsuccessful = false)
+        this.dtTrigger1.unsubscribe();
+      this.invoiceList = data1
+      this.dtTrigger1.next();
+    })
+    this.showPendingInvoice = true
+    this.showUnsuccessful = false
+  }
+  showUnsuccess() {
+    this.showPendingInvoice = false
+    this.showUnsuccessful = true
+  }
 }
