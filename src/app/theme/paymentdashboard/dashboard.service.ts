@@ -14,7 +14,8 @@ export class DashboardService {
 
     constructor(private http: HttpClient) { }
     getsuccessful(userid): Observable<any> {
-        return this.http.get(this.url + '/payment/success' + userid).pipe(catchError(this.handleError));
+        // return this.http.post(this.url + '/payment/success', { userid }).pipe(catchError(this.handleError));
+        return this.http.post(this.url + '/payment/success', { userid }).pipe(catchError(this.handleError));
     }
     getunsuccessful(userid): Observable<any> {
         return this.http.get(this.url + '/payment/unsuccess' + userid).pipe(catchError(this.handleError));

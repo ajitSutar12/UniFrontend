@@ -266,7 +266,7 @@ export class CollegepaymentComponent implements OnInit {
             }
             console.log(data, 'data')
             this._college.easebuzz(data).subscribe(data1 => {
-              window.open(data1.url);
+              window.open(data1.url, "_self");
             })
           }
           else if (dataToSend.bank_code == '102') {
@@ -278,7 +278,7 @@ export class CollegepaymentComponent implements OnInit {
               email: userData.EMAIL_ID
             }
             this._college.boipaymentGetway(obj).subscribe(data => {
-              window.open(data.msg);
+              window.open(data.msg, "_self");
             })
           }
           else {
@@ -286,7 +286,7 @@ export class CollegepaymentComponent implements OnInit {
             // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
 
             let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + 116 + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-            window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
+            window.open('http://210.212.172.137/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, '_self');
           }
           this.router.navigateByUrl('/dashboard');
         },
@@ -442,7 +442,7 @@ export class CollegepaymentComponent implements OnInit {
           }
           console.log(data, 'data')
           this._college.easebuzz(data).subscribe(data1 => {
-            window.open(data1.url);
+            window.open(data1.url, "_self");
           })
         }
         //subpaisa BOI
@@ -455,7 +455,7 @@ export class CollegepaymentComponent implements OnInit {
             email: userData.EMAIL_ID
           }
           this._college.boipaymentGetway(obj).subscribe(data => {
-            window.open(data.msg);
+            window.open(data.msg, "_self");
           })
         }
         //axis 
@@ -464,7 +464,7 @@ export class CollegepaymentComponent implements OnInit {
           // window.open('http://localhost/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID);
 
           let ppi = CRN + '|' + CRN + '|' + uname + '|' + userData.CELL_NO + '|' + userData.EMAIL_ID + '|' + '-' + '|' + '-' + '|' + this.totalAmount + '|' + CRN + '|' + CRN + '|' + this.totalAmount;
-          window.open('http://210.212.190.40/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
+          window.open('http://210.212.172.137/PHP_Algo/Formdata.php?ppi=' + ppi + '&CRN=' + CRN + '&Amt=' + this.totalAmount + '&user_id=' + userData.USER_ID, "_self");
         }
         this.router.navigateByUrl('/dashboard');
       }, err => {

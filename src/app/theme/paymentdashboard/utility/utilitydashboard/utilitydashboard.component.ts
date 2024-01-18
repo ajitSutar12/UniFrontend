@@ -55,7 +55,7 @@ export class UtilitydashboardComponent implements OnInit {
       for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
       var bstr = arr.join("");
       var workbook = XLSX.read(bstr, { type: "binary" });
-      var first_sheet_name = workbook.SheetNames[3];
+      var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
       // console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
@@ -75,8 +75,8 @@ export class UtilitydashboardComponent implements OnInit {
   loopCount: number;
   sizelenght: number = 1;
   async SubmituploadedExcel() {
-    let count = this.filelist.length;
-    let counter = 0;
+    // let count = this.filelist.length;
+    // let counter = 0;
     this.showUploadImg = true;
     // this.filelist.forEach(async element => {
     //   await this._service.utility(element).subscribe(data => {
@@ -87,9 +87,10 @@ export class UtilitydashboardComponent implements OnInit {
     //     }
     //   });
     // })
-
+    console.log(this.filelist)
     Observable.from(this.filelist)
-      .concatMap(entry => this.http.post<any>(this.url + '/registration/Utility', entry))
+      .concatMap(entry => this.http.post<any>('http://localhost:4000/migrate/depotranshiv', entry))
+      // .concatMap(entry => this.http.post<any>(this.url + '/registration/Utility', entry))
       .subscribe(
         response => console.log(response), //do something with responses
         error => console.error(error), // so something on error

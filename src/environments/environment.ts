@@ -5,8 +5,10 @@
 export const environment = {
   production: false,
   // base_url: 'http://192.168.1.230:3000'
-  base_url: 'http://210.212.190.40:88', //university
-  // base_url: 'http://localhost:4000',
+  // base_url: 'http://210.212.190.40:88', //university old
+  // base_url: 'http://210.212.172.137:88', //university new
+  base_url: 'https://paysuk.unishivaji.ac.in:88', //university new
+  // base_url: 'https://localhost:4000',
 };
 
 /*

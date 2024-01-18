@@ -57,6 +57,7 @@ export class ReceiptComponent implements OnInit {
     ],
     totalAmount: 0, //TRAN_AMT
     LetterAmount: "",
+    remark: "",
     // contactNo: 9090909090,
     contactNo: '',
     date: '',
@@ -98,6 +99,7 @@ export class ReceiptComponent implements OnInit {
         this.receiptTable['userId'] = data.main[0]?.userId
         this.receiptTable['Purpose_Name'] = data.main[0]?.Purpose_Name
         this.receiptTable['depositInAC'] = data.main[0]?.Deposit_ACNAME
+        this.receiptTable['remark'] = data.main[0]?.remark
         // this.receiptTable['monthYear'] = data.main[0]?.EXAM_MONTH + " " + data.main[0]?.EXAM_YEAR
         // this.receiptTable['datatable'] = data.particular
         this.receiptTable['LetterAmount'] = this.numberInWords.toUpperCase()

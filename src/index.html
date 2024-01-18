@@ -102,7 +102,7 @@
     function SubmitPay(obj) {
         $.ajax({
             // url: 'http://localhost/billdesk/HmacSHA256.php',
-            url: 'http://210.212.190.40/billdesk/HmacSHA256.php', //production
+            url: 'http://210.212.172.137/billdesk/HmacSHA256.php', //production
             method: 'post',
             //UAT 
             // data: { string: 'BDSKUATY|' + obj.tranNo + '|NA|' + obj.amt + '|NA|NA|NA|INR|NA|R|bdskuaty|NA|NA|F|' + obj.email + '|' + obj.mobile + '|A3|A4|A5|A6|A7|NA' },
@@ -112,7 +112,7 @@
             success: function (result) {
                 //production
                 $.ajax({
-                    url: 'http://210.212.190.40:88/payment/updateBankStatus',  //production
+                    url: 'http://210.212.172.137:88/payment/updateBankStatus',  //production
                     type: 'post',
                     data: { tran_no: obj.tranNo },
                     success: function (result) {

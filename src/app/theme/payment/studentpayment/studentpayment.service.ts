@@ -93,7 +93,7 @@ export class StudentpaymentService {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////--------Bank Of India PaymentGetWay-----------////////////////////////////////
     boipaymentGetway(data): Observable<any> {
-        return this.http.post('http://210.212.190.40:89/getpath', data).pipe(catchError(this.handleError));
+        return this.http.post('http://210.212.172.137:89/getpath', data).pipe(catchError(this.handleError));
         // return this.http.post('http://localhost:5000/getpath', data).pipe(catchError(this.handleError));
     }
 
@@ -101,7 +101,7 @@ export class StudentpaymentService {
     //////////////////////////--------Easebuzz PaymentGetWay-----------////////////////////////////////
     easebuzz(data): Observable<any> {
         // return this.http.post('http://localhost:3000/initiate_payment', data).pipe(catchError(this.handleError));
-        return this.http.post('http://210.212.190.40:81/initiate_payment', data).pipe(catchError(this.handleError));
+        return this.http.post('http://210.212.172.137:81/initiate_payment', data).pipe(catchError(this.handleError));
     }
 }
 
