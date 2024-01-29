@@ -333,7 +333,7 @@ export class AnybodypaymentComponent implements OnInit, AfterViewInit {
               udf9: '',
               udf10: ''
             }
-            console.log(data)
+            // console.log(data)
             this._anybody.easebuzz(data).subscribe(data1 => {
               window.open(data1.url, "_self");
             })

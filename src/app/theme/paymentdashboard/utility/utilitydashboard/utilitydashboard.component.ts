@@ -89,8 +89,7 @@ export class UtilitydashboardComponent implements OnInit {
     // })
     console.log(this.filelist)
     Observable.from(this.filelist)
-      .concatMap(entry => this.http.post<any>('http://localhost:4000/migrate/depotranshiv', entry))
-      // .concatMap(entry => this.http.post<any>(this.url + '/registration/Utility', entry))
+      .concatMap(entry => this.http.post<any>(this.url + '/registration/Utility', entry))
       .subscribe(
         response => console.log(response), //do something with responses
         error => console.error(error), // so something on error

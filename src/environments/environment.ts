@@ -7,7 +7,7 @@ export const environment = {
   // base_url: 'http://192.168.1.230:3000'
   // base_url: 'http://210.212.190.40:88', //university old
   // base_url: 'http://210.212.172.137:88', //university new
-  base_url: 'https://paysuk.unishivaji.ac.in:88', //university new
+  base_url: 'http://paysuk.unishivaji.ac.in:88', //university new
   // base_url: 'https://localhost:4000',
 };
 
