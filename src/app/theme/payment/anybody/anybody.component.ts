@@ -145,7 +145,8 @@ export class AnybodyComponent implements OnInit, AfterViewInit {
           amt: this.totalAmount,
           name: userData.NAME,
           mobile: userData.CELL_NO,
-          email: userData.EMAIL_ID
+          email: userData.EMAIL_ID,
+          userid: userData.USER_ID
         }
         //Dispatch an event
         var evt = new CustomEvent("billdesk", { detail: obj });
@@ -161,7 +162,7 @@ export class AnybodyComponent implements OnInit, AfterViewInit {
           productinfo: 'FeeColleection',
           surl: this.url + '/payment/easebuzz',
           furl: this.url + '/payment/easebuzz',
-          udf1: '',
+          udf1: userData.USER_ID,
           udf2: '',
           udf3: '',
           udf4: '',
@@ -193,7 +194,8 @@ export class AnybodyComponent implements OnInit, AfterViewInit {
           amt: this.totalAmount,
           name: userData.NAME,
           mobile: userData.CELL_NO,
-          email: userData.EMAIL_ID
+          email: userData.EMAIL_ID,
+          userid: userData.USER_ID
         }
         this._anybody.boipaymentGetway(obj).subscribe(data => {
           window.open(data.msg, "_self");

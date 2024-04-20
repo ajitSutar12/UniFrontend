@@ -95,6 +95,54 @@
     </div>
   </div>
 </div>
+<div class="row" *ngIf="showPendingInvoice">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" style="background-color: #e2e3f9;">
+        <h5>Invoice Payments</h5>
+      </div>
+      <div class="card-block">
+        <h6 style="color:red; font-weight: 600;">Note:Please click on Invoice number to continue further process for
+          payment</h6>
+        <div class="row">
+          <div class="col-sm">
+            <div style="overflow-x: auto;">
+              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1"
+                class="table table-striped table-bordered table-hover compact">
+                <thead>
+                  <tr>
+                    <th>Sr No.</th>
+                    <th>Invoice Number</th>
+                    <th>Invoice Date</th>
+                    <th>Name</th>
+                    <th>GST Number</th>
+                    <th>Amount</th>
+                    <th>Remark</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of invoiceList; let i = index">
+                    <td>{{i+1}}</td>
+                    <td><a
+                        [routerLink]="userType == 0 ?['/Payment/student/studentpayment',item.TRAN_NO] :userType == 1 ?['/Payment/college/collegepayment',item.TRAN_NO] : ['/Payment/anybody/anybodypayment/invoice',item.TRAN_NO] "
+                        style="text-decoration: underline;color:blue">{{item.TRANFORMAT_NO}}</a></td>
+                    <td>{{item.TRANDATE}}</td>
+                    <td>{{item.PAID_BY}}</td>
+                    <td>{{item.REF_NO =='null'?'---':item.REF_NO}}</td>
+                    <td>{{item.TRAN_AMT}}</td>
+                    <td><span
+                        class="badge badge-pill item.STATUS_CODE == 21? badge-danger: badge-info">{{'Draft'}}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row" *ngIf="showUnsuccessful">
   <div class="col-12">
     <div class="card">
@@ -131,53 +179,6 @@
                     <td><span
                         class="badge badge-pill item.STATUS_CODE == 21? badge-danger: badge-info">{{item.STATUS_CODE ==
                         21? 'Failed': (item.STATUS_CODE == 32 ?'Challan Generated':'Draft')}}</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row" *ngIf="showPendingInvoice">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header" style="background-color: #e2e3f9;">
-        <h5>Invoice Payments</h5>
-      </div>
-      <div class="card-block">
-        <h6 style="color:red; font-weight: 600;">Note:Please click on Invoice number to continue further process for payment</h6>
-        <div class="row">
-          <div class="col-sm">
-            <div style="overflow-x: auto;">
-              <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger1"
-                class="table table-striped table-bordered table-hover compact">
-                <thead>
-                  <tr>
-                    <th>Sr No.</th>
-                    <th>Invoice Number</th>
-                    <th>Invoice Date</th>
-                    <th>Name</th>
-                    <th>GST Number</th>
-                    <th>Amount</th>
-                    <th>Remark</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let item of invoiceList; let i = index">
-                    <td>{{i+1}}</td>
-                    <td><a
-                        [routerLink]="userType == 0 ?['/Payment/student/studentpayment',item.TRAN_NO] :userType == 1 ?['/Payment/college/collegepayment',item.TRAN_NO] : ['/Payment/anybody/anybodypayment/invoice',item.REFTRAN_NO] "
-                        style="text-decoration: underline;color:blue">{{item.TRANFORMAT_NO}}</a></td>
-                    <td>{{item.TRANDATE}}</td>
-                    <td>{{item.PARTY_NAME}}</td>
-                    <td>{{item.GSTIN_NO}}</td>
-                    <td>{{item.TRAN_AMT}}</td>
-                    <td><span
-                        class="badge badge-pill item.STATUS_CODE == 21? badge-danger: badge-info">{{'Draft'}}</span>
-                    </td>
                   </tr>
                 </tbody>
               </table>

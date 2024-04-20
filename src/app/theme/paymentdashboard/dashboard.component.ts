@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (element.STATUS_CODE == 0) {
           element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
-          element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
+          appId.length >= 18 ? element['applicationId'] = this.formatNumberToCode(element.TRAN_NO) : element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.success.push(element);
 
         } else if (element.STATUS_CODE == 21) {
@@ -66,20 +66,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
           if (today < element.EXPIRE_DATE || element.EXPIRE_DATE == null) {
             element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
             let appId = element.TRAN_NO.toString()
-            element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
+            appId.length >= 18 ? element['applicationId'] = this.formatNumberToCode(element.TRAN_NO) : element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
             this.unsccess.push(element)
           }
         }
         else if (element.STATUS_CODE == 31 || element.STATUS_CODE == 32) {
           element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
-          element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
+          appId.length >= 18 ? element['applicationId'] = this.formatNumberToCode(element.TRAN_NO) : element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.unsccess.push(element)
         }
         if (element.IS_PRINTED == null && element.STATUS_CODE == 0) {
           element['trandate'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
           let appId = element.TRAN_NO.toString()
-          element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
+          appId.length >= 18 ? element['applicationId'] = this.formatNumberToCode(element.TRAN_NO) : element['applicationId'] = appId.substring(0, 4) + "-" + appId.substring(7, 14)
           this.notPrinted.push(element)
         }
       });
@@ -98,16 +98,33 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
   showInvoiceList() {
     this._dashboard.invoiceList().subscribe(data1 => {
-      if (this.showUnsuccessful = false)
-        this.dtTrigger1.unsubscribe();
+      // if (this.showUnsuccessful = false)
+      //   this.dtTrigger1.unsubscribe();
+      for (let element of data1) {
+        element['TRANFORMAT_NO'] = this.formatNumberToCode(element.TRAN_NO)
+        element['TRANDATE'] = element.TRAN_DATE.substring(6, 8) + "/" + element.TRAN_DATE.substring(4, 6) + "/" + element.TRAN_DATE.substring(0, 4)
+      }
       this.invoiceList = data1
       this.dtTrigger1.next();
     })
     this.showPendingInvoice = true
-    this.showUnsuccessful = false
+    // this.showUnsuccessful = false
   }
   showUnsuccess() {
     this.showPendingInvoice = false
     this.showUnsuccessful = true
   }
+
+
+  formatNumberToCode(number) {
+    // Convert the number to a string
+    let numberStr = number.toString();
+    // Extract the parts of the number
+    let prefix = numberStr.slice(2, 6);
+    let middle = numberStr.slice(11, 18);
+    // Construct the formatted code
+    let formattedCode = `SUK/${prefix}/${middle.padStart(6, '0')}`;
+    return formattedCode;
+  }
+
 }

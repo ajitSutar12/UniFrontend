@@ -73,7 +73,7 @@
                                                 <input type="text" name="amount" style="text-align: right;width:75%"
                                                     placeholder="Enter Amount " id="amount" pattern="^[0-9]+$"
                                                     title="Input allowed only  A-Z a-z (Space)" class="amountDisable"
-                                                    disabled value="{{ data.AMOUNT != null ?data.AMOUNT : 0.00}}">
+                                                    disabled value="{{ data.AMOUNT != null ?data.AMOUNT.toFixed(2) : 0.00}}">
                                             </td>
                                         </tr>
                                         <tr *ngIf="noDataFound" style="color: #e11313; text-align: center;">

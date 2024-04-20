@@ -20,7 +20,9 @@ import { DataTablesModule } from 'angular-datatables';
 import { NgPasswordValidatorModule } from 'ng-password-validator';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { UserAuthInterceptor } from './user-auth.interceptor'
+import { UserAuthInterceptor } from './user-auth.interceptor';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'
+
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { UserAuthInterceptor } from './user-auth.interceptor'
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    NgIdleKeepaliveModule.forRoot(),
 
     UniversityformsRoutingModule,
     UniversityformsModule,
